@@ -1,0 +1,74 @@
+"use client";
+
+import { motion, HTMLMotionProps } from "framer-motion";
+import React from "react";
+
+type AccentColor = "lime" | "cyber" | "acid" | "default";
+
+interface BentoCardProps extends Omit<HTMLMotionProps<"div">, "children"> {
+    children: React.ReactNode;
+    className?: string;
+    colSpan?: 1 | 2 | 3;
+    rowSpan?: 1 | 2;
+    accent?: AccentColor;
+    hoverable?: boolean;
+    glass?: boolean;
+    delay?: number;
+}
+
+const accentBorders: Record<AccentColor, string> = {
+    lime: "hover:border-lime/60 hover:shadow-glow",
+    cyber: "hover:border-cyber/60 hover:shadow-glow-cyber",
+    acid: "hover:border-acid/60 hover:shadow-glow-acid",
+    default: "hover:border-white/20",
+};
+
+const colSpanMap: Record<number, string> = {
+    1: "col-span-1",
+    2: "col-span-1 md:col-span-2",
+    3: "col-span-1 md:col-span-2 lg:col-span-3",
+};
+
+const rowSpanMap: Record<number, string> = {
+    1: "row-span-1",
+    2: "row-span-1 md:row-span-2",
+};
+
+export default function BentoCard({
+    children,
+    className = "",
+    colSpan = 1,
+    rowSpan = 1,
+    accent = "default",
+    hoverable = true,
+    glass = true,
+    delay = 0,
+    ...rest
+}: BentoCardProps) {
+    return (
+        <motion.div
+            {...rest}
+            className={`
+        relative overflow-hidden
+        rounded-bento p-6
+        border border-white/[0.08]
+        ${glass ? "bg-white/[0.03] backdrop-blur-md" : "bg-white/[0.02]"}
+        ${hoverable ? `transition-all duration-300 ${accentBorders[accent]}` : ""}
+        ${colSpanMap[colSpan]}
+        ${rowSpanMap[rowSpan]}
+        ${className}
+      `}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 25,
+                delay: delay,
+            }}
+        >
+            {children}
+        </motion.div>
+    );
+}

@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   COLLABRISE — FORGE DESIGN SYSTEM
+   Neo-Brutalism × Glassmorphism
+   ============================================ */
+
+:root {
+  /* Core Palette */
+  --obsidian: #050505;
+  --lime: #CCFF00;
+  --cyber: #8A2BE2;
+  --acid: #FF00FF;
+  --lime-dim: #99cc00;
+  --cyber-dim: #6a1fb2;
+  --acid-dim: #cc00cc;
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 16px;
+  --glass-blur-heavy: 24px;
+
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* Border */
+  --border-brutal: 3px;
+  --border-glass: 1px;
+  --radius-bento: 1.25rem;
+  --radius-bento-sm: 0.75rem;
+  --radius-bento-lg: 1.75rem;
+
+  /* Shadows */
+  --shadow-brutal: 4px 4px 0px 0px var(--lime);
+  --shadow-brutal-cyber: 4px 4px 0px 0px var(--cyber);
+  --shadow-brutal-acid: 4px 4px 0px 0px var(--acid);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-obsidian text-white;
+    font-family: var(--font-clash), system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--lime);
+    color: var(--obsidian);
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--obsidian);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--cyber);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--lime);
+  }
+}
+
+@layer components {
+  /* Glass Panel */
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: var(--border-glass) solid var(--glass-border);
+    border-radius: var(--radius-bento);
+  }
+
+  .glass-panel-heavy {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(var(--glass-blur-heavy));
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+    border: var(--border-glass) solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-bento);
+  }
+
+  /* Neo-Brutal Card */
+  .brutal-card {
+    border: var(--border-brutal) solid var(--lime);
+    border-radius: var(--radius-bento);
+    box-shadow: var(--shadow-brutal);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .brutal-card:hover {
+    box-shadow: 6px 6px 0px 0px var(--lime);
+    transform: translate(-2px, -2px);
+  }
+
+  /* Glow Ring */
+  .glow-ring {
+    box-shadow: 0 0 0 2px var(--lime), 0 0 20px rgba(204, 255, 0, 0.2);
+  }
+
+  .glow-ring-cyber {
+    box-shadow: 0 0 0 2px var(--cyber), 0 0 20px rgba(138, 43, 226, 0.2);
+  }
+
+  .glow-ring-acid {
+    box-shadow: 0 0 0 2px var(--acid), 0 0 20px rgba(255, 0, 255, 0.2);
+  }
+
+  /* Grain Overlay */
+  .grain-overlay::after {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    animation: grain 8s steps(10) infinite;
+    opacity: 0.5;
+  }
+
+  /* Text Gradient */
+  .text-gradient-lime {
+    background: linear-gradient(135deg, var(--lime) 0%, #e6ff66 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-cyber {
+    background: linear-gradient(135deg, var(--cyber) 0%, #b366ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-acid {
+    background: linear-gradient(135deg, var(--acid) 0%, #ff66ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-multi {
+    background: linear-gradient(135deg, var(--lime) 0%, var(--cyber) 50%, var(--acid) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@layer utilities {
+  .font-clash {
+    font-family: var(--font-clash), system-ui, sans-serif;
+  }
+
+  .font-jetbrains {
+    font-family: var(--font-jetbrains), 'JetBrains Mono', monospace;
+  }
+}
