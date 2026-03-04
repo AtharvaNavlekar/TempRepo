@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
 import { useState } from "react";
 
 const DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
@@ -46,7 +45,6 @@ export default function AvailabilityCalendarPage() {
 
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <Navbar />
 
             <main className="max-w-5xl mx-auto px-6 py-32">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">

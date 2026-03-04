@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, ShipScoreCounter, ForgeButton } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
 import { useRouter } from "next/navigation";
 
 export default function DNADeepDivePage() {
@@ -29,7 +28,6 @@ export default function DNADeepDivePage() {
 
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <Navbar />
 
             <main className="max-w-6xl mx-auto px-6 py-32">
                 <button

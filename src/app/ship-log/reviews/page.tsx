@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, ForgeButton } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
-
+import { IconSuccess } from "@/components/icons";
 const REVIEWS = [
     {
         id: "rev-1",
@@ -30,7 +29,6 @@ const REVIEWS = [
 export default function PeerReviewWall() {
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans selection:bg-purple-500/30">
-            <Navbar />
 
             <main className="max-w-5xl mx-auto px-6 py-32">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 border-b border-white/10 pb-8">
@@ -72,7 +70,7 @@ export default function PeerReviewWall() {
                                             </div>
                                             {review.verified && (
                                                 <div className="inline-block px-2 py-1 bg-cyber/10 border border-cyber/30 rounded font-mono text-[10px] text-cyber">
-                                                    ✓ STAKE VERIFIED
+                                                    <IconSuccess className="w-3 h-3 inline" /> STAKE VERIFIED
                                                 </div>
                                             )}
                                         </div>

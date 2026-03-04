@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, GlitchText, ForgeButton } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
 import Link from "next/link";
 
 const FAILURES = [
@@ -35,7 +34,6 @@ const FAILURES = [
 export default function FailureVaultPage() {
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans selection:bg-acid/30">
-            <Navbar />
 
             <main className="max-w-6xl mx-auto px-6 py-32">
 

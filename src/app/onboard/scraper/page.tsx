@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { TerminalBlock, ForgeButton, PulseTag } from "@/components/forge";
 import { motion, AnimatePresence } from "framer-motion";
 import { Suspense } from "react";
+import { IconSuccess } from "@/components/icons";
 
 const SCRAPE_LOGS_TECH = [
     "// INITIATING DEEP SCRAPE PROTOCOL...",
@@ -94,7 +95,7 @@ function ScraperConsoleContent() {
                         <PulseTag status={isComplete ? "shipped" : "live"} label={isComplete ? "DNA EXTRACTION COMPLETE" : "EXTRACTING DNA SIGNATURE"} className="mb-4" />
                         <h1 className="font-clash font-black text-4xl text-white uppercase flex items-center gap-4">
                             The Scraper
-                            {isComplete && <span className="text-lime text-2xl">✓</span>}
+                            {isComplete && <span className="text-lime text-2xl"><IconSuccess className="w-5 h-5" /></span>}
                         </h1>
                         <p className="font-mono text-white/50 text-sm mt-2">
                             Pulling your proof-of-work from the ether. Do not close this connection.

@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, ForgeButton, TerminalBlock } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
 import { useState } from "react";
 
 export default function ShipLogStudio() {
@@ -33,7 +32,6 @@ export default function ShipLogStudio() {
 
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <Navbar />
 
             <div className="max-w-7xl mx-auto px-6 py-32">
                 <div className="mb-12 border-b border-white/10 pb-6 flex justify-between items-end">

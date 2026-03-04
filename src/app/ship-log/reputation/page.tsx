@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, ShipScoreCounter, ForgeButton, PulseTag } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
-
 const ACTIVE_STAKES = [
     { project: "CollabRise Core v2", staked: 500, deadline: "2026-03-15", risk: "LOW", daysLeft: 10 },
     { project: "Neon DEX Audit", staked: 1200, deadline: "2026-03-22", risk: "MEDIUM", daysLeft: 17 },
@@ -21,7 +19,6 @@ export default function ReputationDashboardPage() {
 
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <Navbar />
 
             <main className="max-w-6xl mx-auto px-6 py-32">
                 <div className="mb-12">

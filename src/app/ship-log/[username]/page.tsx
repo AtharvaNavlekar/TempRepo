@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import { BentoCard, DNACard, PulseTag, ForgeButton, ShipScoreCounter, GlitchText } from "@/components/forge";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
-
 // Mock Data
 const BUILDER_DATA = {
     username: "0xNeo",
@@ -25,7 +23,7 @@ const BUILDER_DATA = {
                 { label: "COMMITS", value: "2.4K" },
                 { label: "PEER RATING", value: "9.8" },
             ],
-            typeIcon: "⚡",
+            typeIcon: "IconShipScore",
         },
         {
             id: "ship-002",
@@ -38,7 +36,7 @@ const BUILDER_DATA = {
                 { label: "USERS", value: "14K+" },
                 { label: "BOUNTY", value: "$5K" },
             ],
-            typeIcon: "👁",
+            typeIcon: "IconEye",
         },
         {
             id: "ship-003",
@@ -51,7 +49,7 @@ const BUILDER_DATA = {
                 { label: "AUDITS", value: "Passed" },
                 { label: "IMPACT", value: "Critical" },
             ],
-            typeIcon: "🛡️",
+            typeIcon: "IconShield",
         }
     ]
 };
@@ -64,7 +62,6 @@ export default function PublicShipLog() {
 
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans selection:bg-lime/30">
-            <Navbar />
 
             <main className="max-w-7xl mx-auto px-6 py-32">
                 {/* Header Profile Section */}

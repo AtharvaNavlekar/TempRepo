@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useCallback } from "react";
+import { IconClose } from "@/components/icons";
 
 interface GlassOverlayProps {
     isOpen: boolean;
@@ -80,9 +81,7 @@ export default function GlassOverlay({
                             onClick={onClose}
                             className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-white/40 hover:text-white transition-colors"
                             aria-label="Close"
-                        >
-                            ✕
-                        </button>
+                        ><IconClose className="w-5 h-5" /></button>
 
                         {title && (
                             <h2 className="font-clash font-bold text-2xl text-white mb-6">

@@ -1,9 +1,10 @@
 export { default as ForgeButton } from "./ForgeButton";
 export { default as BentoCard } from "./BentoCard";
 export { default as GlitchText } from "./GlitchText";
-export { default as ShipScoreCounter } from "./ShipScoreCounter";
-export { default as PulseTag } from "./PulseTag";
+export { default as SpringTransition } from "./SpringTransition";
+export { default as DNACard } from "./DNACard";
+export { default as RenderIcon } from "./RenderIcon";
 export { default as TerminalBlock } from "./TerminalBlock";
 export { default as GlassOverlay } from "./GlassOverlay";
-export { default as DNACard } from "./DNACard";
-export { default as SpringTransition } from "./SpringTransition";
+export { default as ShipScoreCounter } from "./ShipScoreCounter";
+export { default as PulseTag } from "./PulseTag";

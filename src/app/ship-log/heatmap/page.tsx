@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, ForgeButton } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
-
 const SKILLS = [
     { name: "React", level: 95, category: "Frontend" },
     { name: "TypeScript", level: 92, category: "Frontend" },
@@ -42,7 +40,6 @@ export default function SkillHeatmapPage() {
 
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <Navbar />
 
             <main className="max-w-6xl mx-auto px-6 py-32">
                 <div className="mb-12">

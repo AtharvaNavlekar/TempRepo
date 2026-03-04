@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import RenderIcon from "./RenderIcon";
 
 interface DNAMetric {
     label: string;
@@ -21,7 +22,7 @@ interface DNACardProps {
 export default function DNACard({
     title,
     type,
-    typeIcon = "◆",
+    typeIcon = "IconPalette",
     score,
     date,
     tags,
@@ -52,7 +53,7 @@ export default function DNACard({
             {/* Header */}
             <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2">
-                    <span className="text-lime text-lg">{typeIcon}</span>
+                    <RenderIcon name={typeIcon} className="w-4 h-4 text-lime" />
                     <span className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
                         {type}
                     </span>

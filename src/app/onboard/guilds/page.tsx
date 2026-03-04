@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ForgeButton, BentoCard, PulseTag } from "@/components/forge";
+import { IconSuccess } from "@/components/icons";
 
 const GUILDS = [
     { id: "react", name: "The React Core", memberCount: 1420, vibe: "#CCFF00" },
@@ -87,9 +88,7 @@ export default function GuildSelectionPage() {
                                                 </h3>
                                                 <div className={`w-6 h-6 rounded-full border flex items-center justify-center transition-colors
                           ${isSelected ? 'border-transparent bg-white text-black' : 'border-white/20 text-transparent'}
-                        `}>
-                                                    ✓
-                                                </div>
+                        `}><IconSuccess className="w-5 h-5" /></div>
                                             </div>
 
                                             <div className="flex justify-between items-end z-10">

@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { BentoCard, ForgeButton } from "@/components/forge";
-import Navbar from "@/components/layout/Navbar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +11,6 @@ export default function PostMortemCreator() {
 
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <Navbar />
 
             <main className="max-w-4xl mx-auto px-6 py-32">
                 <button
