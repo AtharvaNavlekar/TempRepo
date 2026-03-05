@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BentoCard, ForgeButton, GlitchText, PulseTag } from "@/components/forge";
+import { BentoCard, ForgeButton, GlitchText, PulseTag, ShipScoreCounter } from "@/components/forge";
+import Link from "next/link";
 import { useState } from "react";
 import { IconSuccess } from "@/components/icons";
-
 const ROLES_NEEDED = [
     { title: "Systems Engineer", skills: ["Rust", "WASM", "Performance"], commitment: "20h/week", importance: "CRITICAL", filled: false },
     { title: "Security Auditor", skills: ["Solidity", "ZK-Proofs", "Cryptography"], commitment: "10h/week", importance: "HIGH", filled: false },

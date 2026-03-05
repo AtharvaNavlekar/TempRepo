@@ -1,5 +1,5 @@
 "use client";
-import { BentoCard, ForgeButton } from "@/components/forge";
+import { BentoCard, ForgeButton, TerminalBlock } from "@/components/forge";
 const API_ENDPOINTS = [
     { method: "GET", path: "/api/v1/score/:userId", desc: "Get a builder's Ship Score" },
     { method: "GET", path: "/api/v1/shiplog/:userId", desc: "Get a builder's public Ship Log" },

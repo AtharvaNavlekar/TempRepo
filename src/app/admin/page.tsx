@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BentoCard, ForgeButton, GlitchText, PulseTag } from "@/components/forge";
+import { BentoCard, ForgeButton, GlitchText, PulseTag, ShipScoreCounter } from "@/components/forge";
 import Link from "next/link";
 const ADMIN_NAV = [
     { label: "Moderation", href: "/admin/moderation", icon: "IconShield", desc: "Flagged users & ban queue", count: 3, color: "text-acid" },

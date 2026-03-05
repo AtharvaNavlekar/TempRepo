@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { BentoCard, ForgeButton, GlitchText, PulseTag } from "@/components/forge";
+import { BentoCard, ForgeButton, GlitchText, PulseTag, ShipScoreCounter } from "@/components/forge";
+import Link from "next/link";
 import { useState } from "react";
 import { IconInbox } from "@/components/icons";
+
 const TABS = ["INBOX", "SYSTEM", "MENTIONS", "DISPUTES", "BOUNTIES"];
 
 const ALL_NOTIFICATIONS = [

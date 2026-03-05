@@ -1,5 +1,5 @@
 "use client";
-import { BentoCard } from "@/components/forge";
+import { BentoCard, ForgeButton } from "@/components/forge";
 import { motion } from "framer-motion";
 const TOPICS = [
     { title: "Getting Started", articles: 8, icon: "IconRocket" },

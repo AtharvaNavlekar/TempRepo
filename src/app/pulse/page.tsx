@@ -27,7 +27,7 @@ const STATS = [
 ];
 
 export default function GlobalPulsePage() {
-    const [events] = useState(INITIAL_EVENTS);
+    const [events, setEvents] = useState(INITIAL_EVENTS);
     const [liveCount, setLiveCount] = useState(42);
 
     useEffect(() => {
