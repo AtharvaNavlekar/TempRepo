@@ -60,7 +60,7 @@ const SOCIAL_ICONS = [
 export default function Footer() {
     const pathname = usePathname();
 
-    const hideFooter = pathname === "/" || pathname?.startsWith("/onboard") || pathname === "/maintenance" || pathname === "/offline";
+    const hideFooter = pathname?.startsWith("/onboard") || pathname === "/maintenance" || pathname === "/offline";
     if (hideFooter) return null;
 
     return (

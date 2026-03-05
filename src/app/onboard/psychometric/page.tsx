@@ -58,7 +58,7 @@ export default function PsychometricPage() {
             <div className="w-full max-w-5xl z-10 relative">
                 <div className="mb-12 text-center">
                     <p className="font-mono text-white/50 text-sm tracking-widest uppercase mb-4">
-                        Phase 2 // Psychometric Calibration
+                        Step 2 // Work Preferences
                     </p>
                     <div className="flex gap-2 justify-center mb-8">
                         {QUESTIONS.map((_, i) => (
@@ -130,8 +130,8 @@ export default function PsychometricPage() {
                                 <div className="w-24 h-24 rounded-full border-2 border-dashed border-lime animate-spin-slow flex items-center justify-center mb-6">
                                     <div className="w-16 h-16 rounded-full bg-lime/20 blur-md"></div>
                                 </div>
-                                <h2 className="font-clash font-bold text-3xl text-white">CALIBRATING NEURAL PROFILE</h2>
-                                <p className="font-mono text-lime mt-4 text-sm uppercase tracking-widest">Compiling baseline parameters...</p>
+                                <h2 className="font-clash font-bold text-3xl text-white">SAVING PREFERENCES</h2>
+                                <p className="font-mono text-lime mt-4 text-sm uppercase tracking-widest">Generating your profile...</p>
                             </motion.div>
                         )}
                     </AnimatePresence>

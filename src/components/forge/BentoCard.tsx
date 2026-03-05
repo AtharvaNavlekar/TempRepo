@@ -17,10 +17,10 @@ interface BentoCardProps extends Omit<HTMLMotionProps<"div">, "children"> {
 }
 
 const accentBorders: Record<AccentColor, string> = {
-    lime: "hover:border-lime/60 hover:shadow-glow",
-    cyber: "hover:border-cyber/60 hover:shadow-glow-cyber",
-    acid: "hover:border-acid/60 hover:shadow-glow-acid",
-    default: "hover:border-white/20",
+    lime: "hover:border-lime hover:shadow-glow",
+    cyber: "hover:border-cyber hover:shadow-glow-cyber",
+    acid: "hover:border-acid hover:shadow-glow-acid",
+    default: "hover:border-white/20 hover:shadow-lg",
 };
 
 const colSpanMap: Record<number, string> = {
@@ -50,15 +50,15 @@ export default function BentoCard({
             {...rest}
             className={`
         relative overflow-hidden
-        rounded-bento p-6
-        border border-white/[0.08]
-        ${glass ? "bg-white/[0.03] backdrop-blur-md" : "bg-white/[0.02]"}
-        ${hoverable ? `transition-all duration-300 ${accentBorders[accent]}` : ""}
+        rounded-2xl p-6
+        border border-white/[0.05]
+        ${glass ? "bg-white/[0.02] backdrop-blur-md" : "bg-transparent"}
+        ${hoverable ? `transition-all duration-300 ${accentBorders[accent]} hover:-translate-y-1` : ""}
         ${colSpanMap[colSpan]}
         ${rowSpanMap[rowSpan]}
         ${className}
       `}
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{

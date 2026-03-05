@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { IconSuccess } from "@/components/icons";
 
 const SCRAPE_LOGS_TECH = [
-    "// INITIATING DEEP SCRAPE PROTOCOL...",
+    "// INITIATING PROFILE IMPORT...",
     "ESTABLISHING CONNECTION TO [GITHUB.COM]",
     "[OK] AUTHENTICATING OAUTH TOKEN... OK",
     "EXTRACTING COMMIT HISTORY (LAST 365 DAYS)...",
@@ -16,16 +16,16 @@ const SCRAPE_LOGS_TECH = [
     "ANALYZING REPO [collabrise-core]...",
     "[OK] IDENTIFIED 42 PR MESSAGES, 15 ISSUE RESOLUTIONS",
     "[ERR] WARNING: HIGH COMPLEXITY CODE DETECTED IN /src/engine",
-    "// COMPENSATING FOR COMPLEXITY... ADDING DNA WEIGHT",
+    "// ADJUSTING VERIFIED SCORE WEIGHT",
     "SCANNING STACKOVERFLOW REPUTATION...",
     "[ERR] USER NOT FOUND. IGNORING.",
-    "// COMPILING PRELIMINARY SHIP SCORE...",
+    "// COMPILING PRELIMINARY SCORE...",
     "[OK] SCORE: [842] - SOLID ENGINEER C-CLASS",
-    "// SCRAPE COMPLETE. WAITING FOR USER CONFIRMATION.",
+    "// IMPORT COMPLETE. WAITING FOR USER CONFIRMATION.",
 ];
 
 const SCRAPE_LOGS_CREATIVE = [
-    "// INITIATING DEEP SCRAPE PROTOCOL...",
+    "// INITIATING PROFILE IMPORT...",
     "ESTABLISHING CONNECTION TO [FIGMA.COM/API]",
     "EXTRACTING LAYER HISTORIES (LAST 365 DAYS)...",
     "[OK] FOUND: 45,212 LAYERS ACROSS 3 TEAM WORKSPACES",
@@ -33,9 +33,9 @@ const SCRAPE_LOGS_CREATIVE = [
     "[OK] IDENTIFIED 400+ COMPONENT VARIANTS",
     "SCANNING BEHANCE PORTFOLIO...",
     "[OK] FOUND 3 CASE STUDIES. HIGH AESTHETIC VALUE DETECTED.",
-    "// COMPILING PRELIMINARY SHIP SCORE...",
+    "// COMPILING PRELIMINARY SCORE...",
     "[OK] SCORE: [910] - ELITE DESIGNER B-CLASS",
-    "// SCRAPE COMPLETE. WAITING FOR USER CONFIRMATION.",
+    "// IMPORT COMPLETE. WAITING FOR USER CONFIRMATION.",
 ];
 
 function ScraperConsoleContent() {
@@ -92,13 +92,13 @@ function ScraperConsoleContent() {
 
                 <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                        <PulseTag status={isComplete ? "shipped" : "live"} label={isComplete ? "DNA EXTRACTION COMPLETE" : "EXTRACTING DNA SIGNATURE"} className="mb-4" />
+                        <PulseTag status={isComplete ? "shipped" : "live"} label={isComplete ? "IMPORT COMPLETE" : "IMPORTING PROFILES"} className="mb-4" />
                         <h1 className="font-clash font-black text-4xl text-white uppercase flex items-center gap-4">
-                            The Scraper
+                            Data Importer
                             {isComplete && <span className="text-lime text-2xl"><IconSuccess className="w-5 h-5" /></span>}
                         </h1>
                         <p className="font-mono text-white/50 text-sm mt-2">
-                            Pulling your proof-of-work from the ether. Do not close this connection.
+                            Analyzing your verified work history. Please wait while we process your data.
                         </p>
                     </div>
 
@@ -136,7 +136,7 @@ function ScraperConsoleContent() {
                             <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
                             <div className="w-3 h-3 rounded-full bg-green-500/50" />
                         </div>
-                        <span className="font-mono text-xs text-white/30 tracking-wider">collabrise@forge: ~/data-scraper</span>
+                        <span className="font-mono text-xs text-white/30 tracking-wider">collabrise@system: ~/data-import</span>
                     </div>
 
                     {/* Terminal Body */}
@@ -160,7 +160,7 @@ function ScraperConsoleContent() {
                                 onClick={() => router.push('/onboard/psychometric')}
                                 className="bg-lime text-obsidian border-none hover:bg-white px-8"
                             >
-                                PROCEED TO PSYCHOMETRIC
+                                CONTINUE
                             </ForgeButton>
                         </motion.div>
                     )}

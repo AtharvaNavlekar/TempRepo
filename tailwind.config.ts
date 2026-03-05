@@ -9,44 +9,45 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                obsidian: "#050505",
-                lime: "#CCFF00",
-                cyber: "#8A2BE2",
-                acid: "#FF00FF",
+                obsidian: "#050505", // The true Cyberpunk black
+                lime: "#CCFF00", // High voltage Lime
+                cyber: "#8A2BE2", // Deep Cyber Purple
+                acid: "#FF00FF", // Acid Pink
                 "lime-dim": "#99cc00",
                 "cyber-dim": "#6a1fb2",
                 "acid-dim": "#cc00cc",
-                "glass-white": "rgba(255, 255, 255, 0.06)",
-                "glass-border": "rgba(255, 255, 255, 0.1)",
+                "glass-white": "rgba(255, 255, 255, 0.04)",
+                "glass-border": "rgba(255, 255, 255, 0.08)",
             },
             fontFamily: {
-                clash: ["var(--font-clash)", "sans-serif"],
-                mono: ["var(--font-jetbrains)", "monospace"],
+                clash: ["Inter", "system-ui", "sans-serif"], // Keeping the clean, readable Inter
+                mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
             },
             borderRadius: {
-                bento: "1.25rem",
-                "bento-sm": "0.75rem",
-                "bento-lg": "1.75rem",
+                bento: "1rem",
+                "bento-sm": "0.5rem",
+                "bento-lg": "1.5rem",
             },
             boxShadow: {
-                brutal: "4px 4px 0px 0px #CCFF00",
-                "brutal-cyber": "4px 4px 0px 0px #8A2BE2",
-                "brutal-acid": "4px 4px 0px 0px #FF00FF",
-                "brutal-sm": "2px 2px 0px 0px #CCFF00",
-                glass: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
-                glow: "0 0 20px rgba(204, 255, 0, 0.3)",
-                "glow-cyber": "0 0 20px rgba(138, 43, 226, 0.3)",
-                "glow-acid": "0 0 20px rgba(255, 0, 255, 0.3)",
+                // Neon glow execution replacing brutalism
+                brutal: "0 0 10px 0 rgba(204, 255, 0, 0.3), inset 0 0 4px 0 rgba(204, 255, 0, 0.2)",
+                "brutal-cyber": "0 0 10px 0 rgba(138, 43, 226, 0.3), inset 0 0 4px 0 rgba(138, 43, 226, 0.2)",
+                "brutal-acid": "0 0 10px 0 rgba(255, 0, 255, 0.3), inset 0 0 4px 0 rgba(255, 0, 255, 0.2)",
+                "brutal-sm": "0 0 5px 0 rgba(204, 255, 0, 0.3)",
+                glass: "0 8px 32px 0 rgba(0, 0, 0, 0.5)",
+                glow: "0 0 24px rgba(204, 255, 0, 0.4)", // Intense inner/outer neon volume blur
+                "glow-cyber": "0 0 24px rgba(138, 43, 226, 0.4)",
+                "glow-acid": "0 0 24px rgba(255, 0, 255, 0.4)",
             },
             backdropBlur: {
                 glass: "16px",
-                "glass-heavy": "24px",
+                "glass-heavy": "32px",
             },
             animation: {
                 "pulse-ring": "pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
                 "ticker-scroll": "ticker-scroll 30s linear infinite",
-                glitch: "glitch 2s infinite",
-                "glitch-skew": "glitch-skew 2s infinite",
+                glitch: "pulse-ring 2s infinite", // Use soft pulse instead of twitchy glitch
+                "glitch-skew": "float 6s ease-in-out infinite",
                 grain: "grain 8s steps(10) infinite",
                 float: "float 6s ease-in-out infinite",
             },
@@ -59,35 +60,13 @@ const config: Config = {
                     "0%": { transform: "translateX(0)" },
                     "100%": { transform: "translateX(-50%)" },
                 },
-                glitch: {
-                    "0%, 100%": { clipPath: "inset(0 0 0 0)" },
-                    "20%": { clipPath: "inset(20% 0 60% 0)" },
-                    "40%": { clipPath: "inset(40% 0 40% 0)" },
-                    "60%": { clipPath: "inset(60% 0 20% 0)" },
-                    "80%": { clipPath: "inset(80% 0 0% 0)" },
-                },
-                "glitch-skew": {
-                    "0%, 100%": { transform: "skew(0deg)" },
-                    "20%": { transform: "skew(-2deg)" },
-                    "40%": { transform: "skew(1deg)" },
-                    "60%": { transform: "skew(-1deg)" },
-                    "80%": { transform: "skew(2deg)" },
-                },
                 grain: {
                     "0%, 100%": { transform: "translate(0, 0)" },
-                    "10%": { transform: "translate(-5%, -10%)" },
-                    "20%": { transform: "translate(-15%, 5%)" },
-                    "30%": { transform: "translate(7%, -25%)" },
-                    "40%": { transform: "translate(-5%, 25%)" },
-                    "50%": { transform: "translate(-15%, 10%)" },
-                    "60%": { transform: "translate(15%, 0%)" },
-                    "70%": { transform: "translate(0%, 15%)" },
-                    "80%": { transform: "translate(3%, 35%)" },
-                    "90%": { transform: "translate(-10%, 10%)" },
+                    "50%": { transform: "translate(-2%, -2%)" },
                 },
                 float: {
                     "0%, 100%": { transform: "translateY(0)" },
-                    "50%": { transform: "translateY(-20px)" },
+                    "50%": { transform: "translateY(-10px)" }, // Gentler float
                 },
             },
         },

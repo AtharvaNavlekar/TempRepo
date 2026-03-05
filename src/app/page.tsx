@@ -13,59 +13,55 @@ import {
 import BuilderTicker from "@/components/landing/BuilderTicker";
 import ManifestoScroll from "@/components/landing/ManifestoScroll";
 
-// Dynamic import for Three.js (no SSR)
-const ArtifactCloud = dynamic(
-    () => import("@/components/landing/ArtifactCloud"),
-    { ssr: false }
-);
+
 
 /* ─── Protocol Feature Data ─── */
 const PROTOCOL_FEATURES = [
     {
         icon: "IconShipScore",
-        title: "Ship Score",
+        title: "Verified Score",
         description:
-            "Your on-chain proof of execution. Every commit, every pixel, every plate — quantified and verified. No faking it.",
+            "Your verified proof of execution. Every commit, every pixel, every plate — quantified and verified. No faking it.",
         accent: "lime" as const,
         colSpan: 2 as const,
     },
     {
         icon: "IconDNA",
-        title: "Artifact DNA",
+        title: "Verified Work",
         description:
-            "We extract genetic metadata from your work. PSD layers, Git commits, word counts. Your artifacts speak for themselves.",
+            "We analyze metadata to prove your work is authentic. PSD layers, Git commits, word counts. Your work speaks for itself.",
         accent: "cyber" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconLock",
-        title: "Commitment Contracts",
+        title: "Reliability Score",
         description:
-            "Stake your reputation. Ghost a project and watch your profile decay in real-time with glitch effects.",
+            "Stake your reputation. If you abandon a project, your reliability score decreases in real-time.",
         accent: "acid" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconSkull",
-        title: "Failure Vault",
+        title: "Learning Log",
         description:
-            "Your darkest moments, archived. Post-mortems that prove you learn from breaking things. Redacted. Raw. Real.",
+            "Track your past mistakes. Post-mortems that prove you learn from breaking things and grow.",
         accent: "acid" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconGuild",
-        title: "Guilds",
+        title: "Communities",
         description:
-            "Join your tribe. React Guild. Woodworking Guild. Chef Guild. Rise through the ranks by shipping together.",
+            "Join groups of builders. React Community. Woodworking Community. Chef Community. Rise through the ranks together.",
         accent: "cyber" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconHire",
-        title: "Build-to-Hire",
+        title: "Direct Hiring",
         description:
-            "Companies don't interview you — they see what you've built. Sprint challenges replace the whiteboard forever.",
+            "Companies bypass interviews and hire based on what you've actually built. Proof replaces the whiteboard forever.",
         accent: "lime" as const,
         colSpan: 2 as const,
     },
@@ -75,8 +71,8 @@ const PROTOCOL_FEATURES = [
 const STATS = [
     { value: "14.2K", label: "Builders" },
     { value: "89.7K", label: "Artifacts Shipped" },
-    { value: "2,847", label: "Active War Rooms" },
-    { value: "342", label: "Guilds" },
+    { value: "2,847", label: "Active Projects" },
+    { value: "342", label: "Communities" },
 ];
 
 export default function ManifestoPage() {
@@ -123,41 +119,33 @@ export default function ManifestoPage() {
 
                     {/* Main Headline */}
                     <SpringTransition preset="slideUp" delay={0.2}>
-                        <h1 className="font-clash font-bold text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.9] tracking-tight mb-6">
-                            <span className="text-white">SHIP.</span>
-                            <br />
-                            <span className="text-gradient-lime uppercase">or die</span>
-                            <br />
-                            <span className="text-white">TRYING.</span>
+                        <h1 className="font-clash font-bold text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.1] tracking-tight mb-6">
+                            The Professional Network for <span className="text-gradient-lime">Builders</span>.
                         </h1>
                     </SpringTransition>
 
-                    {/* Glitch Tagline */}
+                    {/* Subtitle Tagline */}
                     <SpringTransition preset="fadeIn" delay={0.5}>
-                        <div className="mb-10">
-                            <GlitchText
-                                text="THE UNIVERSAL PROOF-OF-WORK PROTOCOL"
-                                as="h2"
-                                className="text-lg md:text-xl lg:text-2xl tracking-[0.15em] text-white/50"
-                                continuous
-                                speed="slow"
-                            />
+                        <div className="mb-10 max-w-2xl mx-auto">
+                            <p className="text-lg md:text-xl text-white/60 leading-relaxed">
+                                Ship real projects, build irrefutable proof of your skills, and let your work replace your resume forever.
+                            </p>
                         </div>
                     </SpringTransition>
 
                     {/* CTA Buttons */}
                     <SpringTransition preset="slideUp" delay={0.7}>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Link href="/vibe-check">
-                                <ForgeButton variant="primary" size="lg">
-                                    Enter the Forge
+                            <Link href="/onboard">
+                                <ForgeButton variant="primary" size="lg" className="w-full sm:w-auto px-8">
+                                    Get Started
                                 </ForgeButton>
                             </Link>
-                            <a href="#manifesto">
-                                <ForgeButton variant="ghost" size="lg">
-                                    Read the Manifesto ↓
+                            <Link href="/feed">
+                                <ForgeButton variant="ghost" size="lg" className="w-full sm:w-auto px-8">
+                                    Explore Projects
                                 </ForgeButton>
-                            </a>
+                            </Link>
                         </div>
                     </SpringTransition>
 
@@ -200,20 +188,7 @@ export default function ManifestoPage() {
                 </motion.div>
             </section>
 
-            {/* ═══════════════════════════════════════
-          SECTION 2: 3D ARTIFACT CLOUD
-          ═══════════════════════════════════════ */}
-            <section className="relative py-16 md:py-24">
-                <SpringTransition preset="fadeIn">
-                    <div className="text-center mb-8">
-                        <span className="font-mono text-[11px] tracking-[0.3em] text-white/30 uppercase">
-                            Hover to explore artifact DNA
-                        </span>
-                    </div>
-                </SpringTransition>
 
-                <ArtifactCloud />
-            </section>
 
             {/* ═══════════════════════════════════════
           SECTION 3: THE PROTOCOL — BENTO GRID

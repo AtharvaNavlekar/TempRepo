@@ -14,9 +14,9 @@ const NAV_ITEMS = [
         label: "DISCOVER",
         href: "/feed",
         children: [
-            { label: "Discovery Feed", href: "/feed", desc: "Browse all active War Rooms" },
-            { label: "Search", href: "/search", desc: "Find projects, builders, bounties" },
-            { label: "Global Pulse", href: "/pulse", desc: "Real-time ecosystem activity" },
+            { label: "Feed", href: "/feed", desc: "Browse active projects" },
+            { label: "Search", href: "/search", desc: "Find projects, builders, freelance work" },
+            { label: "Activity Pulse", href: "/pulse", desc: "Real-time ecosystem activity" },
             { label: "Leaderboard", href: "/leaderboard", desc: "Hall of Fame rankings" },
         ],
     },
@@ -24,29 +24,29 @@ const NAV_ITEMS = [
         label: "BUILD",
         href: "/project/new",
         children: [
-            { label: "New War Room", href: "/project/new", desc: "Create a new project" },
+            { label: "New Project", href: "/project/new", desc: "Create a new project" },
             { label: "Recruit Team", href: "/project/recruit", desc: "AI-matched builders" },
             { label: "Templates", href: "/templates/code-lab", desc: "Pre-built project blueprints" },
-            { label: "My Ships", href: "/ship-log/studio", desc: "Your Ship Log editor" },
+            { label: "My Portfolio", href: "/ship-log/studio", desc: "Your builder portfolio" },
         ],
     },
     {
-        label: "GUILDS",
+        label: "COMMUNITIES",
         href: "/guilds",
         children: [
-            { label: "Guild Directory", href: "/guilds", desc: "Browse all guilds" },
-            { label: "Matchmaker", href: "/matchmaker", desc: "Pair-Builder AI matching" },
+            { label: "Community Directory", href: "/guilds", desc: "Browse all communities" },
+            { label: "Find a Partner", href: "/matchmaker", desc: "Pair-Builder AI matching" },
             { label: "Mentorship Hub", href: "/mentorship", desc: "Connect with mentors" },
-            { label: "Your Guilds", href: "/guilds", desc: "Guilds you belong to" },
+            { label: "Your Communities", href: "/guilds", desc: "Communities you belong to" },
         ],
     },
     {
-        label: "MARKETPLACE",
+        label: "WORK",
         href: "/bounties",
         children: [
-            { label: "Bounties", href: "/bounties", desc: "Paid challenge marketplace" },
+            { label: "Freelance Work", href: "/bounties", desc: "Paid challenge marketplace" },
             { label: "Job Board", href: "/jobs", desc: "Reverse job board for builders" },
-            { label: "Escrow Portal", href: "/escrow", desc: "Manage locked payments" },
+            { label: "Payments", href: "/escrow", desc: "Manage verified payments" },
             { label: "Payouts", href: "/payouts", desc: "Invoice & payout dashboard" },
         ],
     },
@@ -130,11 +130,16 @@ export default function Navbar() {
 
                         <div className="h-6 w-px bg-white/10 hidden sm:block" />
 
-                        <Link href="/dashboard">
-                            <div className="w-9 h-9 rounded-lg bg-lime/10 border border-lime/20 flex items-center justify-center hover:border-lime/40 transition-colors cursor-pointer">
-                                <span className="font-clash font-bold text-xs text-lime">U</span>
-                            </div>
-                        </Link>
+                        <div className="hidden sm:flex items-center gap-3">
+                            <Link href="/auth/login" className="font-clash font-semibold text-sm text-white/70 hover:text-white transition-colors">
+                                Sign In
+                            </Link>
+                            <Link href="/onboard">
+                                <ForgeButton variant="primary" size="sm">
+                                    Get Started
+                                </ForgeButton>
+                            </Link>
+                        </div>
 
                         <button className="lg:hidden w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-white/50 hover:text-white" onClick={() => setMobileOpen(!mobileOpen)}>
                             {mobileOpen ? <IconClose className="w-4 h-4" /> : <IconMenu className="w-4 h-4" />}

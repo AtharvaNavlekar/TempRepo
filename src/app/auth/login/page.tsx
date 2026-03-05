@@ -35,14 +35,14 @@ export default function LoginPage() {
 
                     <div className="relative z-10">
                         <PulseTag status="live" label="SYSTEM ONLINE" className="mb-6" />
-                        <GlitchText text="ENTER" className="text-6xl font-black text-white" />
-                        <GlitchText text="THE" className="text-6xl font-black text-white/80" speed="slow" />
-                        <GlitchText text="FORGE" className="text-6xl font-black text-lime" speed="fast" />
+                        <GlitchText text="WELCOME" className="text-6xl font-black text-white" />
+                        <GlitchText text="TO" className="text-6xl font-black text-white/80" speed="slow" />
+                        <GlitchText text="COLLABRISE" className="text-5xl font-black text-lime" speed="fast" />
                     </div>
 
                     <div className="relative z-10">
                         <p className="font-mono text-white/50 text-sm max-w-[80%] uppercase tracking-wider leading-relaxed">
-                            WARNING: Standard corporate behavior is strictly prohibited. The algorithms are watching. Ship or die trying.
+                            Ship real projects, build irrefutable proof of your skills, and let your work replace your resume.
                         </p>
                     </div>
 
@@ -54,14 +54,14 @@ export default function LoginPage() {
                 {/* Right Side: Auth Form */}
                 <BentoCard className="min-h-[500px] p-8 md:p-10 flex flex-col justify-center">
                     <div className="mb-8">
-                        <h2 className="font-clash font-bold text-3xl text-white mb-2">Identify Yourself.</h2>
-                        <p className="font-mono text-white/50 text-sm">We need your DNA signature to proceed.</p>
+                        <h2 className="font-clash font-bold text-3xl text-white mb-2">Welcome Back.</h2>
+                        <p className="font-mono text-white/50 text-sm">Please sign in to continue to your account.</p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div className="space-y-2">
                             <label className="font-mono text-xs text-white/70 tracking-widest uppercase">
-                                Digital Address [Email]
+                                Email Address
                             </label>
                             <input
                                 type="email"
@@ -76,10 +76,10 @@ export default function LoginPage() {
                         <div className="space-y-2">
                             <div className="flex justify-between items-center">
                                 <label className="font-mono text-xs text-white/70 tracking-widest uppercase">
-                                    Access Key [Password]
+                                    Password
                                 </label>
                                 <Link href="/auth/recovery" className="font-mono text-[10px] text-lime hover:text-white transition-colors duration-200">
-                                    LOST KEY?
+                                    FORGOT PASSWORD?
                                 </Link>
                             </div>
                             <input
@@ -95,14 +95,14 @@ export default function LoginPage() {
                             className="w-full py-4 text-lg"
                             loading={loading}
                         >
-                            INITIALIZE SEQUENCE
+                            Sign In
                         </ForgeButton>
                     </form>
 
                     <div className="mt-8">
                         <div className="relative flex items-center mb-6">
                             <div className="flex-grow border-t border-white/10"></div>
-                            <span className="flex-shrink-0 mx-4 font-mono text-xs text-white/30 uppercase">Or Integrate</span>
+                            <span className="flex-shrink-0 mx-4 font-mono text-xs text-white/30 uppercase">Or Continue With</span>
                             <div className="flex-grow border-t border-white/10"></div>
                         </div>
 
@@ -117,7 +117,7 @@ export default function LoginPage() {
                     </div>
 
                     <p className="mt-8 text-center font-mono text-[10px] text-white/30 uppercase tracking-widest">
-                        Don&apos;t have a signature? <Link href="/onboard/identity" className="text-white hover:text-lime underline decoration-white/30 underline-offset-4">Generate One</Link>
+                        Don&apos;t have an account? <Link href="/onboard/create" className="text-white hover:text-lime underline decoration-white/30 underline-offset-4">Sign Up</Link>
                     </p>
 
                 </BentoCard>

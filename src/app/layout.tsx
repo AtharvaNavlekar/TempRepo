@@ -41,7 +41,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark scroll-smooth">
             <body
-                className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} font-sans bg-obsidian text-white antialiased selection:bg-lime/30 selection:text-lime grain-overlay min-h-screen flex flex-col relative overflow-x-hidden`}
+                className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} font-sans bg-obsidian text-white antialiased selection:bg-lime/30 selection:text-lime min-h-screen flex flex-col relative overflow-x-hidden`}
             >
                 <Navbar />
                 <main className="flex-grow pt-16">

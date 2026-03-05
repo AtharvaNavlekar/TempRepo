@@ -43,11 +43,11 @@ export default function ArtifactSeedPage() {
             <div className="w-full max-w-3xl relative z-10">
 
                 <div className="text-center mb-10">
-                    <p className="font-mono text-white/50 text-sm tracking-widest uppercase mb-4">Phase 3 // The First Seed</p>
-                    <h1 className="font-clash font-black text-4xl md:text-5xl text-white mb-4">Upload Genesis Artifact.</h1>
+                    <p className="font-mono text-white/50 text-sm tracking-widest uppercase mb-4">Step 3 // Your First Project</p>
+                    <h1 className="font-clash font-black text-4xl md:text-5xl text-white mb-4">Upload Your Best Work.</h1>
                     <p className="font-mono text-white/60 max-w-xl mx-auto text-sm leading-relaxed">
-                        Drop your best piece of work. A repo zip, a figma file, a pitch deck pdf. This establishes your baseline Ship Score.
-                        <span className="text-lime block mt-2">No garbage allowed. The AI will know.</span>
+                        Drop your best piece of work. A repo zip, a figma file, a pitch deck pdf. This establishes your baseline Verified Score.
+                        <span className="text-lime block mt-2">Make it count. Our AI will analyze your skills based on this.</span>
                     </p>
                 </div>
 
@@ -76,7 +76,7 @@ export default function ArtifactSeedPage() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                     </svg>
                                 </div>
-                                <h3 className="font-clash font-bold text-2xl text-white mb-2">Drag & Drop Artifact</h3>
+                                <h3 className="font-clash font-bold text-2xl text-white mb-2">Drag & Drop File</h3>
                                 <p className="font-mono text-white/40 text-xs uppercase tracking-widest">
                                     .ZIP, .PDF, .FIG, .JS (MAX 50MB)
                                 </p>
@@ -91,7 +91,7 @@ export default function ArtifactSeedPage() {
                                 <div className="w-20 h-20 rounded-bento-sm bg-cyber/20 border border-cyber flex items-center justify-center mb-6">
                                     <span className="font-mono font-bold text-cyber uppercase">{file.name.split('.').pop()}</span>
                                 </div>
-                                <PulseTag status="shipped" label="ARTIFACT ACQUIRED" className="border-cyber text-cyber bg-cyber/10" />
+                                <PulseTag status="shipped" label="FILE UPLOADED" className="border-cyber text-cyber bg-cyber/10" />
                                 <h3 className="font-mono font-bold text-white mt-4 max-w-[80%] truncate">
                                     {file.name}
                                 </h3>
@@ -118,7 +118,7 @@ export default function ArtifactSeedPage() {
                         loading={isUploading}
                         className={`w-full md:w-auto px-16 ${file ? 'bg-cyber text-white hover:bg-white hover:text-obsidian border-none' : ''}`}
                     >
-                        INJECT DNA
+                        COMPLETE PROFILE
                     </ForgeButton>
                 </div>
 

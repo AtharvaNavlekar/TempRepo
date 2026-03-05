@@ -10,20 +10,20 @@ export default function PasswordRecoveryPage() {
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [terminalLogs, setTerminalLogs] = useState<string[]>([
-        "// INIT RECOVERY PROTOCOL...",
-        "WAITING FOR TARGET IDENTIFIER...",
+        "Initializing password reset...",
+        "Awaiting email address input...",
     ]);
 
     const handleRequestReset = (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setTerminalLogs(prev => [...prev, `> SCANNING DATABASE FOR [${email}]...`]);
+        setTerminalLogs(prev => [...prev, `> Searching for account [${email}]...`]);
 
         setTimeout(() => {
             setTerminalLogs(prev => [
                 ...prev,
-                "[OK] TARGET LOCATED.",
-                "// TRANSMITTING OVERRIDE CODES TO COMM-LINK."
+                "[OK] Account found.",
+                "Sending reset link to your email."
             ]);
             setLoading(false);
             setStep(2);
@@ -41,10 +41,10 @@ export default function PasswordRecoveryPage() {
                     <BentoCard className="p-8 md:p-10 border-acid/30">
                         <div className="mb-8 border-b border-white/10 pb-6">
                             <h1 className="font-clash font-bold text-3xl text-white mb-2 uppercase tracking-wide">
-                                Security Override
+                                Reset Password
                             </h1>
                             <p className="font-mono text-white/50 text-sm">
-                                Lost access key protocol initialized. Follow the terminal instructions to regain system entry.
+                                Please enter your email address to request a password reset.
                             </p>
                         </div>
 
@@ -56,7 +56,7 @@ export default function PasswordRecoveryPage() {
                             <form onSubmit={handleRequestReset} className="space-y-6">
                                 <div className="space-y-2">
                                     <label className="font-mono text-xs text-white/70 tracking-widest uppercase">
-                                        Target Address [Email]
+                                        Email Address
                                     </label>
                                     <input
                                         type="email"
@@ -73,7 +73,7 @@ export default function PasswordRecoveryPage() {
                                     className="w-full py-4 bg-acid text-black hover:bg-white hover:text-black border-none"
                                     loading={loading}
                                 >
-                                    TRANSMIT OVERRIDE SIGNAL
+                                    Send Reset Link
                                 </ForgeButton>
                             </form>
                         ) : (
@@ -83,13 +83,13 @@ export default function PasswordRecoveryPage() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                <h3 className="font-clash font-bold text-xl text-white">Signal Transmitted</h3>
+                                <h3 className="font-clash font-bold text-xl text-white">Link Sent</h3>
                                 <p className="font-mono text-sm text-white/60 leading-relaxed max-w-sm mx-auto">
-                                    Check your secure comm-link for the temporary access codes. They will self-destruct in 15 minutes.
+                                    Check your email for the password reset link. The link will expire in 15 minutes.
                                 </p>
                                 <Link href="/auth/login" className="inline-block mt-4">
                                     <ForgeButton variant="ghost" className="text-acid hover:text-white border-acid/30">
-                                        RETURN TO GATEWAY
+                                        Back to Log In
                                     </ForgeButton>
                                 </Link>
                             </div>
@@ -97,7 +97,7 @@ export default function PasswordRecoveryPage() {
 
                         <div className="mt-8 text-center">
                             <Link href="/auth/login" className="font-mono text-[10px] text-white/30 hover:text-white transition-colors uppercase tracking-widest flex items-center justify-center gap-2">
-                                <span>← ABORT PROTOCOL</span>
+                                <span>← Back to Log In</span>
                             </Link>
                         </div>
                     </BentoCard>

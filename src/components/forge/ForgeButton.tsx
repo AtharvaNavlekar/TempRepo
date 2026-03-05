@@ -16,13 +16,13 @@ interface ForgeButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 
 const variantStyles: Record<ButtonVariant, string> = {
     primary:
-        "bg-lime text-obsidian border-lime hover:shadow-brutal font-bold",
+        "bg-lime text-obsidian shadow-sm hover:shadow-glow",
     secondary:
-        "bg-glass-white text-white border-glass-border backdrop-blur-md hover:border-lime/50 hover:shadow-glow",
+        "bg-white/5 text-slate-100 border border-white/10 backdrop-blur-md hover:border-lime/40 hover:bg-lime/5 hover:text-lime",
     ghost:
-        "bg-transparent text-lime border-lime/40 hover:bg-lime/10 hover:border-lime",
+        "bg-transparent text-slate-300 hover:text-lime hover:bg-lime/5",
     danger:
-        "bg-acid/10 text-acid border-acid/40 hover:bg-acid/20 hover:border-acid hover:shadow-brutal-acid",
+        "bg-acid/10 text-acid border border-acid/20 hover:bg-acid/20 hover:border-acid/40 hover:shadow-glow-acid",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -44,22 +44,26 @@ export default function ForgeButton({
         <motion.button
             className={`
         relative inline-flex items-center justify-center
-        border-[3px] rounded-bento-sm
-        font-clash font-semibold tracking-wide uppercase
-        transition-colors duration-200
+        rounded-lg
+        font-medium tracking-normal
+        transition-all duration-200
         cursor-pointer select-none
+        border border-transparent
         disabled:opacity-50 disabled:cursor-not-allowed
         ${variantStyles[variant]}
         ${sizeStyles[size]}
         ${className}
       `}
             whileHover={{
-                scale: 1.03,
-                transition: { type: "spring", stiffness: 400, damping: 15 },
+                y: -1,
+                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                transition: { type: "tween", duration: 0.2 },
             }}
             whileTap={{
-                scale: 0.97,
-                transition: { type: "spring", stiffness: 500, damping: 20 },
+                y: 0,
+                scale: 0.98,
+                boxShadow: "none",
+                transition: { type: "tween", duration: 0.1 },
             }}
             disabled={loading}
             {...props}

@@ -59,9 +59,9 @@ export default function IdentitySelectionPage() {
             <div className="flex-grow flex flex-col max-w-7xl mx-auto w-full relative z-10 pt-10">
 
                 <div className="mb-12">
-                    <p className="font-mono text-white/50 text-sm tracking-widest uppercase mb-4">Phase 1 // Identity Generation</p>
+                    <p className="font-mono text-white/50 text-sm tracking-widest uppercase mb-4">Step 1 // Choose Your Path</p>
                     <GlitchText text="SELECT YOUR" className="text-4xl md:text-6xl font-black text-white" speed="slow" />
-                    <GlitchText text="PRIMARY FREQUENCY." className="text-4xl md:text-6xl font-black text-white" speed="slow" />
+                    <GlitchText text="PRIMARY ROLE." className="text-4xl md:text-6xl font-black text-white" speed="slow" />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow pb-12">
@@ -123,8 +123,8 @@ export default function IdentitySelectionPage() {
                                                 animate={{ opacity: 1 }}
                                                 className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center z-20"
                                             >
-                                                <PulseTag status="live" label="LOCKING IDENTITY" className="mb-4" />
-                                                <h3 className="font-clash font-bold text-3xl" style={{ color: identity.color }}>{identity.label} CONFIRMED</h3>
+                                                <PulseTag status="live" label="CONFIRMING ROLE" className="mb-4" />
+                                                <h3 className="font-clash font-bold text-3xl" style={{ color: identity.color }}>{identity.label} SELECTED</h3>
                                             </motion.div>
                                         )}
                                     </BentoCard>
