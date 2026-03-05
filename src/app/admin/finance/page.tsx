@@ -1,5 +1,5 @@
 "use client";
-import { BentoCard, ForgeButton } from "@/components/forge";
+import { BentoCard } from "@/components/forge";
 export default function FinancePage() {
     return (
         <div className="min-h-screen bg-obsidian text-white/90 font-sans">

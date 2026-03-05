@@ -15,14 +15,10 @@ interface ForgeButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-    primary:
-        "bg-lime text-obsidian shadow-sm hover:shadow-glow",
-    secondary:
-        "bg-white/5 text-slate-100 border border-white/10 backdrop-blur-md hover:border-lime/40 hover:bg-lime/5 hover:text-lime",
-    ghost:
-        "bg-transparent text-slate-300 hover:text-lime hover:bg-lime/5",
-    danger:
-        "bg-acid/10 text-acid border border-acid/20 hover:bg-acid/20 hover:border-acid/40 hover:shadow-glow-acid",
+    primary: "bg-lime text-obsidian border border-lime/20 shadow-[0_0_15px_rgba(204,255,0,0.2)] hover:shadow-[0_0_30px_rgba(204,255,0,0.4)] hover:-translate-y-1 hover:bg-white",
+    secondary: "bg-obsidian border border-white/10 text-white hover:border-lime/50 hover:text-lime hover:bg-lime/5 hover:-translate-y-1",
+    ghost: "bg-transparent text-slate-300 hover:text-lime hover:bg-lime/5",
+    danger: "bg-acid/10 text-acid border border-acid/20 hover:bg-acid/20 hover:border-acid/40 hover:shadow-glow-acid",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

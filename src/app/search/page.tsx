@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { BentoCard, ForgeButton, PulseTag, GlitchText } from "@/components/forge";
+import { BentoCard, PulseTag, GlitchText, RenderIcon } from "@/components/forge";
 import { useState } from "react";
 import Link from "next/link";
 import { IconSearch, IconClose, IconTerminal } from "@/components/icons";
@@ -52,7 +52,7 @@ export default function SearchPage() {
                             {CATEGORIES.map(cat => (
                                 <motion.button key={cat} whileTap={{ scale: 0.95 }} onClick={() => setActiveCategory(cat)}
                                     className={`px-4 py-2 font-mono text-xs uppercase tracking-widest rounded-bento-sm border transition-all ${activeCategory === cat ? "bg-lime/10 border-lime/40 text-lime shadow-glow" : "border-white/10 text-white/40 hover:text-white hover:border-white/20"}`}>
-                                    {TYPE_ICONS[cat] && <span className="mr-1">{TYPE_ICONS[cat]}</span>}{cat}
+                                    {TYPE_ICONS[cat] && <RenderIcon name={TYPE_ICONS[cat]} className="w-3 h-3 mr-2 inline-block" />}{cat}
                                 </motion.button>
                             ))}
                         </div>
@@ -73,7 +73,9 @@ export default function SearchPage() {
                                 <Link href={r.id.startsWith("user") ? "/ship-log/0xNeo" : r.id.startsWith("bounty") ? `/bounties/${r.id}` : `/project/${r.id}`}>
                                     <BentoCard className="p-6 flex flex-col md:flex-row md:items-center gap-6 hover:border-lime/30 cursor-pointer group transition-all">
                                         <div className="flex items-center gap-4 flex-shrink-0">
-                                            <span className="text-2xl">{TYPE_ICONS[r.type] || "IconPalette"}</span>
+                                            <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                                                <RenderIcon name={TYPE_ICONS[r.type] || "IconPalette"} className="w-5 h-5 text-lime" />
+                                            </div>
                                             <PulseTag status={r.status} />
                                         </div>
                                         <div className="flex-1">
@@ -114,7 +116,7 @@ export default function SearchPage() {
                     ].map(link => (
                         <Link key={link.href} href={link.href}>
                             <BentoCard className="p-5 text-center hover:border-lime/30 cursor-pointer group">
-                                <span className="text-2xl">{link.icon}</span>
+                                <RenderIcon name={link.icon} className="w-6 h-6 mx-auto text-white/40 group-hover:text-lime transition-colors mb-2" />
                                 <p className="font-clash font-bold text-sm mt-2 group-hover:text-lime transition-colors">{link.label}</p>
                             </BentoCard>
                         </Link>

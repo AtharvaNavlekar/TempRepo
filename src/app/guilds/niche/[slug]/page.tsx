@@ -1,5 +1,5 @@
 "use client";
-import { BentoCard, ForgeButton, GlitchText, PulseTag } from "@/components/forge";
+import { BentoCard, ForgeButton, GlitchText } from "@/components/forge";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 const NICHE_DATA: Record<string, { title: string; icon: string; description: string; members: number; projects: number; featured: string[] }> = {

@@ -1,5 +1,5 @@
 "use client";
-import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
+import { BentoCard, ForgeButton } from "@/components/forge";
 import { motion } from "framer-motion";
 
 const FLAGGED_USERS = [

@@ -1,5 +1,5 @@
 "use client";
-import { BentoCard, ForgeButton, ShipScoreCounter } from "@/components/forge";
+import { BentoCard } from "@/components/forge";
 import { motion } from "framer-motion";
 
 const CONTRACTS = [

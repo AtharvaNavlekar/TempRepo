@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BentoCard, ForgeButton, GlitchText, PulseTag } from "@/components/forge";
+import { BentoCard, ForgeButton, GlitchText } from "@/components/forge";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconRocket } from "@/components/icons";
+
 const TEMPLATES = [
     { key: "code-lab", label: "Code Lab", icon: "IconShipScore", desc: "Full-stack development with CI/CD pipelines" },
     { key: "design-studio", label: "Design Studio", icon: "IconPalette", desc: "Visual design with Figma sync & handoff tools" },

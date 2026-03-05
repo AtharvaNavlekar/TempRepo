@@ -6,6 +6,7 @@ import { TerminalBlock, ForgeButton, PulseTag } from "@/components/forge";
 import { motion, AnimatePresence } from "framer-motion";
 import { Suspense } from "react";
 import { IconSuccess } from "@/components/icons";
+import { useCollabRiseStore } from "@/store/store";
 
 const SCRAPE_LOGS_TECH = [
     "// INITIATING PROFILE IMPORT...",
@@ -45,6 +46,7 @@ function ScraperConsoleContent() {
 
     const [progress, setProgress] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const setScore = useCollabRiseStore(state => state.setScore);
 
     // Select logs based on identity
     const logsToUse = role === "creative" ? SCRAPE_LOGS_CREATIVE : SCRAPE_LOGS_TECH;
@@ -77,6 +79,8 @@ function ScraperConsoleContent() {
                 clearInterval(logInterval);
                 setIsComplete(true);
                 setProgress(100);
+                // Set initial score based on role
+                setScore(role === "creative" ? 910 : 842);
             }
         }, 400);
 
@@ -84,7 +88,7 @@ function ScraperConsoleContent() {
             clearInterval(progressInterval);
             clearInterval(logInterval);
         };
-    }, [logsToUse]);
+    }, [logsToUse, role, setScore]);
 
     return (
         <div className="min-h-screen bg-obsidian flex flex-col items-center justify-center p-6 relative">

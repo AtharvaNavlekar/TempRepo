@@ -16,7 +16,7 @@ export default function RenderIcon({ name, className = "" }: RenderIconProps) {
     if (!name) return null;
 
     // Get the icon component from the library
-    const IconComponent = (Icons as any)[name];
+    const IconComponent = (Icons as Record<string, React.ComponentType<{ className?: string }>>)[name];
 
     if (!IconComponent) {
         console.warn(`[RenderIcon] Icon "${name}" not found in @/components/icons`);

@@ -134,7 +134,7 @@ export default function Navbar() {
                             <Link href="/auth/login" className="font-clash font-semibold text-sm text-white/70 hover:text-white transition-colors">
                                 Sign In
                             </Link>
-                            <Link href="/onboard">
+                            <Link href="/onboard/identity">
                                 <ForgeButton variant="primary" size="sm">
                                     Get Started
                                 </ForgeButton>

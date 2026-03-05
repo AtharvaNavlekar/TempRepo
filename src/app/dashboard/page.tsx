@@ -11,6 +11,8 @@ const MOCK_PROJECTS = [
 
 export default function DashboardPage() {
     const shipScore = useCollabRiseStore(state => state.shipScore);
+    const identity = useCollabRiseStore(state => state.identity);
+    const selectedGuilds = useCollabRiseStore(state => state.selectedGuilds);
     const pulseEvents = useCollabRiseStore(state => state.pulseEvents);
 
     return (
@@ -21,10 +23,10 @@ export default function DashboardPage() {
                 <div>
                     <PulseTag status="live" label="WELCOME TO THE FORGE" className="mb-4" />
                     <h1 className="font-clash font-black text-4xl md:text-5xl text-white">
-                        Builder_0x7A9
+                        {identity ? `Builder_${identity.split(' ')[0]}` : "Builder_0x7A9"}
                     </h1>
                     <p className="font-mono text-white/50 text-sm mt-2">
-                        Identity: ENGINEER // Guilds: React, Neural Ops
+                        Identity: {identity || "ENGINEER"} {"//"} Guilds: {selectedGuilds.length > 0 ? selectedGuilds.join(", ") : "React, Neural Ops"}
                     </p>
                 </div>
 

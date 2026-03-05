@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ForgeButton, BentoCard, PulseTag } from "@/components/forge";
 import { IconSuccess } from "@/components/icons";
+import { useCollabRiseStore } from "@/store/store";
 
 const GUILDS = [
     { id: "react", name: "The React Core", memberCount: 1420, vibe: "#CCFF00" },
@@ -19,6 +20,7 @@ export default function GuildSelectionPage() {
     const router = useRouter();
     const [selectedGuilds, setSelectedGuilds] = useState<string[]>([]);
     const [search, setSearch] = useState("");
+    const setStoreGuilds = useCollabRiseStore(state => state.setSelectedGuilds);
 
     const filteredGuilds = GUILDS.filter(g => g.name.toLowerCase().includes(search.toLowerCase()));
 
@@ -29,6 +31,8 @@ export default function GuildSelectionPage() {
     };
 
     const handleComplete = () => {
+        const guildNames = selectedGuilds.map(id => GUILDS.find(g => g.id === id)?.name || id);
+        setStoreGuilds(guildNames);
         router.push("/dashboard");
     };
 

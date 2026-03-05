@@ -17,10 +17,10 @@ interface BentoCardProps extends Omit<HTMLMotionProps<"div">, "children"> {
 }
 
 const accentBorders: Record<AccentColor, string> = {
-    lime: "hover:border-lime hover:shadow-glow",
-    cyber: "hover:border-cyber hover:shadow-glow-cyber",
-    acid: "hover:border-acid hover:shadow-glow-acid",
-    default: "hover:border-white/20 hover:shadow-lg",
+    lime: "hover:border-lime/30 group-hover:shadow-[0_0_25px_rgba(204,255,0,0.15)]",
+    cyber: "hover:border-cyber/30 group-hover:shadow-[0_0_25px_rgba(138,43,226,0.15)]",
+    acid: "hover:border-acid/30 group-hover:shadow-[0_0_25px_rgba(255,0,255,0.15)]",
+    default: "hover:border-white/10 hover:shadow-lg",
 };
 
 const colSpanMap: Record<number, string> = {

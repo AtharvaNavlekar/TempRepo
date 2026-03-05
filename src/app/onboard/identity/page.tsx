@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { BentoCard, GlitchText, PulseTag } from "@/components/forge";
+import { useCollabRiseStore } from "@/store/store";
 
 const IDENTITIES = [
     {
@@ -40,9 +41,12 @@ export default function IdentitySelectionPage() {
     const router = useRouter();
     const [hoveredId, setHoveredId] = useState<string | null>(null);
     const [selectedId, setSelectedId] = useState<string | null>(null);
+    const setIdentity = useCollabRiseStore(state => state.setIdentity);
 
     const handleSelect = (id: string) => {
         setSelectedId(id);
+        const label = IDENTITIES.find(i => i.id === id)?.label || id;
+        setIdentity(label);
         setTimeout(() => {
             router.push(`/onboard/scraper?role=${id}`);
         }, 1200);
@@ -60,7 +64,7 @@ export default function IdentitySelectionPage() {
 
                 <div className="mb-12">
                     <p className="font-mono text-white/50 text-sm tracking-widest uppercase mb-4">Step 1 // Choose Your Path</p>
-                    <GlitchText text="SELECT YOUR" className="text-4xl md:text-6xl font-black text-white" speed="slow" />
+                    <GlitchText text="SELECT YOUR " className="text-4xl md:text-6xl font-black text-white" speed="slow" />
                     <GlitchText text="PRIMARY ROLE." className="text-4xl md:text-6xl font-black text-white" speed="slow" />
                 </div>
 
