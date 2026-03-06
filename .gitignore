@@ -31,7 +31,7 @@ client/.env.local
 server/.env
 
 # Local database store
-server/data/users.json
+# server/data/users.json
 
 # misc
 .DS_Store

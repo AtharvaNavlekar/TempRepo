@@ -1,0 +1,98 @@
+[
+  {
+    "id": "0038d02f-1667-459f-8a16-9c4d98bb7886",
+    "type": "builder",
+    "fullName": "Atharva Navlekar",
+    "email": "thenavlekar@gmail.com",
+    "passwordHash": "$2b$12$te.9p9ooUcdFSRbgFkM3zeqXvjJAdOUzdU.e8gwPsLkpSOjkRcxmW",
+    "handle": "thenavlekar",
+    "country": "India",
+    "createdAt": "2026-03-06T07:15:29.843Z",
+    "updatedAt": "2026-03-06T07:15:29.843Z",
+    "isVerified": false,
+    "referralSource": "LinkedIn",
+    "newsletterSubscribed": true,
+    "profile": {
+      "craft": "Full-Stack Developer",
+      "experienceLevel": "mid",
+      "yearsOfExperience": 0,
+      "skills": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "MongoDB",
+        "Docker",
+        "TailwindCSS"
+      ],
+      "githubUrl": "https://github.com/AtharvaNavlekar",
+      "portfolioUrl": "https://thenavlekar.netlify.app/",
+      "employmentStatus": "freelancing",
+      "openToBounties": true,
+      "minBountyReward": 1000,
+      "preferredProjectLength": [
+        "< 1 week"
+      ],
+      "workPreference": "remote",
+      "availability": 20,
+      "manifesto": "dfgghjklasdfghjkllkjtrewqwertyjbvcx",
+      "commitmentLevel": "builder",
+      "guilds": [
+        "⚡ React Guild",
+        "🎨 Design Guild",
+        "🔧 Backend Guild",
+        "🔒 Security Guild"
+      ],
+      "bestProject": "Lecture Manager"
+    }
+  },
+  {
+    "id": "b6352bc1-4a0d-4501-a613-509b3655c876",
+    "type": "builder",
+    "fullName": "shobha",
+    "email": "shobha008@gmail.com",
+    "passwordHash": "$2b$12$Qc1xxZ4V419VXijQjFPbc.vFcdbOeFs6xbNyvqz98SuPZofNXEd7.",
+    "handle": "shobha_008",
+    "country": "India",
+    "createdAt": "2026-03-05T15:43:52.390Z",
+    "updatedAt": "2026-03-05T18:31:31.612Z",
+    "isVerified": false,
+    "referralSource": "Friend Referral",
+    "newsletterSubscribed": true,
+    "profile": {
+      "craft": "Full-Stack Developer",
+      "experienceLevel": "beginner",
+      "yearsOfExperience": 1,
+      "skills": [
+        "React",
+        "Next.js",
+        "Python",
+        "Node.js",
+        "Docker",
+        "MongoDB",
+        "PostgreSQL",
+        "TypeScript",
+        "TailwindCSS"
+      ],
+      "githubUrl": "https://github.com/shobhabagleinfeno",
+      "portfolioUrl": "",
+      "employmentStatus": "open",
+      "openToBounties": true,
+      "minBountyReward": 100,
+      "preferredProjectLength": [
+        "< 1 week",
+        "1–2 weeks",
+        "6+ months"
+      ],
+      "workPreference": "remote",
+      "availability": 18,
+      "manifesto": "I can build SaaS Products using AI / Vibe Coding ",
+      "commitmentLevel": "builder",
+      "guilds": [
+        "⚡ React Guild"
+      ],
+      "bestProject": "QuT"
+    }
+  }
+]
