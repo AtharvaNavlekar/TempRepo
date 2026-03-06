@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useCollabRiseStore } from "@/store/store";
 import type { PublicUser, BuilderProfile } from "@/lib/types";
 import { apiFetch } from "@/lib/api";
 import EditProfileModal from "@/components/profile/EditProfileModal";
@@ -11,8 +10,10 @@ import { GitHubCalendar } from "react-github-calendar";
 import Link from "next/link";
 import {
     ArrowRight, Star, GitCommit, ExternalLink, Plus, Pencil,
-    Zap, Award, Clock, Globe, ChevronRight, Gem
+    Zap, Award, Clock, Globe, ChevronRight, Gem, AlertCircle
 } from "lucide-react";
+import { useGitHubActivity } from "@/hooks/useGitHubActivity";
+import { useCollabRiseStore } from "@/store/store";
 
 const FadeUp = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
     <motion.div
@@ -25,14 +26,28 @@ const FadeUp = ({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 );
 
 export default function DashboardPage() {
-    const shipScore = useCollabRiseStore(state => state.shipScore);
-    const pulseEvents = useCollabRiseStore(state => state.pulseEvents);
-
+    const { shipScore, user, pulseEvents } = useCollabRiseStore();
     const [selectedYear, setSelectedYear] = useState(2026);
     const [fullUser, setFullUser] = useState<PublicUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+
+    // Dynamic GitHub Data
+    const isBuilder = fullUser?.type === "builder";
+    const profile = (fullUser?.profile || {}) as Partial<BuilderProfile>;
+
+    let githubUsername: string | null = null;
+    if (isBuilder && profile.githubUrl) {
+        try {
+            const url = new URL(profile.githubUrl);
+            githubUsername = url.pathname.split("/").filter(Boolean)[0] || null;
+        } catch (e) {
+            githubUsername = profile.githubUrl.replace("https://github.com/", "").replace("/", "");
+        }
+    }
+
+    const { activity, loading: githubLoading } = useGitHubActivity(githubUsername || "", selectedYear);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -85,18 +100,7 @@ export default function DashboardPage() {
         );
     }
 
-    const isBuilder = fullUser.type === "builder";
-    const profile = fullUser.profile as Partial<BuilderProfile>;
-
-    let githubUsername: string | null = null;
-    if (isBuilder && profile.githubUrl) {
-        try {
-            const url = new URL(profile.githubUrl);
-            githubUsername = url.pathname.split("/").filter(Boolean)[0] || null;
-        } catch (e) {
-            githubUsername = profile.githubUrl.replace("https://github.com/", "").replace("/", "");
-        }
-    }
+    // Derived states moved up to allow hook usage
 
     const STATS = [
         { label: "Venture Score", value: String(shipScore), icon: <Star size={14} style={{ color: "#C9A353" }} /> },
@@ -307,62 +311,81 @@ export default function DashboardPage() {
                                     <div style={{ position: "relative", paddingLeft: 32 }}>
                                         <div style={{ position: "absolute", left: 11, top: 0, bottom: 0, width: 1, background: "rgba(13,13,13,.06)" }}></div>
 
-                                        <div style={{ marginBottom: 32, position: "relative" }}>
-                                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13, background: "var(--cream)", display: "inline-block", paddingRight: 12, color: "var(--ink)" }}>
-                                                {selectedYear === 2026 ? "March" : "December"} <span style={{ fontWeight: 400, color: "var(--smoke)" }}>{selectedYear}</span>
-                                            </p>
-                                            <div style={{ height: 1, background: "rgba(13,13,13,.08)", position: "absolute", top: 10, left: 80, right: 0, zIndex: -1 }}></div>
-                                        </div>
-
-                                        {/* Commits */}
-                                        <div style={{ marginBottom: 40, position: "relative" }}>
-                                            <div style={{ position: "absolute", left: -32, top: 0, width: 22, height: 22, borderRadius: "50%", background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
-                                                <GitCommit size={12} style={{ color: "var(--smoke)" }} />
+                                        {githubLoading ? (
+                                            <div style={{ padding: "20px 0", color: "var(--smoke)", fontSize: 13, display: "flex", alignItems: "center", gap: 8 }}>
+                                                <div className="animate-spin" style={{ width: 12, height: 12, border: "2px solid #C9A353", borderTopColor: "transparent", borderRadius: "50%" }}></div>
+                                                Refining real-time data...
                                             </div>
-                                            <h4 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginBottom: 12 }}>Created {selectedYear === 2026 ? "61" : "24"} commits in {selectedYear === 2026 ? "3" : "2"} repositories</h4>
-                                            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                                                {[
-                                                    { name: "AtharvaNavlekar/Real-Estate-Mumbai", count: selectedYear === 2026 ? 47 : 18, percent: 80 },
-                                                    { name: "AtharvaNavlekar/TempRepo", count: selectedYear === 2026 ? 13 : 6, percent: 20 },
-                                                    ...(selectedYear === 2026 ? [{ name: "AtharvaNavlekar/CollabRise", count: 1, percent: 5 }] : [])
-                                                ].map(repo => (
-                                                    <div key={repo.name} style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                                                        <Link href="#" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "#C9A353", textDecoration: "none", flex: 1, fontWeight: 500 }}>{repo.name}</Link>
-                                                        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                                            <span style={{ fontSize: 12, color: "var(--smoke)", minWidth: 60, textAlign: "right" }}>{repo.count} commits</span>
-                                                            <div style={{ width: 100, height: 5, background: "rgba(13,13,13,.04)", borderRadius: 3, overflow: "hidden" }}>
-                                                                <div style={{ width: `${repo.percent}%`, height: "100%", background: "#C9A353" }}></div>
-                                                            </div>
+                                        ) : activity ? (
+                                            <>
+                                                <div style={{ marginBottom: 24, position: "relative" }}>
+                                                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13, background: "var(--cream)", display: "inline-block", paddingRight: 12, color: "var(--ink)" }}>
+                                                        {activity.month} <span style={{ fontWeight: 400, color: "var(--smoke)" }}>{selectedYear}</span>
+                                                    </p>
+                                                    <div style={{ height: 1, background: "rgba(13,13,13,.08)", position: "absolute", top: 10, left: 80, right: 0, zIndex: -1 }}></div>
+                                                </div>
+
+                                                {/* Commits */}
+                                                {activity.commitCount > 0 && (
+                                                    <div style={{ marginBottom: 32, position: "relative" }}>
+                                                        <div style={{ position: "absolute", left: -32, top: 0, width: 22, height: 22, borderRadius: "50%", background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
+                                                            <GitCommit size={12} style={{ color: "var(--smoke)" }} />
+                                                        </div>
+                                                        <h4 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginBottom: 12 }}>Created {activity.commitCount} commits in {activity.repoCount} repositories</h4>
+                                                        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                                                            {activity.commitsByRepo.map(repo => (
+                                                                <div key={repo.name} style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                                                                    <Link href={`https://github.com/${repo.name}`} target="_blank" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "#C9A353", textDecoration: "none", flex: 1, fontWeight: 500 }}>{repo.name}</Link>
+                                                                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                                                        <span style={{ fontSize: 12, color: "var(--smoke)", minWidth: 60, textAlign: "right" }}>{repo.count} commits</span>
+                                                                        <div style={{ width: 100, height: 5, background: "rgba(13,13,13,.04)", borderRadius: 3, overflow: "hidden" }}>
+                                                                            <div style={{ width: `${repo.percent}%`, height: "100%", background: "#C9A353" }}></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
                                                         </div>
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </div>
+                                                )}
 
-                                        {/* Repos */}
-                                        <div style={{ marginBottom: 20, position: "relative" }}>
-                                            <div style={{ position: "absolute", left: -32, top: 0, width: 22, height: 22, borderRadius: "50%", background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
-                                                <Plus size={12} style={{ color: "var(--smoke)" }} />
-                                            </div>
-                                            <h4 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginBottom: 12 }}>Created {selectedYear === 2026 ? "3" : "1"} repositories</h4>
-                                            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                                                {[
-                                                    { name: "AtharvaNavlekar/TempRepo", lang: "TypeScript", color: "#3178c6" },
-                                                    ...(selectedYear === 2026 ? [
-                                                        { name: "AtharvaNavlekar/CollabRise", lang: "JavaScript", color: "#f1e05a" },
-                                                        { name: "AtharvaNavlekar/Real-Estate-Mumbai", lang: "TypeScript", color: "#3178c6" }
-                                                    ] : [])
-                                                ].map(repo => (
-                                                    <div key={repo.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                                                        <Link href="#" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "#C9A353", textDecoration: "none", fontWeight: 500 }}>{repo.name}</Link>
-                                                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                                            <div style={{ width: 10, height: 10, borderRadius: "50%", background: repo.color }}></div>
-                                                            <span style={{ fontSize: 12, color: "var(--smoke)" }}>{repo.lang}</span>
+                                                {/* Repos */}
+                                                {activity.newRepos.length > 0 && (
+                                                    <div style={{ marginBottom: 20, position: "relative" }}>
+                                                        <div style={{ position: "absolute", left: -32, top: 0, width: 22, height: 22, borderRadius: "50%", background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
+                                                            <Plus size={12} style={{ color: "var(--smoke)" }} />
+                                                        </div>
+                                                        <h4 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginBottom: 12 }}>Created {activity.newRepos.length} repositories</h4>
+                                                        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                                                            {activity.newRepos.map(repo => (
+                                                                <div key={repo.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                                                    <Link href={`https://github.com/${repo.name}`} target="_blank" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "#C9A353", textDecoration: "none", fontWeight: 500 }}>{repo.name}</Link>
+                                                                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                                                        <div style={{ width: 10, height: 10, borderRadius: "50%", background: repo.color }}></div>
+                                                                        <span style={{ fontSize: 12, color: "var(--smoke)" }}>{repo.lang}</span>
+                                                                        <span style={{ fontSize: 11, color: "rgba(13,13,13,.2)" }}>{repo.date}</span>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
                                                         </div>
                                                     </div>
-                                                ))}
+                                                )}
+
+                                                {activity.commitCount === 0 && activity.newRepos.length === 0 && (
+                                                    <div style={{ padding: "20px 0", color: "var(--smoke)", fontSize: 13, fontStyle: "italic" }}>
+                                                        No contribution events found in this period.
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <div style={{ padding: "24px", background: "rgba(13,13,13,.02)", borderRadius: 12, border: "1px dashed rgba(13,13,13,.1)", textAlign: "center" }}>
+                                                <AlertCircle size={16} style={{ color: "var(--smoke)", margin: "0 auto 8px", opacity: 0.5 }} />
+                                                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>
+                                                    {selectedYear < 2026
+                                                        ? `GitHub historic events for ${selectedYear} are no longer available via public API.`
+                                                        : "No recent activity found. Start shipping to see your logs!"}
+                                                </p>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </div>
                             </FadeUp>
