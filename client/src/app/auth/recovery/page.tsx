@@ -2,107 +2,74 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ForgeButton, BentoCard, TerminalBlock } from "@/components/forge";
 import { motion } from "framer-motion";
+import { Check } from "lucide-react";
 
 export default function PasswordRecoveryPage() {
     const [step, setStep] = useState<1 | 2>(1);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
-    const [terminalLogs, setTerminalLogs] = useState<string[]>([
-        "Initializing password reset...",
-        "Awaiting email address input...",
-    ]);
 
     const handleRequestReset = (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setTerminalLogs(prev => [...prev, `> Searching for account [${email}]...`]);
+        setTimeout(() => { setLoading(false); setStep(2); }, 2000);
+    };
 
-        setTimeout(() => {
-            setTerminalLogs(prev => [
-                ...prev,
-                "[OK] Account found.",
-                "Sending reset link to your email."
-            ]);
-            setLoading(false);
-            setStep(2);
-        }, 2000);
+    const inputStyle: React.CSSProperties = {
+        width: "100%", padding: "14px 18px",
+        background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)",
+        borderRadius: 12, fontFamily: "'DM Sans',sans-serif", fontSize: 14,
+        color: "var(--ink)", outline: "none", transition: "border-color .2s"
     };
 
     return (
-        <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center p-6 relative">
-            <div className="w-full max-w-xl relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
-                >
-                    <BentoCard className="p-8 md:p-10 border-acid/30">
-                        <div className="mb-8 border-b border-white/10 pb-6">
-                            <h1 className="font-clash font-bold text-3xl text-white mb-2 uppercase tracking-wide">
-                                Reset Password
-                            </h1>
-                            <p className="font-mono text-white/50 text-sm">
-                                Please enter your email address to request a password reset.
-                            </p>
-                        </div>
+        <div className="luxury-page" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 600, height: 400, background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,163,83,.08), transparent 70%)", pointerEvents: "none" }} />
 
-                        <div className="mb-8">
-                            <TerminalBlock lines={terminalLogs} typingSpeed={30} className="w-full bg-black/60 border-acid/20 text-acid/90 shadow-[0_0_15px_rgba(255,0,255,0.1)]" />
-                        </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: 460, padding: "0 24px" }}>
+                <div style={{ background: "#fff", borderRadius: 20, border: "1px solid rgba(13,13,13,.06)", padding: "48px 40px", boxShadow: "0 8px 40px rgba(13,13,13,.06)" }}>
+                    <div style={{ marginBottom: 32, paddingBottom: 24, borderBottom: "1px solid rgba(13,13,13,.08)" }}>
+                        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.7rem", fontWeight: 400, color: "var(--ink)", marginBottom: 8 }}>Reset Password</h1>
+                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", lineHeight: 1.7 }}>
+                            Enter your email address and we&apos;ll send you a link to reset your password.
+                        </p>
+                    </div>
 
-                        {step === 1 ? (
-                            <form onSubmit={handleRequestReset} className="space-y-6">
-                                <div className="space-y-2">
-                                    <label className="font-mono text-xs text-white/70 tracking-widest uppercase">
-                                        Email Address
-                                    </label>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="builder@edge.net"
-                                        className="w-full bg-black/50 border border-white/10 focus:border-acid rounded-bento-sm px-4 py-3 font-mono text-white placeholder:text-white/20 outline-none transition-colors duration-300 focus:shadow-[0_0_10px_rgba(255,0,255,0.2)]"
-                                        required
-                                    />
-                                </div>
-
-                                <ForgeButton
-                                    type="submit"
-                                    className="w-full py-4 bg-acid text-black hover:bg-white hover:text-black border-none"
-                                    loading={loading}
-                                >
-                                    Send Reset Link
-                                </ForgeButton>
-                            </form>
-                        ) : (
-                            <div className="space-y-6 text-center py-6">
-                                <div className="w-16 h-16 rounded-full bg-acid/20 border border-acid text-acid flex items-center justify-center mx-auto mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <h3 className="font-clash font-bold text-xl text-white">Link Sent</h3>
-                                <p className="font-mono text-sm text-white/60 leading-relaxed max-w-sm mx-auto">
-                                    Check your email for the password reset link. The link will expire in 15 minutes.
-                                </p>
-                                <Link href="/auth/login" className="inline-block mt-4">
-                                    <ForgeButton variant="ghost" className="text-acid hover:text-white border-acid/30">
-                                        Back to Log In
-                                    </ForgeButton>
-                                </Link>
+                    {step === 1 ? (
+                        <form onSubmit={handleRequestReset} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                            <div>
+                                <label style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: ".16em", textTransform: "uppercase", color: "rgba(13,13,13,.35)", display: "block", marginBottom: 8 }}>Email Address</label>
+                                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="founder@venture.net" required
+                                    style={inputStyle}
+                                    onFocus={e => (e.currentTarget.style.borderColor = "#C9A353")}
+                                    onBlur={e => (e.currentTarget.style.borderColor = "rgba(13,13,13,.1)")}
+                                />
                             </div>
-                        )}
+                            <button type="submit" className="btn-primary" disabled={loading} style={{ width: "100%", justifyContent: "center", padding: "14px 0", opacity: loading ? 0.6 : 1 }}>
+                                {loading ? "Sending..." : "Send Reset Link"}
+                            </button>
+                        </form>
+                    ) : (
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} style={{ textAlign: "center", padding: "24px 0" }}>
+                            <div style={{ width: 56, height: 56, borderRadius: "50%", background: "rgba(91,138,111,.1)", border: "1px solid rgba(91,138,111,.2)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+                                <Check size={24} style={{ color: "#5B8A6F" }} />
+                            </div>
+                            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontWeight: 400, color: "var(--ink)", marginBottom: 8 }}>Link Sent</h3>
+                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", lineHeight: 1.7, marginBottom: 24 }}>
+                                Check your email for the reset link. It expires in 15 minutes.
+                            </p>
+                            <Link href="/auth/login" className="btn-secondary" style={{ display: "inline-flex" }}>Back to Sign In</Link>
+                        </motion.div>
+                    )}
 
-                        <div className="mt-8 text-center">
-                            <Link href="/auth/login" className="font-mono text-[10px] text-white/30 hover:text-white transition-colors uppercase tracking-widest flex items-center justify-center gap-2">
-                                <span>← Back to Log In</span>
-                            </Link>
-                        </div>
-                    </BentoCard>
-                </motion.div>
-            </div>
+                    <div style={{ marginTop: 28, textAlign: "center" }}>
+                        <Link href="/auth/login" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)", textDecoration: "none" }}>
+                            ← Back to Sign In
+                        </Link>
+                    </div>
+                </div>
+            </motion.div>
         </div>
     );
 }

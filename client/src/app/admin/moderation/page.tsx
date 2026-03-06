@@ -1,30 +1,15 @@
 "use client";
-import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
-import { motion } from "framer-motion";
-
-const FLAGGED_USERS = [
-    { name: "ShadowDev42", reason: "Suspected project plagiarism", reports: 3, status: "staked" as const },
-    { name: "GhostBuilder", reason: "Abandoned 5 War Rooms in 30 days", reports: 1, status: "staked" as const },
-    { name: "FakeDesigner", reason: "Using AI-generated portfolio passed as original work", reports: 7, status: "building" as const },
+const REPORTS = [
+    { user: "@toxic_user_99", reason: "Harassment in guild chat", reporter: "@0xAlice", date: "Mar 5", severity: "High" },
+    { user: "@spambot_3", reason: "Automated spam messages", reporter: "System", date: "Mar 4", severity: "Medium" },
+    { user: "@bad_actor_7", reason: "Fake portfolio submissions", reporter: "@CryptoMage", date: "Mar 3", severity: "High" },
 ];
-
-export default function ModerationPage() {
+const SEV_C: Record<string, string> = { High: "rgba(180,60,60,.7)", Medium: "#C9A353", Low: "#5B8A6F" };
+export default function Page() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-5xl mx-auto px-6 py-32">
-                <h1 className="font-clash font-bold text-4xl mb-2 text-acid">User Moderation</h1>
-                <p className="font-mono text-white/50 mb-12">Flagged accounts pending admin review.</p>
-                <div className="space-y-4">
-                    {FLAGGED_USERS.map((u, i) => (
-                        <motion.div key={u.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                            <BentoCard accent="saffron" className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <div><h3 className="font-clash font-bold text-lg text-acid">{u.name}</h3><p className="font-mono text-xs text-white/40">{u.reason}</p><p className="font-mono text-xs text-white/30 mt-1">{u.reports} report(s)</p></div>
-                                <div className="flex items-center gap-3"><ForgeButton variant="ghost" size="sm">DISMISS</ForgeButton><ForgeButton variant="danger" size="sm">BAN</ForgeButton></div>
-                            </BentoCard>
-                        </motion.div>
-                    ))}
-                </div>
-            </main>
-        </div>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Admin</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}>User <em className="gold-shimmer-text">Moderation</em></h1></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                {REPORTS.map(r => (<div key={r.user} className="luxury-card" style={{ padding: 20, marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}><div><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{r.user}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>{r.reason}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "rgba(13,13,13,.25)", marginTop: 4 }}>Reported by {r.reporter} · {r.date}</p></div><div style={{ display: "flex", gap: 10, alignItems: "center" }}><span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, color: SEV_C[r.severity] }}>{r.severity}</span><button className="btn-secondary" style={{ fontSize: 11, padding: "6px 14px" }}>Action</button></div></div>))}
+            </div></div>
     );
 }

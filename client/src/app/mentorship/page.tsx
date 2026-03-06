@@ -1,33 +1,18 @@
 "use client";
-import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
 import { motion } from "framer-motion";
-
+import { GraduationCap, Star } from "lucide-react";
 const MENTORS = [
-    { name: "GuildMaster_Kai", expertise: "React Architecture", score: 12000, mentees: 8, status: "live" as const },
-    { name: "SeniorDev_Luna", expertise: "Rust & Systems", score: 9500, mentees: 5, status: "shipped" as const },
-    { name: "DesignSensei", expertise: "Product Design", score: 11000, mentees: 12, status: "live" as const },
+    { name: "Sarah Chen", expertise: "System Architecture", rating: 4.9, sessions: 142, price: "$80/hr", avatar: "S" },
+    { name: "Marcus Johnson", expertise: "Product Strategy", rating: 4.8, sessions: 89, price: "$65/hr", avatar: "M" },
+    { name: "Yuki Tanaka", expertise: "Design Leadership", rating: 4.9, sessions: 201, price: "$90/hr", avatar: "Y" },
 ];
-
 export default function MentorshipPage() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-5xl mx-auto px-6 py-32">
-                <h1 className="font-clash font-bold text-5xl mb-2">Mentorship Hub</h1>
-                <p className="font-mono text-white/50 mb-12">Connect with high-score Guild Masters. Learn from builders who have shipped.</p>
-                <div className="space-y-6">
-                    {MENTORS.map((m, i) => (
-                        <motion.div key={m.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                            <BentoCard className="p-8 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-lime/40">
-                                <div className="flex items-center gap-6">
-                                    <div className="w-14 h-14 bg-lime/10 border border-lime/30 rounded-full flex items-center justify-center font-clash font-bold text-xl text-lime">{m.name[0]}</div>
-                                    <div><h3 className="font-clash font-bold text-xl">{m.name}</h3><p className="font-mono text-xs text-white/40">{m.expertise} · {m.mentees} active mentees</p><PulseTag status={m.status} className="mt-2" /></div>
-                                </div>
-                                <div className="flex items-center gap-6"><div className="text-right"><p className="font-clash font-bold text-2xl text-lime">{m.score.toLocaleString()}</p><p className="font-mono text-[10px] text-white/30">SHIP SCORE</p></div><ForgeButton variant="primary" size="sm">REQUEST MENTORSHIP</ForgeButton></div>
-                            </BentoCard>
-                        </motion.div>
-                    ))}
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Growth</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}><GraduationCap size={24} style={{ display: "inline", marginRight: 10, color: "#C9A353" }} /><em className="gold-shimmer-text">Mentorship</em></h1><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", marginTop: 8 }}>Connect with experienced founders and get guidance on your journey.</p></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }}>
+                    {MENTORS.map((m, i) => (<motion.div key={m.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}><div className="luxury-card" style={{ padding: 28, textAlign: "center" }}><div style={{ width: 56, height: 56, borderRadius: "50%", background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.15)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Playfair Display',serif", fontSize: "1.3rem", color: "#8B6B1A", margin: "0 auto 14px" }}>{m.avatar}</div><h3 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 16, color: "var(--ink)", marginBottom: 4 }}>{m.name}</h3><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)", marginBottom: 8 }}>{m.expertise}</p><div style={{ display: "flex", justifyContent: "center", gap: 2, marginBottom: 8 }}>{Array.from({ length: 5 }).map((_, j) => <Star key={j} size={12} fill="#C9A353" style={{ color: "#C9A353" }} />)}</div><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)", marginBottom: 14 }}>{m.sessions} sessions · {m.rating} rating</p><div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", fontStyle: "italic", color: "#C9A353" }}>{m.price}</span><button className="btn-primary" style={{ fontSize: 11, padding: "8px 16px" }}>Book</button></div></div></motion.div>))}
                 </div>
-            </main>
-        </div>
+            </div></div>
     );
 }

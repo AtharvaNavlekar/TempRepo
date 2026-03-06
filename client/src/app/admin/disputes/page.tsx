@@ -1,37 +1,13 @@
 "use client";
-import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
-import { motion } from "framer-motion";
-
 const DISPUTES = [
-    { id: "disp-01", project: "CNC Controller v2", filed: "0xAlice", against: "RustNinja", reason: "Code quality below agreed standard. 40% test coverage instead of 90%.", votes: { guilty: 8, innocent: 3 }, status: "staked" as const },
-    { id: "disp-02", project: "Recipe Marketplace", filed: "FoodForge", against: "ChefMika", reason: "Missed 3 consecutive sprint deadlines without communication.", votes: { guilty: 5, innocent: 5 }, status: "building" as const },
+    { id: 1, parties: "0xAlice vs DevMarcus", reason: "Non-delivery of committed milestone", status: "Pending", staked: 800 },
+    { id: 2, parties: "CryptoMage vs RustNinja", reason: "Plagiarized code submission", status: "Escalated", staked: 1200 },
 ];
-
-export default function AdminDisputesPage() {
+export default function Page() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-5xl mx-auto px-6 py-32">
-                <h1 className="font-clash font-bold text-4xl mb-2 text-acid">Dispute Resolution</h1>
-                <p className="font-mono text-white/50 mb-12">Court of Builders. Final admin oversight on escalated disputes.</p>
-                <div className="space-y-6">
-                    {DISPUTES.map((d, i) => (
-                        <motion.div key={d.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                            <BentoCard accent="saffron" className="p-8">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div><h3 className="font-clash font-bold text-xl">{d.project}</h3><p className="font-mono text-xs text-white/40 mt-1">{d.filed} vs {d.against}</p></div>
-                                    <PulseTag status={d.status} />
-                                </div>
-                                <p className="font-mono text-sm text-white/60 mb-4">{d.reason}</p>
-                                <div className="flex items-center gap-6 mb-4">
-                                    <div className="flex items-center gap-2"><span className="font-mono text-xs text-acid">GUILTY</span><span className="font-clash font-bold text-acid">{d.votes.guilty}</span></div>
-                                    <div className="flex items-center gap-2"><span className="font-mono text-xs text-lime">INNOCENT</span><span className="font-clash font-bold text-lime">{d.votes.innocent}</span></div>
-                                </div>
-                                <div className="flex gap-3"><ForgeButton variant="ghost" size="sm">DISMISS</ForgeButton><ForgeButton variant="danger" size="sm">ENFORCE PENALTY</ForgeButton><ForgeButton variant="primary" size="sm">ACQUIT</ForgeButton></div>
-                            </BentoCard>
-                        </motion.div>
-                    ))}
-                </div>
-            </main>
-        </div>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12, color: "rgba(180,60,60,.5)" }}>Admin</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}>Platform <em style={{ color: "rgba(180,60,60,.6)" }}>Disputes</em></h1></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                {DISPUTES.map(d => (<div key={d.id} className="luxury-card" style={{ padding: 24, marginBottom: 10, borderLeftWidth: 3, borderLeftColor: "rgba(180,60,60,.3)" }}><div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}><span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{d.parties}</span><span style={{ padding: "3px 10px", borderRadius: 9999, fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 600, background: "rgba(201,163,83,.08)", color: "#977833", border: "1px solid rgba(201,163,83,.15)" }}>{d.status}</span></div><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", marginBottom: 8 }}>{d.reason}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "rgba(13,13,13,.25)" }}>Staked: {d.staked} pts</p></div>))}
+            </div></div>
     );
 }

@@ -1,35 +1,19 @@
 "use client";
-import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
-const APPS = [
-    { name: "GitHub", icon: "IconGitBranch", status: "live" as const, connected: true, lastSync: "2m ago" },
-    { name: "Figma", icon: "IconPalette", status: "live" as const, connected: true, lastSync: "1h ago" },
-    { name: "Stripe", icon: "IconWallet", status: "shipped" as const, connected: true, lastSync: "1d ago" },
-    { name: "Linear", icon: "IconTarget", status: "building" as const, connected: false, lastSync: "N/A" },
-    { name: "Notion", icon: "IconFile", status: "building" as const, connected: false, lastSync: "N/A" },
-    { name: "Discord", icon: "IconCpu", status: "building" as const, connected: false, lastSync: "N/A" },
+import { useState } from "react";
+const INTEGRATIONS = [
+    { name: "GitHub", icon: "🐙", status: "Connected", desc: "Auto-sync repos and contributions" },
+    { name: "Figma", icon: "🎨", status: "Not Connected", desc: "Import design assets and prototypes" },
+    { name: "Slack", icon: "💬", status: "Connected", desc: "Team notifications and updates" },
+    { name: "Linear", icon: "📋", status: "Not Connected", desc: "Project management sync" },
 ];
-
-export default function IntegrationsPage() {
+export default function Page() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-4xl mx-auto px-6 py-32">
-                <h1 className="font-clash font-bold text-4xl mb-2">Connected Apps</h1>
-                <p className="font-mono text-white/50 mb-12">Manage your integrations. Connected apps feed your Verification Oracle.</p>
-                <div className="space-y-4">
-                    {APPS.map(app => (
-                        <BentoCard key={app.name} className="p-6 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <span className="text-2xl">{app.icon}</span>
-                                <div><h3 className="font-clash font-bold text-lg">{app.name}</h3><p className="font-mono text-xs text-white/40">Last sync: {app.lastSync}</p></div>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <PulseTag status={app.status} label={app.connected ? "CONNECTED" : "AVAILABLE"} />
-                                <ForgeButton variant={app.connected ? "ghost" : "primary"} size="sm">{app.connected ? "DISCONNECT" : "CONNECT"}</ForgeButton>
-                            </div>
-                        </BentoCard>
-                    ))}
-                </div>
-            </main>
-        </div>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Settings</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}><em className="gold-shimmer-text">Integrations</em></h1></div></div>
+            <div className="luxury-container" style={{ maxWidth: 640, paddingTop: 40, paddingBottom: 80 }}>
+                {INTEGRATIONS.map(i => (<div key={i.name} className="luxury-card" style={{ padding: 20, marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}><span style={{ fontSize: "1.5rem" }}>{i.icon}</span><div><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{i.name}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>{i.desc}</p></div></div>
+                    <button className={i.status === "Connected" ? "btn-secondary" : "btn-primary"} style={{ fontSize: 11, padding: "8px 16px" }}>{i.status === "Connected" ? "Disconnect" : "Connect"}</button>
+                </div>))}
+            </div></div>
     );
 }

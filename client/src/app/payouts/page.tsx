@@ -1,39 +1,20 @@
 "use client";
-import { BentoCard, ForgeButton } from "@/components/forge";
 import { motion } from "framer-motion";
-
+import { DollarSign, ArrowUpRight, ArrowDownRight } from "lucide-react";
 const PAYOUTS = [
-    { id: "pay-01", description: "Real-Time Notifications (NeonLabs)", amount: "$2,500", date: "2026-03-15", status: "PENDING" },
-    { id: "pay-02", description: "Recipe API (FoodForge)", amount: "$1,200", date: "2026-03-02", status: "PAID" },
-    { id: "pay-03", description: "Design System Audit (CreativeOS)", amount: "$3,000", date: "2026-02-20", status: "PAID" },
-    { id: "pay-04", description: "IoT Dashboard (MakerHQ)", amount: "$3,000", date: "2026-02-10", status: "PAID" },
+    { project: "Identity Layer v2", amount: "$4,200", date: "Mar 1, 2026", type: "Milestone", status: "Completed" },
+    { project: "NFT Marketplace", amount: "$1,800", date: "Feb 22, 2026", type: "Bounty", status: "Completed" },
+    { project: "Design System", amount: "$2,500", date: "Feb 10, 2026", type: "Milestone", status: "Pending" },
 ];
-
-const STATUS_COLORS: Record<string, string> = { PENDING: "text-yellow-400", PAID: "text-lime", DISPUTED: "text-acid" };
-
 export default function PayoutsPage() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-5xl mx-auto px-6 py-32">
-                <h1 className="font-clash font-bold text-5xl mb-2">Payout Dashboard</h1>
-                <p className="font-mono text-white/50 mb-12">Track all incoming and outgoing payments.</p>
-                <div className="grid grid-cols-3 gap-6 mb-12">
-                    <BentoCard className="p-6 text-center"><p className="font-clash font-bold text-3xl text-lime">$9,700</p><p className="font-mono text-[10px] text-white/30">TOTAL EARNED</p></BentoCard>
-                    <BentoCard className="p-6 text-center"><p className="font-clash font-bold text-3xl text-yellow-400">$2,500</p><p className="font-mono text-[10px] text-white/30">PENDING</p></BentoCard>
-                    <BentoCard className="p-6 text-center"><p className="font-clash font-bold text-3xl text-cyber">$7,200</p><p className="font-mono text-[10px] text-white/30">PAID OUT</p></BentoCard>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Finance</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}><DollarSign size={22} style={{ display: "inline", marginRight: 8, color: "#C9A353" }} /><em className="gold-shimmer-text">Payouts</em></h1></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 32 }}>
+                    {[{ l: "Total Earned", v: "$8,500", i: <ArrowUpRight size={14} style={{ color: "#5B8A6F" }} /> }, { l: "Pending", v: "$2,500", i: <DollarSign size={14} style={{ color: "#C9A353" }} /> }, { l: "This Month", v: "$4,200", i: <ArrowUpRight size={14} style={{ color: "#5B8A6F" }} /> }].map(s => (<div key={s.l} className="luxury-card" style={{ padding: 24, textAlign: "center" }}><div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>{s.i}</div><p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.8rem", fontStyle: "italic", color: "#C9A353" }}>{s.v}</p><p className="luxury-overline">{s.l}</p></div>))}
                 </div>
-                <div className="space-y-3">
-                    {PAYOUTS.map((p, i) => (
-                        <motion.div key={p.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
-                            <BentoCard className="p-5 flex items-center justify-between">
-                                <div><p className="font-clash font-bold">{p.description}</p><p className="font-mono text-xs text-white/30">{p.date}</p></div>
-                                <div className="flex items-center gap-4"><span className={`font-mono text-xs font-bold ${STATUS_COLORS[p.status]}`}>{p.status}</span><span className="font-clash font-bold text-xl text-lime">{p.amount}</span></div>
-                            </BentoCard>
-                        </motion.div>
-                    ))}
-                </div>
-                <div className="mt-8 text-right"><ForgeButton variant="primary">WITHDRAW TO BANK</ForgeButton></div>
-            </main>
-        </div>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontWeight: 400, color: "var(--ink)", marginBottom: 16 }}>History</h2>
+                {PAYOUTS.map((p, i) => (<motion.div key={p.project + p.date} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}><div className="luxury-card" style={{ padding: 20, marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}><div><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{p.project}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>{p.type} · {p.date}</p></div><div style={{ display: "flex", gap: 12, alignItems: "center" }}><p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontStyle: "italic", color: "#C9A353" }}>{p.amount}</p><span style={{ padding: "3px 10px", borderRadius: 9999, fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 600, background: p.status === "Completed" ? "rgba(91,138,111,.08)" : "rgba(201,163,83,.08)", border: "1px solid", borderColor: p.status === "Completed" ? "rgba(91,138,111,.15)" : "rgba(201,163,83,.15)", color: p.status === "Completed" ? "#5B8A6F" : "#977833" }}>{p.status}</span></div></div></motion.div>))}
+            </div></div>
     );
 }

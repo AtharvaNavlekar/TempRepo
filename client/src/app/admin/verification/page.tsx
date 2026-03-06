@@ -1,32 +1,15 @@
 "use client";
-import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
-import { motion } from "framer-motion";
-
-const QUEUE = [
-    { builder: "NewBuilder_01", type: "GitHub Verification", submitted: "2h ago", links: "github.com/newbuilder01", status: "building" as const },
-    { builder: "ChefMasterX", type: "Portfolio Verification", submitted: "6h ago", links: "chefmasterx.com/portfolio", status: "building" as const },
-    { builder: "CodeRunner99", type: "Figma Verification", submitted: "1d ago", links: "figma.com/@coderunner99", status: "staked" as const },
+import { CheckCircle } from "lucide-react";
+const VERIFICATIONS = [
+    { user: "@0xNeo", type: "Identity", submitted: "Mar 5", status: "Pending" },
+    { user: "@DevMarcus", type: "Skills - Rust", submitted: "Mar 4", status: "Verified" },
+    { user: "@DesignYuki", type: "Portfolio", submitted: "Mar 3", status: "Pending" },
 ];
-
-export default function VerificationQueuePage() {
+export default function Page() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-5xl mx-auto px-6 py-32">
-                <div className="flex justify-between items-end mb-12">
-                    <div><h1 className="font-clash font-bold text-4xl mb-2">Verification Queue</h1><p className="font-mono text-white/50">Manual verification for flagged oracles.</p></div>
-                    <span className="font-mono text-sm text-yellow-400">{QUEUE.length} pending</span>
-                </div>
-                <div className="space-y-4">
-                    {QUEUE.map((q, i) => (
-                        <motion.div key={q.builder} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
-                            <BentoCard className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <div><h3 className="font-clash font-bold text-lg">{q.builder}</h3><p className="font-mono text-xs text-white/40">{q.type} · {q.submitted}</p><p className="font-mono text-xs text-cyber mt-1">{q.links}</p></div>
-                                <div className="flex items-center gap-3"><PulseTag status={q.status} /><ForgeButton variant="ghost" size="sm">REJECT</ForgeButton><ForgeButton variant="primary" size="sm">VERIFY</ForgeButton></div>
-                            </BentoCard>
-                        </motion.div>
-                    ))}
-                </div>
-            </main>
-        </div>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Admin</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}><CheckCircle size={22} style={{ display: "inline", marginRight: 8, color: "#C9A353" }} /><em className="gold-shimmer-text">Verification</em></h1></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                {VERIFICATIONS.map(v => (<div key={v.user} className="luxury-card" style={{ padding: 20, marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}><div><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{v.user}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>{v.type} · Submitted {v.submitted}</p></div><div style={{ display: "flex", gap: 10, alignItems: "center" }}><span style={{ padding: "3px 10px", borderRadius: 9999, fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 600, background: v.status === "Verified" ? "rgba(91,138,111,.08)" : "rgba(201,163,83,.08)", color: v.status === "Verified" ? "#5B8A6F" : "#977833", border: "1px solid", borderColor: v.status === "Verified" ? "rgba(91,138,111,.15)" : "rgba(201,163,83,.15)" }}>{v.status}</span>{v.status === "Pending" && <button className="btn-primary" style={{ fontSize: 11, padding: "6px 14px" }}>Verify</button>}</div></div>))}
+            </div></div>
     );
 }

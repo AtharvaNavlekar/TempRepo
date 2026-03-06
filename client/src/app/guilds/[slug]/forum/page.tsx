@@ -1,37 +1,16 @@
 "use client";
-import { BentoCard, ForgeButton } from "@/components/forge";
-import { motion } from "framer-motion";
-import { IconChat } from "@/components/icons";
-const POSTS = [
-    { id: 1, author: "0xNeo", title: "Best practices for React Server Components in 2026", replies: 23, upvotes: 89, time: "3h ago" },
-    { id: 2, author: "0xAlice", title: "Should we standardize our state management approach?", replies: 45, upvotes: 112, time: "8h ago" },
-    { id: 3, author: "RustNinja", title: "RFC: Adding Rust-compiled WASM modules to the guild toolkit", replies: 67, upvotes: 201, time: "1d ago" },
-    { id: 4, author: "DesignYuki", title: "Design token sync between Figma and code — solved?", replies: 12, upvotes: 56, time: "2d ago" },
+import { MessageCircle } from "lucide-react";
+const THREADS = [
+    { author: "0xNeo", title: "Best practices for ZK verification in production", replies: 12, time: "2h ago" },
+    { author: "0xAlice", title: "Looking for feedback on our new component library", replies: 8, time: "5h ago" },
+    { author: "DevMarcus", title: "Weekly standup recap — Sprint 4", replies: 3, time: "1d ago" },
 ];
-
-export default function GuildForumPage() {
+export default function Page() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-5xl mx-auto px-6 py-32">
-                <div className="flex justify-between items-end mb-12">
-                    <div><h1 className="font-clash font-bold text-4xl mb-2">Guild Forum</h1><p className="font-mono text-white/50 text-sm">Discuss, debate, and decide. No corporate tone allowed.</p></div>
-                    <ForgeButton variant="primary" size="sm">NEW POST</ForgeButton>
-                </div>
-                <div className="space-y-3">
-                    {POSTS.map((p, i) => (
-                        <motion.div key={p.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
-                            <BentoCard className="p-5 hover:border-cyber/30 cursor-pointer group">
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="flex-1"><h3 className="font-clash font-bold text-base mb-1 group-hover:text-cyber transition-colors">{p.title}</h3><p className="font-mono text-xs text-white/40">{p.author} · {p.time}</p></div>
-                                    <div className="flex items-center gap-4 font-mono text-xs text-white/40">
-                                        <span>▲ {p.upvotes}</span><span><IconChat className="w-4 h-4 inline" /> {p.replies}</span>
-                                    </div>
-                                </div>
-                            </BentoCard>
-                        </motion.div>
-                    ))}
-                </div>
-            </main>
-        </div>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Guild</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}><MessageCircle size={22} style={{ display: "inline", marginRight: 8, color: "#C9A353" }} />Guild <em className="gold-shimmer-text">Forum</em></h1></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                <button className="btn-primary" style={{ marginBottom: 20 }}>+ New Thread</button>
+                {THREADS.map(t => (<div key={t.title} className="luxury-card" style={{ padding: 20, marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", transition: "border-color .2s" }} onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(201,163,83,.4)")} onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(13,13,13,.06)")}><div><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginBottom: 4 }}>{t.title}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>by {t.author} · {t.time}</p></div><div style={{ display: "flex", alignItems: "center", gap: 6 }}><MessageCircle size={13} style={{ color: "rgba(13,13,13,.2)" }} /><span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>{t.replies}</span></div></div>))}
+            </div></div>
     );
 }

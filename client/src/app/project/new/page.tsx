@@ -1,148 +1,117 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BentoCard, ForgeButton, GlitchText, PulseTag } from "@/components/forge";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconRocket } from "@/components/icons";
-const TEMPLATES = [
-    { key: "code-lab", label: "Code Lab", icon: "IconShipScore", desc: "Full-stack development with CI/CD pipelines" },
-    { key: "design-studio", label: "Design Studio", icon: "IconPalette", desc: "Visual design with Figma sync & handoff tools" },
-    { key: "hardware-workshop", label: "Hardware Workshop", icon: "IconWrench", desc: "BOM tracking, PCB review, 3D print queue" },
-    { key: "culinary-lab", label: "Culinary Lab", icon: "IconFlame", desc: "Recipe development & ingredient costing" },
-    { key: "music-studio", label: "Music Studio", icon: "IconMusic", desc: "DAW sync, stem tracking, distribution" },
-    { key: "writing-room", label: "Writing Room", icon: "IconPencil", desc: "Version control & editorial workflow" },
-    { key: "open-source", label: "Open Source", icon: "IconGlobe", desc: "Contributor management & release pipeline" },
-    { key: "startup-sprint", label: "Startup Sprint", icon: "IconRocket", desc: "Pitch deck, financial model, investor CRM" },
-    { key: "hackathon", label: "Hackathon", icon: "⏱", desc: "Countdown timer + submission deadline" },
-    { key: "research", label: "Research", icon: "IconFlame", desc: "Literature DB, experiments, paper drafting" },
-    { key: "community", label: "Community", icon: "IconUsers", desc: "Event management & content calendar" },
-    { key: "freelance", label: "Freelance", icon: "IconHire", desc: "Scope builder, milestone billing, client portal" },
-];
+import { Rocket } from "lucide-react";
 
-const VISIBILITY_OPTIONS = ["PUBLIC", "GUILD-ONLY", "INVITE-ONLY", "PRIVATE"];
+const TEMPLATES = [
+    { key: "code-lab", label: "Code Lab", emoji: "⚡", desc: "Full-stack development with CI/CD" },
+    { key: "design-studio", label: "Design Studio", emoji: "🎨", desc: "Visual design with handoff tools" },
+    { key: "hardware", label: "Hardware Workshop", emoji: "🔧", desc: "BOM tracking, PCB, 3D print" },
+    { key: "culinary", label: "Culinary Lab", emoji: "🔥", desc: "Recipe dev & ingredient costing" },
+    { key: "music", label: "Music Studio", emoji: "🎵", desc: "DAW sync, stems, distribution" },
+    { key: "writing", label: "Writing Room", emoji: "✍️", desc: "Version control & editorial" },
+    { key: "open-source", label: "Open Source", emoji: "🌐", desc: "Contributor management & releases" },
+    { key: "startup", label: "Startup Sprint", emoji: "🚀", desc: "Pitch deck, financials, CRM" },
+    { key: "hackathon", label: "Hackathon", emoji: "⏱️", desc: "Countdown & submission deadline" },
+    { key: "research", label: "Research", emoji: "🔬", desc: "Literature DB & experiments" },
+    { key: "community", label: "Community", emoji: "👥", desc: "Event management & content" },
+    { key: "freelance", label: "Freelance", emoji: "💼", desc: "Scope builder & milestone billing" },
+];
+const VISIBILITY_OPTIONS = ["Public", "Guild-Only", "Invite-Only", "Private"];
+
+const inputStyle: React.CSSProperties = {
+    width: "100%", padding: "14px 18px", background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)",
+    borderRadius: 12, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--ink)", outline: "none", transition: "border-color .2s"
+};
 
 export default function NewProjectPage() {
     const router = useRouter();
     const [step, setStep] = useState(1);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [template, setTemplate] = useState("code-lab");
-    const [visibility, setVisibility] = useState("PUBLIC");
-    const [stake, setStake] = useState(100);
-    const [duration, setDuration] = useState(14);
-    const [maxBuilders, setMaxBuilders] = useState(5);
-
-    const handleSubmit = () => { router.push("/project/proj-new"); };
+    const [title, setTitle] = useState(""); const [description, setDescription] = useState("");
+    const [template, setTemplate] = useState("code-lab"); const [visibility, setVisibility] = useState("Public");
+    const [stake, setStake] = useState(100); const [duration, setDuration] = useState(14); const [maxBuilders, setMaxBuilders] = useState(5);
 
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-4xl mx-auto px-6 py-32">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                    <h1 className="font-clash font-bold text-6xl mb-2"><GlitchText text="CREATE WAR ROOM" /></h1>
-                    <p className="font-mono text-white/50 mb-12">Draft a new project. Stake your reputation. Recruit builders.</p>
-
-                    {/* Step Indicator */}
-                    <div className="flex gap-2 mb-12">
-                        {[1, 2, 3].map(s => (
-                            <div key={s} className={`flex-1 h-1.5 rounded-full transition-all ${s <= step ? "bg-lime" : "bg-white/10"}`} />
-                        ))}
+        <div className="luxury-page">
+            <div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}>
+                <div className="luxury-container" style={{ maxWidth: 800, margin: "0 auto" }}>
+                    <p className="luxury-overline" style={{ marginBottom: 12 }}>New Venture</p>
+                    <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 400, color: "var(--ink)", marginBottom: 12 }}>
+                        Create <em className="gold-shimmer-text">Venture</em>
+                    </h1>
+                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)" }}>Draft a new project. Stake your reputation. Recruit founders.</p>
+                    <div style={{ display: "flex", gap: 8, marginTop: 24 }}>
+                        {[1, 2, 3].map(s => <div key={s} style={{ flex: 1, height: 3, borderRadius: 9999, background: s <= step ? "#C9A353" : "rgba(13,13,13,.1)", transition: "background .3s" }} />)}
                     </div>
-                </motion.div>
+                </div>
+            </div>
 
-                {/* Step 1: Basics */}
+            <div style={{ maxWidth: 800, margin: "0 auto", padding: "48px 16px 80px" }}>
                 {step === 1 && (
-                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                        <BentoCard className="p-8 space-y-6">
-                            <h2 className="font-clash font-bold text-2xl">Project Details</h2>
-                            <div>
-                                <label className="font-mono text-xs text-white/50 uppercase tracking-widest mb-2 block">Project Name *</label>
-                                <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Give it a name that means something..." className="w-full bg-black/60 border border-white/10 rounded-bento-sm p-4 font-mono text-white focus:border-lime outline-none text-lg" />
-                            </div>
-                            <div>
-                                <label className="font-mono text-xs text-white/50 uppercase tracking-widest mb-2 block">Description *</label>
-                                <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="What are you building, why does it matter, and what does success look like?"
-                                    className="w-full h-32 bg-black/60 border border-white/10 rounded-bento-sm p-4 font-mono text-white focus:border-lime outline-none resize-none" />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="font-mono text-xs text-white/50 uppercase tracking-widest mb-2 block">Sprint Duration (Days)</label>
-                                    <input type="number" min={7} max={90} value={duration} onChange={e => setDuration(Number(e.target.value))} className="w-full bg-black/60 border border-white/10 rounded-bento-sm p-4 font-mono text-white focus:border-lime outline-none" />
+                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+                        <div className="luxury-card" style={{ padding: 36 }}>
+                            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.3rem", fontWeight: 400, color: "var(--ink)", marginBottom: 24 }}>Project Details</h2>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                                <div><label className="luxury-overline" style={{ display: "block", marginBottom: 8 }}>Venture Name *</label><input value={title} onChange={e => setTitle(e.target.value)} placeholder="Give it a name that means something..." style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = "#C9A353")} onBlur={e => (e.currentTarget.style.borderColor = "rgba(13,13,13,.1)")} /></div>
+                                <div><label className="luxury-overline" style={{ display: "block", marginBottom: 8 }}>Description *</label><textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="What are you building and why does it matter?" style={{ ...inputStyle, height: 110, resize: "none" as const }} onFocus={e => (e.currentTarget.style.borderColor = "#C9A353")} onBlur={e => (e.currentTarget.style.borderColor = "rgba(13,13,13,.1)")} /></div>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                                    <div><label className="luxury-overline" style={{ display: "block", marginBottom: 8 }}>Sprint Duration (Days)</label><input type="number" min={7} max={90} value={duration} onChange={e => setDuration(Number(e.target.value))} style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = "#C9A353")} onBlur={e => (e.currentTarget.style.borderColor = "rgba(13,13,13,.1)")} /></div>
+                                    <div><label className="luxury-overline" style={{ display: "block", marginBottom: 8 }}>Max Founders</label><input type="number" min={1} max={20} value={maxBuilders} onChange={e => setMaxBuilders(Number(e.target.value))} style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = "#C9A353")} onBlur={e => (e.currentTarget.style.borderColor = "rgba(13,13,13,.1)")} /></div>
                                 </div>
-                                <div>
-                                    <label className="font-mono text-xs text-white/50 uppercase tracking-widest mb-2 block">Max Builders</label>
-                                    <input type="number" min={1} max={20} value={maxBuilders} onChange={e => setMaxBuilders(Number(e.target.value))} className="w-full bg-black/60 border border-white/10 rounded-bento-sm p-4 font-mono text-white focus:border-lime outline-none" />
+                                <div><label className="luxury-overline" style={{ display: "block", marginBottom: 8 }}>Visibility</label>
+                                    <div style={{ display: "flex", gap: 6 }}>{VISIBILITY_OPTIONS.map(v => <button key={v} onClick={() => setVisibility(v)} style={{ padding: "7px 14px", borderRadius: 9999, border: "1px solid", fontSize: 12, fontFamily: "'DM Sans',sans-serif", cursor: "pointer", background: visibility === v ? "var(--ink)" : "transparent", color: visibility === v ? "#fff" : "rgba(13,13,13,.4)", borderColor: visibility === v ? "var(--ink)" : "rgba(13,13,13,.12)", transition: "all .2s" }}>{v}</button>)}</div>
                                 </div>
                             </div>
-                            <div>
-                                <label className="font-mono text-xs text-white/50 uppercase tracking-widest mb-2 block">Visibility</label>
-                                <div className="flex gap-2">
-                                    {VISIBILITY_OPTIONS.map(v => (
-                                        <button key={v} onClick={() => setVisibility(v)} className={`px-4 py-2 font-mono text-xs rounded-bento-sm border transition-all ${visibility === v ? "bg-lime/10 border-lime/40 text-lime" : "border-white/10 text-white/40 hover:text-white"}`}>{v}</button>
-                                    ))}
-                                </div>
-                            </div>
-                        </BentoCard>
-                        <div className="text-right">
-                            <ForgeButton variant="primary" onClick={() => setStep(2)}>NEXT: CHOOSE TEMPLATE →</ForgeButton>
                         </div>
+                        <div style={{ marginTop: 20, textAlign: "right" }}><button className="btn-primary" onClick={() => setStep(2)}>Next: Choose Template →</button></div>
                     </motion.div>
                 )}
-
-                {/* Step 2: Template */}
                 {step === 2 && (
-                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                        <h2 className="font-clash font-bold text-2xl mb-6">Choose War Room Template</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+                        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.3rem", fontWeight: 400, color: "var(--ink)", marginBottom: 20 }}>Choose Venture Template</h2>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }}>
                             {TEMPLATES.map(t => (
-                                <motion.button key={t.key} whileTap={{ scale: 0.97 }} onClick={() => setTemplate(t.key)}>
-                                    <BentoCard className={`p-5 text-left h-full transition-all ${template === t.key ? "border-lime/50 bg-lime/5 shadow-glow" : "hover:border-white/20"}`}>
-                                        <div className="text-2xl mb-2">{t.icon}</div>
-                                        <h3 className="font-clash font-bold text-sm mb-1">{t.label}</h3>
-                                        <p className="font-mono text-[10px] text-white/40">{t.desc}</p>
-                                    </BentoCard>
+                                <motion.button key={t.key} whileTap={{ scale: 0.97 }} onClick={() => setTemplate(t.key)} style={{ all: "unset", cursor: "pointer" }}>
+                                    <div className="luxury-card" style={{ padding: 20, textAlign: "left", borderColor: template === t.key ? "rgba(201,163,83,.5)" : undefined, background: template === t.key ? "rgba(201,163,83,.04)" : "#fff" }}>
+                                        <p style={{ fontSize: "1.4rem", marginBottom: 8 }}>{t.emoji}</p>
+                                        <h3 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 13, color: "var(--ink)", marginBottom: 4 }}>{t.label}</h3>
+                                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)" }}>{t.desc}</p>
+                                    </div>
                                 </motion.button>
                             ))}
                         </div>
-                        <div className="flex justify-between">
-                            <ForgeButton variant="ghost" onClick={() => setStep(1)}>← BACK</ForgeButton>
-                            <ForgeButton variant="primary" onClick={() => setStep(3)}>NEXT: STAKE & LAUNCH →</ForgeButton>
+                        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
+                            <button className="btn-secondary" onClick={() => setStep(1)}>← Back</button>
+                            <button className="btn-primary" onClick={() => setStep(3)}>Next: Stake & Launch →</button>
                         </div>
                     </motion.div>
                 )}
-
-                {/* Step 3: Stake & Launch */}
                 {step === 3 && (
-                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                        <BentoCard className="p-8 space-y-6">
-                            <h2 className="font-clash font-bold text-2xl">Stake Your Reputation</h2>
-                            <p className="font-mono text-sm text-white/40">Staking points signals commitment. Higher stakes attract better builders.</p>
-                            <div>
-                                <label className="font-mono text-xs text-white/50 uppercase tracking-widest mb-2 block">Stake Amount (Ship Score Points)</label>
-                                <input type="range" min={50} max={1000} step={50} value={stake} onChange={e => setStake(Number(e.target.value))} className="w-full accent-lime" />
-                                <div className="flex justify-between font-mono text-xs text-white/30 mt-1"><span>50 PTS</span><span className="text-lime font-bold text-lg">{stake} PTS</span><span>1000 PTS</span></div>
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+                        <div className="luxury-card" style={{ padding: 36, marginBottom: 20 }}>
+                            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.3rem", fontWeight: 400, color: "var(--ink)", marginBottom: 8 }}>Stake Your Reputation</h2>
+                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", marginBottom: 24 }}>Higher stakes attract better cofounders.</p>
+                            <label className="luxury-overline" style={{ display: "block", marginBottom: 8 }}>Stake Amount (Ship Score Points)</label>
+                            <input type="range" min={50} max={1000} step={50} value={stake} onChange={e => setStake(Number(e.target.value))} style={{ width: "100%", height: 6, accentColor: "#C9A353" }} />
+                            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}><span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)" }}>50 pts</span><span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", fontStyle: "italic", color: "#C9A353" }}>{stake} pts</span><span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)" }}>1000 pts</span></div>
+                        </div>
+                        <div className="luxury-card" style={{ padding: 36, borderColor: "rgba(201,163,83,.2)", background: "rgba(201,163,83,.03)" }}>
+                            <p className="luxury-overline" style={{ marginBottom: 16 }}>Summary Preview</p>
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+                                {[{ l: "Name", v: title || "Untitled" }, { l: "Template", v: `${TEMPLATES.find(t => t.key === template)?.emoji} ${TEMPLATES.find(t => t.key === template)?.label}` }, { l: "Duration", v: `${duration} days` }, { l: "Max Founders", v: String(maxBuilders) }, { l: "Visibility", v: visibility }, { l: "Staked", v: `${stake} pts` }].map(s => (
+                                    <div key={s.l}><p className="luxury-overline">{s.l}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{s.v}</p></div>
+                                ))}
                             </div>
-                        </BentoCard>
-
-                        <BentoCard className="p-8 bg-gradient-to-br from-lime/5 to-transparent border-lime/20">
-                            <h3 className="font-mono text-xs uppercase tracking-widest text-lime/70 mb-4">Summary Preview</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div><p className="font-mono text-xs text-white/30">NAME</p><p className="font-clash font-bold">{title || "Untitled Project"}</p></div>
-                                <div><p className="font-mono text-xs text-white/30">TEMPLATE</p><p className="font-clash font-bold">{TEMPLATES.find(t => t.key === template)?.icon} {TEMPLATES.find(t => t.key === template)?.label}</p></div>
-                                <div><p className="font-mono text-xs text-white/30">DURATION</p><p className="font-clash font-bold">{duration} days</p></div>
-                                <div><p className="font-mono text-xs text-white/30">MAX BUILDERS</p><p className="font-clash font-bold">{maxBuilders}</p></div>
-                                <div><p className="font-mono text-xs text-white/30">VISIBILITY</p><p className="font-clash font-bold">{visibility}</p></div>
-                                <div><p className="font-mono text-xs text-white/30">STAKED</p><p className="font-clash font-bold text-lime">{stake} PTS</p></div>
-                            </div>
-                        </BentoCard>
-
-                        <div className="flex justify-between">
-                            <ForgeButton variant="ghost" onClick={() => setStep(2)}>← BACK</ForgeButton>
-                            <ForgeButton variant="primary" onClick={handleSubmit} className="text-lg px-12 py-5"><IconRocket className="w-4 h-4 inline" /> LAUNCH WAR ROOM</ForgeButton>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
+                            <button className="btn-secondary" onClick={() => setStep(2)}>← Back</button>
+                            <button className="btn-primary" onClick={() => router.push("/project/proj-new")} style={{ gap: 8 }}><Rocket size={14} /> Launch Venture</button>
                         </div>
                     </motion.div>
                 )}
-            </main>
+            </div>
         </div>
     );
 }

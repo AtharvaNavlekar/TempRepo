@@ -1,41 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { TerminalBlock, ForgeButton, PulseTag } from "@/components/forge";
 import { motion, AnimatePresence } from "framer-motion";
-import { Suspense } from "react";
-import { IconSuccess } from "@/components/icons";
+import { Check } from "lucide-react";
 
 const SCRAPE_LOGS_TECH = [
-    "// INITIATING PROFILE IMPORT...",
-    "ESTABLISHING CONNECTION TO [GITHUB.COM]",
-    "[OK] AUTHENTICATING OAUTH TOKEN... OK",
-    "EXTRACTING COMMIT HISTORY (LAST 365 DAYS)...",
-    "[OK] FOUND: 1,432 COMMITS ACROSS 12 REPOSITORIES",
-    "ANALYZING REPO [collabrise-core]...",
-    "[OK] IDENTIFIED 42 PR MESSAGES, 15 ISSUE RESOLUTIONS",
-    "[ERR] WARNING: HIGH COMPLEXITY CODE DETECTED IN /src/engine",
-    "// ADJUSTING VERIFIED SCORE WEIGHT",
-    "SCANNING STACKOVERFLOW REPUTATION...",
-    "[ERR] USER NOT FOUND. IGNORING.",
-    "// COMPILING PRELIMINARY SCORE...",
-    "[OK] SCORE: [842] - SOLID ENGINEER C-CLASS",
-    "// IMPORT COMPLETE. WAITING FOR USER CONFIRMATION.",
+    "// Initiating profile import...",
+    "Establishing connection to GitHub",
+    "[✓] Authenticating OAuth token",
+    "Extracting commit history (last 365 days)...",
+    "[✓] Found: 1,432 commits across 12 repositories",
+    "Analyzing repo [collabrise-core]...",
+    "[✓] Identified 42 PR merges, 15 issue resolutions",
+    "[!] High complexity code detected in /src/engine",
+    "// Adjusting verified score weight",
+    "Scanning StackOverflow reputation...",
+    "[—] User not found. Skipping.",
+    "// Compiling preliminary score...",
+    "[✓] Score: 842 — Solid Engineer C-Class",
+    "// Import complete. Awaiting confirmation.",
 ];
 
 const SCRAPE_LOGS_CREATIVE = [
-    "// INITIATING PROFILE IMPORT...",
-    "ESTABLISHING CONNECTION TO [FIGMA.COM/API]",
-    "EXTRACTING LAYER HISTORIES (LAST 365 DAYS)...",
-    "[OK] FOUND: 45,212 LAYERS ACROSS 3 TEAM WORKSPACES",
-    "ANALYZING AUTO-LAYOUT COMPLEXITY...",
-    "[OK] IDENTIFIED 400+ COMPONENT VARIANTS",
-    "SCANNING BEHANCE PORTFOLIO...",
-    "[OK] FOUND 3 CASE STUDIES. HIGH AESTHETIC VALUE DETECTED.",
-    "// COMPILING PRELIMINARY SCORE...",
-    "[OK] SCORE: [910] - ELITE DESIGNER B-CLASS",
-    "// IMPORT COMPLETE. WAITING FOR USER CONFIRMATION.",
+    "// Initiating profile import...",
+    "Establishing connection to Figma API",
+    "Extracting layer histories (last 365 days)...",
+    "[✓] Found: 45,212 layers across 3 workspaces",
+    "Analyzing auto-layout complexity...",
+    "[✓] Identified 400+ component variants",
+    "Scanning Behance portfolio...",
+    "[✓] Found 3 case studies — high aesthetic value",
+    "// Compiling preliminary score...",
+    "[✓] Score: 910 — Elite Designer B-Class",
+    "// Import complete. Awaiting confirmation.",
 ];
 
 function ScraperConsoleContent() {
@@ -45,32 +43,16 @@ function ScraperConsoleContent() {
 
     const [progress, setProgress] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
-
-    // Select logs based on identity
     const logsToUse = role === "creative" ? SCRAPE_LOGS_CREATIVE : SCRAPE_LOGS_TECH;
-
-    // Show progressively
     const [visibleLogs, setVisibleLogs] = useState<typeof logsToUse>([]);
 
     useEffect(() => {
         let currentLogIndex = 0;
-
-        // Fake progress bar
         const progressInterval = setInterval(() => {
-            setProgress(prev => {
-                if (prev >= 100) {
-                    clearInterval(progressInterval);
-                    return 100;
-                }
-                return prev + Math.floor(Math.random() * 5) + 1;
-            });
+            setProgress(prev => { if (prev >= 100) { clearInterval(progressInterval); return 100; } return prev + Math.floor(Math.random() * 5) + 1; });
         }, 150);
-
-        // Fake log appending
         const logInterval = setInterval(() => {
             if (currentLogIndex < logsToUse.length) {
-                // We can't easily push directly to state based on old state without closure issues here, 
-                // so we derive from the base array
                 setVisibleLogs(logsToUse.slice(0, currentLogIndex + 1));
                 currentLogIndex++;
             } else {
@@ -79,93 +61,78 @@ function ScraperConsoleContent() {
                 setProgress(100);
             }
         }, 400);
-
-        return () => {
-            clearInterval(progressInterval);
-            clearInterval(logInterval);
-        };
+        return () => { clearInterval(progressInterval); clearInterval(logInterval); };
     }, [logsToUse]);
 
     return (
-        <div className="min-h-screen bg-obsidian flex flex-col items-center justify-center p-6 relative">
-            <div className="w-full max-w-4xl relative z-10">
-
-                <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="luxury-page" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24 }}>
+            <div style={{ width: "100%", maxWidth: 800, position: "relative", zIndex: 10 }}>
+                {/* Header */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 32, flexWrap: "wrap", gap: 16 }}>
                     <div>
-                        <PulseTag status={isComplete ? "shipped" : "live"} label={isComplete ? "IMPORT COMPLETE" : "IMPORTING PROFILES"} className="mb-4" />
-                        <h1 className="font-clash font-black text-4xl text-white uppercase flex items-center gap-4">
-                            Data Importer
-                            {isComplete && <span className="text-lime text-2xl"><IconSuccess className="w-5 h-5" /></span>}
+                        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", background: isComplete ? "rgba(91,138,111,.1)" : "rgba(201,163,83,.1)", border: `1px solid ${isComplete ? "rgba(91,138,111,.2)" : "rgba(201,163,83,.2)"}`, borderRadius: 9999, marginBottom: 16 }}>
+                            <span style={{ width: 6, height: 6, borderRadius: "50%", background: isComplete ? "#5B8A6F" : "#C9A353" }} />
+                            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: ".15em", textTransform: "uppercase", color: isComplete ? "#5B8A6F" : "#C9A353" }}>
+                                {isComplete ? "Import Complete" : "Importing Profiles"}
+                            </span>
+                        </div>
+                        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 400, color: "var(--ink)", display: "flex", alignItems: "center", gap: 12 }}>
+                            Data Importer {isComplete && <Check size={20} style={{ color: "#5B8A6F" }} />}
                         </h1>
-                        <p className="font-mono text-white/50 text-sm mt-2">
+                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", marginTop: 8 }}>
                             Analyzing your verified work history. Please wait while we process your data.
                         </p>
                     </div>
-
-                    {/* Progress Bar */}
-                    <div className="w-full md:w-64">
-                        <div className="flex justify-between font-mono text-xs text-white/70 mb-2">
-                            <span>PROGRESS</span>
-                            <span>{progress}%</span>
+                    <div style={{ width: 200 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, letterSpacing: ".15em", textTransform: "uppercase", color: "rgba(13,13,13,.35)" }}>Progress</span>
+                            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, color: "#C9A353" }}>{Math.min(progress, 100)}%</span>
                         </div>
-                        <div className="w-full h-2 bg-black/50 border border-white/10 rounded-full overflow-hidden">
-                            <motion.div
-                                className={`h-full ${isComplete ? 'bg-lime' : 'bg-cyber'} relative`}
-                                initial={{ width: 0 }}
-                                animate={{ width: `${progress}%` }}
-                                transition={{ ease: "linear", duration: 0.2 }}
-                            >
-                                {!isComplete && (
-                                    <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                                )}
+                        <div style={{ height: 4, background: "rgba(13,13,13,.08)", borderRadius: 9999, overflow: "hidden" }}>
+                            <motion.div animate={{ width: `${Math.min(progress, 100)}%` }} transition={{ ease: "linear", duration: 0.2 }}
+                                style={{ height: "100%", background: isComplete ? "#5B8A6F" : "linear-gradient(90deg, #C9A353, #E5C97A)", borderRadius: 9999, position: "relative" }}>
+                                {!isComplete && <div style={{ position: "absolute", inset: 0, background: "rgba(255,255,255,.3)", animation: "pulse 1.5s ease-in-out infinite" }} />}
                             </motion.div>
                         </div>
                     </div>
                 </div>
 
                 {/* Terminal Window */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="w-full shadow-[0_0_30px_rgba(138,43,226,0.1)] rounded-bento-lg overflow-hidden border border-white/10"
-                >
-                    {/* Terminal Header */}
-                    <div className="bg-[#1A1A1A] border-b border-white/5 px-4 py-3 flex items-center justify-between">
-                        <div className="flex gap-2">
-                            <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                            <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                            <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                    style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(13,13,13,.08)", boxShadow: "0 8px 40px rgba(13,13,13,.06)" }}>
+                    <div style={{ background: "#1E1E1E", padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,.06)" }}>
+                        <div style={{ display: "flex", gap: 8 }}>
+                            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "rgba(255,95,87,.7)" }} />
+                            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "rgba(255,188,46,.7)" }} />
+                            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "rgba(39,201,63,.7)" }} />
                         </div>
-                        <span className="font-mono text-xs text-white/30 tracking-wider">collabrise@system: ~/data-import</span>
+                        <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "rgba(255,255,255,.3)", letterSpacing: ".1em" }}>collabrise@system: ~/data-import</span>
                     </div>
-
-                    {/* Terminal Body */}
-                    <TerminalBlock
-                        lines={visibleLogs}
-                        typingSpeed={10}
-                        className="rounded-none border-none min-h-[400px] max-h-[500px] overflow-y-auto"
-                    />
+                    <div style={{ background: "#1A1A1A", padding: 20, minHeight: 360, maxHeight: 420, overflowY: "auto", fontFamily: "'JetBrains Mono','Fira Code',monospace", fontSize: 12, lineHeight: 2 }}>
+                        {visibleLogs.map((log, i) => (
+                            <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2 }}>
+                                <span style={{ color: log.startsWith("[✓]") ? "#5B8A6F" : log.startsWith("[!]") || log.startsWith("[—]") ? "#C9A353" : log.startsWith("//") ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.5)" }}>
+                                    {log}
+                                </span>
+                            </motion.div>
+                        ))}
+                        {!isComplete && (
+                            <span style={{ display: "inline-block", width: 8, height: 16, background: "#C9A353", animation: "pulse 1s ease-in-out infinite" }} />
+                        )}
+                    </div>
                 </motion.div>
 
-                {/* Next Step Action */}
+                {/* Continue */}
                 <AnimatePresence>
                     {isComplete && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            transition={{ delay: 0.5, type: "spring" }}
-                            className="mt-8 flex justify-end"
-                        >
-                            <ForgeButton
-                                onClick={() => router.push('/onboard/psychometric')}
-                                className="bg-lime text-obsidian border-none hover:bg-white px-8"
-                            >
-                                CONTINUE
-                            </ForgeButton>
+                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, type: "spring" }}
+                            style={{ marginTop: 28, display: "flex", justifyContent: "flex-end" }}>
+                            <button className="btn-primary" onClick={() => router.push("/onboard/psychometric")}>
+                                Continue →
+                            </button>
                         </motion.div>
                     )}
                 </AnimatePresence>
-
             </div>
         </div>
     );
@@ -174,8 +141,8 @@ function ScraperConsoleContent() {
 export default function ScraperConsolePage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-obsidian flex flex-col items-center justify-center">
-                <div className="w-16 h-16 rounded-full border-2 border-dashed border-lime animate-spin-slow"></div>
+            <div className="luxury-page" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ width: 48, height: 48, borderRadius: "50%", border: "2px dashed rgba(201,163,83,.3)", animation: "spin 3s linear infinite" }} />
             </div>
         }>
             <ScraperConsoleContent />

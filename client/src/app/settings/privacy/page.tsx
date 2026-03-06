@@ -1,27 +1,21 @@
 "use client";
-import { BentoCard, ForgeButton } from "@/components/forge";
-export default function PrivacyPage() {
+import { useState } from "react";
+import { Shield, Eye, EyeOff } from "lucide-react";
+const SETTINGS = [
+    { label: "Profile Visibility", desc: "Allow others to view your ship log and profile", defaultOn: true },
+    { label: "Show Ship Score", desc: "Display your score publicly on your profile", defaultOn: true },
+    { label: "Activity Heatmap", desc: "Show your activity heatmap to visitors", defaultOn: false },
+    { label: "Allow Direct Messages", desc: "Let other founders message you directly", defaultOn: true },
+];
+export default function Page() {
+    const [toggles, setToggles] = useState(SETTINGS.map(s => s.defaultOn));
+    const toggle = (i: number) => setToggles(prev => { const n = [...prev]; n[i] = !n[i]; return n; });
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-4xl mx-auto px-6 py-32">
-                <h1 className="font-clash font-bold text-4xl mb-2">Privacy Controls</h1>
-                <p className="font-mono text-white/50 mb-12">Decide what&apos;s public, what&apos;s private, and who can see your work.</p>
-                <div className="space-y-6">
-                    {[
-                        { label: "Ship Log Visibility", desc: "Who can see your public ship log", value: "Public" },
-                        { label: "Failure Vault", desc: "Who can see your failure post-mortems", value: "Guild Only" },
-                        { label: "Skill Heatmap", desc: "Show your skill levels on your profile", value: "Public" },
-                        { label: "Peer Reviews", desc: "Display received reviews on your profile", value: "Public" },
-                        { label: "Availability Calendar", desc: "Show your sprint capacity to others", value: "Connections Only" },
-                    ].map(item => (
-                        <BentoCard key={item.label} className="p-6 flex items-center justify-between">
-                            <div><h3 className="font-clash font-semibold">{item.label}</h3><p className="font-mono text-xs text-white/40">{item.desc}</p></div>
-                            <select defaultValue={item.value} className="bg-black/60 border border-white/10 rounded-bento-sm p-2 font-mono text-sm text-white focus:border-lime outline-none"><option>Public</option><option>Guild Only</option><option>Connections Only</option><option>Private</option></select>
-                        </BentoCard>
-                    ))}
-                </div>
-                <div className="mt-8 text-right"><ForgeButton variant="primary">SAVE PRIVACY SETTINGS</ForgeButton></div>
-            </main>
-        </div>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Settings</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}><Shield size={22} style={{ display: "inline", marginRight: 8, color: "#C9A353" }} /><em className="gold-shimmer-text">Privacy</em></h1></div></div>
+            <div className="luxury-container" style={{ maxWidth: 640, paddingTop: 40, paddingBottom: 80 }}>
+                {SETTINGS.map((s, i) => (<div key={s.label} className="luxury-card" style={{ padding: 20, marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}><div style={{ display: "flex", alignItems: "center", gap: 12 }}>{toggles[i] ? <Eye size={16} style={{ color: "#C9A353" }} /> : <EyeOff size={16} style={{ color: "rgba(13,13,13,.2)" }} />}<div><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{s.label}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>{s.desc}</p></div></div>
+                    <button onClick={() => toggle(i)} style={{ width: 44, height: 24, borderRadius: 9999, border: "none", cursor: "pointer", background: toggles[i] ? "#C9A353" : "rgba(13,13,13,.1)", position: "relative", transition: "background .2s" }}><div style={{ width: 18, height: 18, borderRadius: "50%", background: "#fff", position: "absolute", top: 3, left: toggles[i] ? 23 : 3, transition: "left .2s" }} /></button>
+                </div>))}
+            </div></div>
     );
 }

@@ -1,35 +1,37 @@
-"use client";
-import { BentoCard, ForgeButton, PulseTag, ShipScoreCounter } from "@/components/forge";
-import { motion } from "framer-motion";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-
-const BOUNTY_DATA: Record<string, { title: string; company: string; reward: string; difficulty: string; description: string; requirements: string[]; timeline: string }> = {
-    "bounty-001": { title: "Build a Real-Time Notification System", company: "NeonLabs", reward: "$2,500", difficulty: "HARD", description: "Design and implement a scalable notification system using WebSocket connections with fallback to Server-Sent Events.", requirements: ["React + TypeScript", "WebSocket/SSE expertise", "Redis pub/sub experience", "Ship Score > 2000"], timeline: "14 days" },
-    "bounty-002": { title: "Design a Mobile Onboarding Flow", company: "CreativeOS", reward: "$1,800", difficulty: "MEDIUM", description: "Create an engaging 5-screen mobile onboarding flow with micro-animations and gamification elements.", requirements: ["Figma Advanced", "Motion design", "User research", "Ship Score > 1500"], timeline: "10 days" },
-    "bounty-003": { title: "Audit Smart Contract for DEX", company: "ChainVault", reward: "$5,000", difficulty: "EXPERT", description: "Perform a comprehensive security audit on our decentralized exchange smart contracts (Solidity/EVM).", requirements: ["Solidity expertise", "Security audit experience", "Known CVE familiarity", "Ship Score > 5000"], timeline: "21 days" },
-};
-
-export default function BountyDetailPage() {
-    const params = useParams();
-    const router = useRouter();
-    const id = (params?.id as string) || "bounty-001";
-    const data = BOUNTY_DATA[id] || BOUNTY_DATA["bounty-001"];
-
+import { Zap, Clock, DollarSign } from "lucide-react";
+export default function Page() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-4xl mx-auto px-6 py-32">
-                <button onClick={() => router.back()} className="font-mono text-xs text-white/40 hover:text-lime mb-6 block">← BACK TO MARKETPLACE</button>
-                <div className="flex justify-between items-start mb-8">
-                    <div><PulseTag status="live" className="mb-3" /><h1 className="font-clash font-bold text-4xl">{data.title}</h1><p className="font-mono text-sm text-white/40 mt-2">{data.company} · {data.timeline} · {data.difficulty}</p></div>
-                    <div className="text-right"><p className="font-clash font-bold text-4xl text-lime">{data.reward}</p><p className="font-mono text-xs text-white/30">REWARD</p></div>
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><p className="luxury-overline" style={{ marginBottom: 12 }}>Bounty Detail</p><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontWeight: 400, color: "var(--ink)" }}>Build ZK Login Module</h1></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 20 }}>
+                    <div className="luxury-card" style={{ padding: 32 }}>
+                        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontWeight: 400, color: "var(--ink)", marginBottom: 16 }}>Description</h2>
+                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--smoke)", lineHeight: 1.8 }}>Implement a zero-knowledge proof-based login module that allows users to authenticate without revealing their credentials. The module should integrate with our existing identity layer and support cross-chain verification.</p>
+                        <h3 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginTop: 24, marginBottom: 10 }}>Requirements</h3>
+                        <ul style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", lineHeight: 2, paddingLeft: 20 }}>
+                            <li>ZK-SNARK proof generation and verification</li><li>Browser-compatible WebAssembly build</li><li>Integration with Ethereum and Solana wallets</li><li>Comprehensive test suite with &gt;90% coverage</li>
+                        </ul>
+                        <div style={{ display: "flex", gap: 6, marginTop: 16 }}>{["Rust", "WASM", "ZK-Proofs", "Cryptography"].map(t => <span key={t} className="luxury-tag">{t}</span>)}</div>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        <div className="luxury-card" style={{ padding: 24, textAlign: "center" }}>
+                            <DollarSign size={20} style={{ color: "#C9A353", margin: "0 auto 8px" }} />
+                            <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "2rem", fontStyle: "italic", color: "#C9A353" }}>$2,500</p>
+                            <p className="luxury-overline">Reward</p>
+                        </div>
+                        <div className="luxury-card" style={{ padding: 24, textAlign: "center" }}>
+                            <Clock size={18} style={{ color: "var(--smoke)", margin: "0 auto 8px" }} />
+                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>14 days</p>
+                            <p className="luxury-overline">Deadline</p>
+                        </div>
+                        <div className="luxury-card" style={{ padding: 24, textAlign: "center" }}>
+                            <Zap size={18} style={{ color: "rgba(180,60,60,.6)", margin: "0 auto 8px" }} />
+                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13, color: "rgba(180,60,60,.6)" }}>Hard</p>
+                            <p className="luxury-overline">Difficulty</p>
+                        </div>
+                        <button className="btn-primary" style={{ width: "100%", padding: "14px 0" }}>Claim Bounty</button>
+                    </div>
                 </div>
-                <BentoCard className="p-8 mb-6"><h3 className="font-clash font-semibold text-lg mb-3">Brief</h3><p className="font-mono text-sm text-white/60 leading-relaxed">{data.description}</p></BentoCard>
-                <BentoCard className="p-8 mb-6"><h3 className="font-clash font-semibold text-lg mb-4">Requirements</h3>
-                    <ul className="space-y-2">{data.requirements.map(r => <li key={r} className="font-mono text-sm text-white/60 flex gap-2"><span className="text-lime">→</span>{r}</li>)}</ul>
-                </BentoCard>
-                <ForgeButton variant="primary" className="w-full py-5 text-lg">ACCEPT CHALLENGE</ForgeButton>
-            </main>
-        </div>
+            </div></div>
     );
 }

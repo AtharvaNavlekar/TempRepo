@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ForgeButton, BentoCard, GlitchText, PulseTag } from "@/components/forge";
+import { motion } from "framer-motion";
+import { ArrowRight, Github } from "lucide-react";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -11,117 +12,94 @@ export default function LoginPage() {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate auth
-        setTimeout(() => {
-            setLoading(false);
-            window.location.href = "/vibe-check";
-        }, 1500);
+        setTimeout(() => { setLoading(false); window.location.href = "/vibe-check"; }, 1500);
+    };
+
+    const inputStyle: React.CSSProperties = {
+        width: "100%", padding: "14px 18px",
+        background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)",
+        borderRadius: 12, fontFamily: "'DM Sans',sans-serif", fontSize: 14,
+        color: "var(--ink)", outline: "none", transition: "border-color .2s, box-shadow .2s"
     };
 
     return (
-        <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center p-6 relative">
+        <div className="luxury-page" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", position: "relative", overflow: "hidden" }}>
+            {/* Background */}
+            <div style={{ position: "absolute", top: "50%", left: "30%", transform: "translate(-50%,-50%)", width: 600, height: 500, background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,163,83,.08), transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(201,163,83,.04) 1px, transparent 1px)", backgroundSize: "44px 44px", pointerEvents: "none" }} />
 
-            {/* Background Glow */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-saffron/10 rounded-full blur-[120px]" />
-                <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-indigo/10 rounded-full blur-[100px]" />
-            </div>
+            <div style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: 1000, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, margin: "0 auto", padding: "0 32px" }}>
+                {/* Left — Branding Panel */}
+                <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}
+                    style={{ background: "var(--ink)", padding: 56, display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: "20px 0 0 20px", position: "relative", overflow: "hidden", minHeight: 540 }}>
+                    <div style={{ position: "absolute", top: 0, right: 0, width: 60, height: 60, borderTop: "1px solid rgba(201,163,83,.25)", borderRight: "1px solid rgba(201,163,83,.25)", margin: 24 }} />
+                    <div style={{ position: "absolute", bottom: 0, left: 0, width: 60, height: 60, borderBottom: "1px solid rgba(201,163,83,.25)", borderLeft: "1px solid rgba(201,163,83,.25)", margin: 24 }} />
+                    <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(201,163,83,.06) 1px, transparent 1px)", backgroundSize: "28px 28px", pointerEvents: "none" }} />
 
-            <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", background: "rgba(201,163,83,.15)", border: "1px solid rgba(201,163,83,.2)", borderRadius: 9999, marginBottom: 32 }}>
+                            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#5B8A6F" }} />
+                            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: ".15em", textTransform: "uppercase", color: "#C9A353" }}>System Online</span>
+                        </div>
+                        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.5rem,5vw,3.5rem)", fontWeight: 400, fontStyle: "italic", color: "#fff", lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: 8 }}>
+                            Welcome<br />to <span style={{ color: "#C9A353" }}>CollabRise</span>
+                        </h1>
+                    </div>
+                    <p style={{ position: "relative", zIndex: 1, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,.5)", lineHeight: 1.9, maxWidth: 320, letterSpacing: ".02em" }}>
+                        Ship real ventures, build irrefutable proof of your abilities, and let your work replace your résumé.
+                    </p>
+                </motion.div>
 
-                {/* Left Side: Branding/Visual */}
-                <BentoCard glass={false} className="hidden md:flex flex-col justify-between min-h-[500px] p-10 bg-ink border-ink/20 relative overflow-hidden group shadow-2xl">
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-
-                    <div className="relative z-10">
-                        <PulseTag status="live" label="SYSTEM ONLINE" className="mb-6" />
-                        <GlitchText text="WELCOME" className="text-6xl font-serif text-white uppercase italic tracking-wider" />
-                        <GlitchText text="TO" className="text-6xl font-serif text-white/80 uppercase italic tracking-wider" speed="slow" />
-                        <h1 className="text-5xl font-sans font-bold text-saffron tracking-widest uppercase mt-2">COLLABRISE</h1>
+                {/* Right — Login Form */}
+                <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+                    style={{ background: "#fff", padding: 56, borderRadius: "0 20px 20px 0", display: "flex", flexDirection: "column", justifyContent: "center", boxShadow: "8px 8px 40px rgba(13,13,13,.06)" }}>
+                    <div style={{ marginBottom: 36 }}>
+                        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.8rem", fontWeight: 400, color: "var(--ink)", marginBottom: 8 }}>Welcome Back.</h2>
+                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)" }}>Sign in to continue to your account.</p>
                     </div>
 
-                    <div className="relative z-10">
-                        <p className="font-sans text-smoke/90 text-sm max-w-[80%] uppercase tracking-wider leading-loose font-medium">
-                            Ship real projects, build irrefutable proof of your skills, and let your work replace your resume.
-                        </p>
-                    </div>
-
-                    {/* Decorative Corner Elements */}
-                    <div className="absolute top-0 right-0 w-16 h-16 border-t font-serif border-r border-royal-gold/30 m-6" />
-                    <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-royal-gold/30 m-6" />
-                </BentoCard>
-
-                {/* Right Side: Auth Form */}
-                <BentoCard accent="default" className="min-h-[500px] p-8 md:p-10 flex flex-col justify-center">
-                    <div className="mb-8">
-                        <h2 className="font-serif font-bold text-4xl text-ink mb-2">Welcome Back.</h2>
-                        <p className="font-sans text-smoke text-sm">Please sign in to continue to your account.</p>
-                    </div>
-
-                    <form onSubmit={handleLogin} className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="font-sans font-bold text-[10px] text-smoke tracking-widest uppercase">
-                                Email Address
-                            </label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="founder@venture.net"
-                                className="w-full bg-white/60 border border-ink/10 focus:border-royal-gold rounded-lg px-4 py-3 font-sans text-ink placeholder:text-smoke/40 outline-none transition-colors duration-300 backdrop-blur-sm"
-                                required
+                    <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                        <div>
+                            <label style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: ".16em", textTransform: "uppercase", color: "rgba(13,13,13,.35)", display: "block", marginBottom: 8 }}>Email Address</label>
+                            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="founder@venture.net" required
+                                style={inputStyle}
+                                onFocus={e => { e.currentTarget.style.borderColor = "#C9A353"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(201,163,83,.1)"; }}
+                                onBlur={e => { e.currentTarget.style.borderColor = "rgba(13,13,13,.1)"; e.currentTarget.style.boxShadow = "none"; }}
                             />
                         </div>
-
-                        <div className="space-y-2">
-                            <div className="flex justify-between items-center">
-                                <label className="font-sans font-bold text-[10px] text-smoke tracking-widest uppercase">
-                                    Password
-                                </label>
-                                <Link href="/auth/recovery" className="font-sans text-[10px] font-bold tracking-wider uppercase text-saffron hover:text-ink transition-colors duration-200">
-                                    Forgot Password?
-                                </Link>
+                        <div>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                                <label style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: ".16em", textTransform: "uppercase", color: "rgba(13,13,13,.35)" }}>Password</label>
+                                <Link href="/auth/recovery" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 600, color: "#C9A353", textDecoration: "none", letterSpacing: ".1em", textTransform: "uppercase" }}>Forgot?</Link>
                             </div>
-                            <input
-                                type="password"
-                                placeholder="••••••••••••"
-                                className="w-full bg-white/60 border border-ink/10 focus:border-royal-gold rounded-lg px-4 py-3 font-sans text-ink outline-none transition-colors duration-300 backdrop-blur-sm"
-                                required
+                            <input type="password" placeholder="••••••••••••" required
+                                style={inputStyle}
+                                onFocus={e => { e.currentTarget.style.borderColor = "#C9A353"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(201,163,83,.1)"; }}
+                                onBlur={e => { e.currentTarget.style.borderColor = "rgba(13,13,13,.1)"; e.currentTarget.style.boxShadow = "none"; }}
                             />
                         </div>
-
-                        <ForgeButton
-                            type="submit"
-                            className="w-full py-4 text-[13px] tracking-widest uppercase font-bold"
-                            loading={loading}
-                        >
-                            Sign In
-                        </ForgeButton>
+                        <button type="submit" className="btn-primary" disabled={loading}
+                            style={{ width: "100%", justifyContent: "center", padding: "14px 0", fontSize: 12, opacity: loading ? 0.6 : 1 }}>
+                            {loading ? "Signing in..." : <><span>Sign In</span> <ArrowRight size={13} /></>}
+                        </button>
                     </form>
 
-                    <div className="mt-8">
-                        <div className="relative flex items-center mb-6">
-                            <div className="flex-grow border-t border-ink/10"></div>
-                            <span className="flex-shrink-0 mx-4 font-sans font-semibold text-[10px] text-smoke uppercase tracking-wider">Or Continue With</span>
-                            <div className="flex-grow border-t border-ink/10"></div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <ForgeButton variant="ghost" className="font-sans text-[12px] font-bold tracking-wider w-full shadow-sm bg-white/50 border-ink/10">
-                                GITHUB
-                            </ForgeButton>
-                            <ForgeButton variant="ghost" className="font-sans text-[12px] font-bold tracking-wider w-full shadow-sm bg-white/50 border-ink/10">
-                                WALLET
-                            </ForgeButton>
-                        </div>
+                    <div style={{ margin: "28px 0", display: "flex", alignItems: "center", gap: 16 }}>
+                        <div style={{ flex: 1, height: 1, background: "rgba(13,13,13,.08)" }} />
+                        <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: ".15em", textTransform: "uppercase", color: "rgba(13,13,13,.3)" }}>Or Continue With</span>
+                        <div style={{ flex: 1, height: 1, background: "rgba(13,13,13,.08)" }} />
                     </div>
 
-                    <p className="mt-8 text-center font-sans font-semibold text-[11px] text-smoke tracking-wider">
-                        Don&apos;t have an account? <Link href="/auth/create-account" className="text-ink font-bold hover:text-saffron transition-colors">Sign Up</Link>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                        <button className="btn-secondary" style={{ justifyContent: "center" }}><Github size={14} /> GitHub</button>
+                        <button className="btn-secondary" style={{ justifyContent: "center" }}>🔗 Wallet</button>
+                    </div>
+
+                    <p style={{ textAlign: "center", marginTop: 28, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>
+                        Don&apos;t have an account?{" "}
+                        <Link href="/auth/create-account" style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "none" }}>Sign Up</Link>
                     </p>
-
-                </BentoCard>
-
+                </motion.div>
             </div>
         </div>
     );

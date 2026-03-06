@@ -1,28 +1,15 @@
-"use client";
-import { BentoCard, ForgeButton, GlitchText, PulseTag } from "@/components/forge";
-import { IconStar } from "@/components/icons";
 import Link from "next/link";
-
-export default function CompanyProfilePage() {
+import { Building2, Users, MapPin, ExternalLink } from "lucide-react";
+export default function Page() {
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-5xl mx-auto px-6 py-32">
-                <div className="flex items-center justify-between mb-8">
-                    <div><h1 className="font-clash font-bold text-5xl mb-2"><GlitchText text="NEONLABS" /></h1><p className="font-mono text-white/50">Building the future of decentralized infrastructure.</p></div>
-                    <PulseTag status="live" label="HIRING" />
+        <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container"><div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}><div style={{ width: 56, height: 56, borderRadius: 14, background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.15)", display: "flex", alignItems: "center", justifyContent: "center" }}><Building2 size={24} style={{ color: "#C9A353" }} /></div><div><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.8rem", fontWeight: 400, color: "var(--ink)" }}>Nexus Labs</h1><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)", display: "flex", alignItems: "center", gap: 6 }}><MapPin size={12} /> San Francisco · Founded 2024</p></div></div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--smoke)", lineHeight: 1.8, maxWidth: 600 }}>Building the next generation of developer tools. We believe in open-source, radical transparency, and shipping fast.</p></div></div>
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 32 }}>
+                    {[{ l: "Team Size", v: "28" }, { l: "Projects", v: "12" }, { l: "Open Roles", v: "4" }, { l: "Avg Score", v: "892" }].map(s => (<div key={s.l} className="luxury-card" style={{ padding: 20, textAlign: "center" }}><p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.5rem", fontStyle: "italic", color: "#C9A353" }}>{s.v}</p><p className="luxury-overline">{s.l}</p></div>))}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <BentoCard className="p-5 text-center"><p className="font-clash font-bold text-2xl text-lime">47</p><p className="font-mono text-[10px] text-white/30">EMPLOYEES</p></BentoCard>
-                    <BentoCard className="p-5 text-center"><p className="font-clash font-bold text-2xl text-cyber">$2.1M</p><p className="font-mono text-[10px] text-white/30">BOUNTIES PAID</p></BentoCard>
-                    <BentoCard className="p-5 text-center"><p className="font-clash font-bold text-2xl text-acid">23</p><p className="font-mono text-[10px] text-white/30">ACTIVE BOUNTIES</p></BentoCard>
-                    <BentoCard className="p-5 text-center"><p className="font-clash font-bold text-2xl flex items-center justify-center gap-1">4.9 <IconStar className="w-5 h-5 text-yellow-400" /></p><p className="font-mono text-[10px] text-white/30">BUILDER RATING</p></BentoCard>
-                </div>
-                <BentoCard className="p-8 mb-8"><h3 className="font-clash font-semibold text-xl mb-4">About</h3><p className="font-mono text-sm text-white/60 leading-relaxed">NeonLabs is a Series A startup building decentralized developer infrastructure. We believe in shipping fast, reviewing honestly, and compensating fairly. All hires are done through CollabRise bounties — no résumés, no interviews, just proof of work.</p></BentoCard>
-                <div className="flex gap-4">
-                    <Link href="/company/neonlabs/recruit"><ForgeButton variant="secondary">RECRUITMENT CONSOLE</ForgeButton></Link>
-                    <ForgeButton variant="primary">VIEW OPEN BOUNTIES</ForgeButton>
-                </div>
-            </main>
-        </div>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}><h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontWeight: 400, color: "var(--ink)" }}>Open Roles</h2><Link href="/company/nexus-labs/recruit" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#C9A353", textDecoration: "none" }}>View All →</Link></div>
+                {["Senior Full-Stack Engineer", "Product Designer", "DevOps Lead", "Technical Writer"].map(r => (<div key={r} className="luxury-card" style={{ padding: 16, marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}><span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{r}</span><button className="btn-secondary" style={{ fontSize: 11, padding: "6px 14px" }}>Apply</button></div>))}
+            </div></div>
     );
 }
