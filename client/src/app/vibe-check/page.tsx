@@ -2,71 +2,48 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ForgeButton, GlitchText } from "@/components/forge";
+import { ArrowRight, Gem, CheckCircle2 } from "lucide-react";
 
 export default function VibeCheckPage() {
     return (
-        <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-obsidian">
-            {/* Intense Background Pules */}
-            <motion.div
-                animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.1, 0.3, 0.1]
-                }}
-                transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80wv] h-[80vw] max-w-[800px] max-h-[800px] bg-lime rounded-full blur-[150px] mix-blend-screen pointer-events-none"
-            />
+        <div className="luxury-page" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 900, height: 600, background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,163,83,.12), transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(201,163,83,.07) 1px, transparent 1px)", backgroundSize: "44px 44px", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,163,83,.5), transparent)" }} />
 
-            <div className="relative z-10 text-center flex flex-col items-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, type: "spring" }}
-                    className="mb-12"
-                >
-                    <p className="font-mono text-lime tracking-[0.3em] text-sm md:text-base uppercase mb-6 drop-shadow-[0_0_10px_rgba(204,255,0,0.5)]">
-                        Warning: High-Intensity Protocol
+            <div style={{ position: "relative", zIndex: 10, textAlign: "center", maxWidth: 640, padding: "0 32px" }}>
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: 36 }}>
+                        <div className="hex-shape float-gentle" style={{ width: 56, height: 56, background: "linear-gradient(135deg, rgba(201,163,83,.15), rgba(201,163,83,.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Gem size={22} style={{ color: "#C9A353" }} />
+                        </div>
+                    </div>
+                    <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(201,163,83,.5), transparent)", maxWidth: 120, margin: "0 auto 36px" }} />
+                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.7rem", fontWeight: 500, letterSpacing: ".22em", textTransform: "uppercase", color: "rgba(13,13,13,.35)", marginBottom: 20 }}>The Proof · of · Work Protocol</p>
+                    <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.8rem,7vw,5.5rem)", fontWeight: 400, color: "var(--ink)", lineHeight: 0.95, letterSpacing: "-.03em", marginBottom: 28 }}>
+                        Are you ready<br />to <em className="gold-shimmer-text">rise?</em>
+                    </h1>
+                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 300, color: "var(--smoke)", lineHeight: 1.9, maxWidth: 420, margin: "0 auto 40px" }}>
+                        This is not a portfolio. This is a living record of what you have actually shipped, built, and broken. Joining CollabRise is a commitment to execution.
                     </p>
-                    <GlitchText
-                        text="ARE YOU READY"
-                        className="text-5xl md:text-8xl font-black text-white"
-                        speed="slow"
-                    />
-                    <GlitchText
-                        text="TO SHIP?"
-                        className="text-5xl md:text-8xl font-black text-white"
-                        speed="slow"
-                    />
+                    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+                        <Link href="/onboard/identity" className="btn-primary" style={{ fontSize: "15px", padding: "16px 40px", display: "inline-flex" }}>
+                            Begin Your Journey <ArrowRight size={15} strokeWidth={2} />
+                        </Link>
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8, duration: 1 }} style={{ marginTop: 40 }}>
+                        <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
+                            {["Free to join", "No credit card", "Ships in 60 seconds"].map(item => (
+                                <div key={item} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                    <CheckCircle2 size={12} style={{ color: "#5B8A6F" }} />
+                                    <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "rgba(13,13,13,.4)" }}>{item}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
                 </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6, duration: 0.5, type: "spring", bounce: 0.6 }}
-                >
-                    <Link href="/onboard/identity">
-                        <ForgeButton
-                            size="lg"
-                            className="py-6 px-12 text-2xl font-black rounded-full bg-lime text-obsidian hover:bg-white hover:text-obsidian hover:shadow-[0_0_50px_rgba(204,255,0,0.6)] border-none transition-all duration-300"
-                        >
-                            COMMENCE UPLINK
-                        </ForgeButton>
-                    </Link>
-                </motion.div>
-
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2, duration: 1 }}
-                    className="mt-12 font-mono text-white/30 text-xs lowercase tracking-widest"
-                >
-                    pressing this button constitutes a legally binding commitment to extreme execution.
-                </motion.p>
             </div>
+            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,163,83,.5), transparent)" }} />
         </div>
     );
 }

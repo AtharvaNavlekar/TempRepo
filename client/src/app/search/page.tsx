@@ -1,95 +1,123 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { BentoCard, ForgeButton, PulseTag, GlitchText } from "@/components/forge";
 import { useState } from "react";
 import Link from "next/link";
-import { IconSearch, IconClose, IconTerminal } from "@/components/icons";
+import { Search, X } from "lucide-react";
+
 const CATEGORIES = ["ALL", "CODE", "DESIGN", "HARDWARE", "CULINARY", "MUSIC", "WRITING", "MAKER"];
 const SORT_OPTIONS = ["RELEVANCE", "SCORE ↓", "NEWEST", "ENDING SOON"];
+const TYPE_EMOJIS: Record<string, string> = { CODE: "⚡", DESIGN: "🎨", HARDWARE: "🔧", CULINARY: "🔥", MUSIC: "🎵", WRITING: "✍️", MAKER: "🛠️" };
 
 const RESULTS = [
-    { id: "proj-001", title: "Decentralized Identity Layer", type: "CODE", score: 2400, builders: 4, status: "building" as const, guild: "React Guild", description: "Self-sovereign identity protocol replacing centralized credentialing.", progress: 67, tags: ["Rust", "WASM"] },
-    { id: "proj-002", title: "AI Recipe Engine", type: "CULINARY", score: 1800, builders: 3, status: "live" as const, guild: "Chef Guild", description: "Generative recipe creation with nutritional scoring.", progress: 85, tags: ["Python", "GPT-4"] },
-    { id: "proj-003", title: "Zero-Waste Packaging", type: "DESIGN", score: 3200, builders: 2, status: "shipped" as const, guild: "Design Guild", description: "Compostable packaging designed with circular economy principles.", progress: 100, tags: ["Figma", "Blender"] },
-    { id: "proj-004", title: "CNC Controller v2", type: "HARDWARE", score: 900, builders: 5, status: "staked" as const, guild: "Maker Guild", description: "Multi-axis CNC controller with real-time toolpath visualization.", progress: 22, tags: ["C++", "Arduino"] },
-    { id: "proj-005", title: "Generative Ambient Album", type: "MUSIC", score: 600, builders: 2, status: "building" as const, guild: "Music Guild", description: "AI-assisted ambient compositions with live stem manipulation.", progress: 40, tags: ["Ableton", "Max/MSP"] },
-    { id: "proj-006", title: "Cross-Platform Auth SDK", type: "CODE", score: 4100, builders: 3, status: "live" as const, guild: "React Guild", description: "Universal auth SDK supporting passkeys, OAuth, and Web3.", progress: 78, tags: ["TypeScript", "OAuth"] },
-    { id: "bounty-001", title: "Real-Time Notification System", type: "CODE", score: 0, builders: 0, status: "live" as const, guild: "NeonLabs Bounty", description: "Build a scalable notification system using WebSocket connections.", progress: 0, tags: ["React", "WebSocket"] },
-    { id: "user-neo", title: "0xNeo — Full-Stack Architect", type: "CODE", score: 12400, builders: 0, status: "shipped" as const, guild: "React Guild", description: "Top builder. 24 ships. 14-day active streak.", progress: 0, tags: ["React", "Rust", "Systems"] },
+    { id: "proj-001", title: "Decentralized Identity Layer", type: "CODE", score: 2400, builders: 4, status: "building", guild: "React Guild", description: "Self-sovereign identity protocol replacing centralized credentialing.", progress: 67, tags: ["Rust", "WASM"] },
+    { id: "proj-002", title: "AI Recipe Engine", type: "CULINARY", score: 1800, builders: 3, status: "live", guild: "Chef Guild", description: "Generative recipe creation with nutritional scoring.", progress: 85, tags: ["Python", "GPT-4"] },
+    { id: "proj-003", title: "Zero-Waste Packaging", type: "DESIGN", score: 3200, builders: 2, status: "shipped", guild: "Design Guild", description: "Compostable packaging designed with circular economy principles.", progress: 100, tags: ["Figma", "Blender"] },
+    { id: "proj-004", title: "CNC Controller v2", type: "HARDWARE", score: 900, builders: 5, status: "staked", guild: "Maker Guild", description: "Multi-axis CNC controller with real-time toolpath visualization.", progress: 22, tags: ["C++", "Arduino"] },
+    { id: "proj-006", title: "Cross-Platform Auth SDK", type: "CODE", score: 4100, builders: 3, status: "live", guild: "React Guild", description: "Universal auth SDK supporting passkeys, OAuth, and Web3.", progress: 78, tags: ["TypeScript", "OAuth"] },
 ];
 
-const TYPE_ICONS: Record<string, string> = { CODE: "IconShipScore", DESIGN: "IconPalette", HARDWARE: "IconWrench", CULINARY: "IconFlame", MUSIC: "IconMusic", WRITING: "IconPencil", MAKER: "IconHammer" };
+const STATUS_COLORS: Record<string, string> = {
+    building: "#977833", live: "#5B8A6F", shipped: "rgba(13,13,13,.4)", staked: "#6B7CB8"
+};
 
 export default function SearchPage() {
     const [activeCategory, setActiveCategory] = useState("ALL");
-    const [sortBy, setSortBy] = useState("RELEVANCE");
     const [query, setQuery] = useState("");
 
     const filtered = RESULTS.filter(r => {
         const matchCategory = activeCategory === "ALL" || r.type === activeCategory;
-        const matchQuery = !query || r.title.toLowerCase().includes(query.toLowerCase()) || r.description.toLowerCase().includes(query.toLowerCase());
+        const matchQuery = !query || r.title.toLowerCase().includes(query.toLowerCase()) || r.tags.some(t => t.toLowerCase().includes(query.toLowerCase()));
         return matchCategory && matchQuery;
     });
 
     return (
-        <div className="min-h-screen bg-obsidian text-white/90 font-sans">
-            <main className="max-w-6xl mx-auto px-6 py-32">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                    <h1 className="font-clash font-bold text-6xl mb-8"><GlitchText text="SEARCH" /></h1>
-
-                    {/* Search Input */}
-                    <div className="relative mb-6">
-                        <input type="text" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search projects, builders, guilds, bounties..."
-                            className="w-full bg-black/60 border-2 border-white/10 rounded-bento p-6 pl-16 font-mono text-white focus:border-lime outline-none transition-all text-lg placeholder:text-white/20 focus:shadow-glow" />
-                        <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white/30 font-mono text-xl"><IconTerminal className="w-5 h-5" /></span>
-                        {query && <button onClick={() => setQuery("")} className="absolute right-6 top-1/2 -translate-y-1/2 text-white/30 hover:text-white font-mono text-sm"><IconClose className="w-5 h-5" /></button>}
+        <div className="luxury-page">
+            {/* Header */}
+            <div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}>
+                <div className="luxury-container">
+                    <p className="luxury-overline" style={{ marginBottom: 12 }}>Rise Protocol · Explore</p>
+                    <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,5vw,3.5rem)", fontWeight: 400, color: "var(--ink)", lineHeight: 1, letterSpacing: "-.03em", marginBottom: 32 }}>
+                        Search <em className="gold-shimmer-text">everything</em>
+                    </h1>
+                    <div style={{ position: "relative", maxWidth: 640 }}>
+                        <Search size={16} style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(13,13,13,.3)" }} />
+                        <input
+                            type="text" value={query} onChange={e => setQuery(e.target.value)}
+                            placeholder="Search ventures, founders, guilds, skills..."
+                            style={{ width: "100%", paddingLeft: 48, paddingRight: query ? 44 : 20, paddingTop: 18, paddingBottom: 18, background: "#fff", border: "1.5px solid rgba(13,13,13,.1)", borderRadius: 16, fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "var(--ink)", outline: "none", boxShadow: "0 4px 20px rgba(13,13,13,.06)", transition: "border-color .2s, box-shadow .2s" }}
+                            onFocus={e => { e.currentTarget.style.borderColor = "#C9A353"; e.currentTarget.style.boxShadow = "0 4px 20px rgba(201,163,83,.12)"; }}
+                            onBlur={e => { e.currentTarget.style.borderColor = "rgba(13,13,13,.1)"; e.currentTarget.style.boxShadow = "0 4px 20px rgba(13,13,13,.06)"; }}
+                        />
+                        {query && (
+                            <button onClick={() => setQuery("")} style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(13,13,13,.3)", display: "flex", alignItems: "center" }}>
+                                <X size={16} />
+                            </button>
+                        )}
                     </div>
+                </div>
+            </div>
 
-                    {/* Category + Sort */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
-                        <div className="flex flex-wrap gap-2">
-                            {CATEGORIES.map(cat => (
-                                <motion.button key={cat} whileTap={{ scale: 0.95 }} onClick={() => setActiveCategory(cat)}
-                                    className={`px-4 py-2 font-mono text-xs uppercase tracking-widest rounded-bento-sm border transition-all ${activeCategory === cat ? "bg-lime/10 border-lime/40 text-lime shadow-glow" : "border-white/10 text-white/40 hover:text-white hover:border-white/20"}`}>
-                                    {TYPE_ICONS[cat] && <span className="mr-1">{TYPE_ICONS[cat]}</span>}{cat}
-                                </motion.button>
-                            ))}
-                        </div>
-                        <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="bg-black/60 border border-white/10 rounded-bento-sm px-4 py-2 font-mono text-xs text-white/60 outline-none focus:border-lime">
-                            {SORT_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
-                        </select>
+            {/* Filters */}
+            <div style={{ background: "#fff", borderBottom: "1px solid rgba(13,13,13,.07)", padding: "16px 0" }}>
+                <div className="luxury-container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                        {CATEGORIES.map(cat => (
+                            <motion.button key={cat} whileTap={{ scale: 0.95 }} onClick={() => setActiveCategory(cat)} style={{
+                                padding: "7px 14px", fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500,
+                                letterSpacing: ".1em", textTransform: "uppercase", borderRadius: 9999, border: "1px solid", cursor: "pointer", transition: "all .2s",
+                                background: activeCategory === cat ? "var(--ink)" : "transparent",
+                                color: activeCategory === cat ? "#fff" : "rgba(13,13,13,.4)",
+                                borderColor: activeCategory === cat ? "var(--ink)" : "rgba(13,13,13,.12)",
+                            }}>
+                                {TYPE_EMOJIS[cat] ? `${TYPE_EMOJIS[cat]} ` : ""}{cat}
+                            </motion.button>
+                        ))}
                     </div>
+                    <select style={{ background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)", borderRadius: 8, padding: "8px 14px", fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)", outline: "none" }}>
+                        {SORT_OPTIONS.map(s => <option key={s}>{s}</option>)}
+                    </select>
+                </div>
+            </div>
 
-                    {/* Results Count */}
-                    <p className="font-mono text-xs text-white/30 mb-6">{filtered.length} result{filtered.length !== 1 ? "s" : ""} found</p>
-                </motion.div>
-
-                {/* Results */}
+            {/* Results */}
+            <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
+                <p className="luxury-overline" style={{ marginBottom: 24 }}>{filtered.length} result{filtered.length !== 1 ? "s" : ""} found</p>
                 <AnimatePresence mode="wait">
-                    <motion.div key={activeCategory + query} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+                    <motion.div key={activeCategory + query} initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {filtered.map((r, i) => (
-                            <motion.div key={r.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04, type: "spring", stiffness: 200, damping: 25 }}>
-                                <Link href={r.id.startsWith("user") ? "/ship-log/0xNeo" : r.id.startsWith("bounty") ? `/bounties/${r.id}` : `/project/${r.id}`}>
-                                    <BentoCard className="p-6 flex flex-col md:flex-row md:items-center gap-6 hover:border-lime/30 cursor-pointer group transition-all">
-                                        <div className="flex items-center gap-4 flex-shrink-0">
-                                            <span className="text-2xl">{TYPE_ICONS[r.type] || "IconPalette"}</span>
-                                            <PulseTag status={r.status} />
+                            <motion.div key={r.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, type: "spring", stiffness: 200 }}>
+                                <Link href={`/project/${r.id}`} style={{ textDecoration: "none" }}>
+                                    <div className="luxury-card" style={{ padding: 20, display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }}>
+                                        <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(201,163,83,.07)", border: "1px solid rgba(201,163,83,.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem", flexShrink: 0 }}>
+                                            {TYPE_EMOJIS[r.type] || "📁"}
                                         </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-clash font-bold text-lg group-hover:text-lime transition-colors">{r.title}</h3>
-                                            <p className="font-mono text-xs text-white/40 mt-1">{r.guild} · {r.builders > 0 ? `${r.builders} builders` : "Individual"}</p>
-                                            <p className="font-mono text-xs text-white/30 mt-2 line-clamp-1">{r.description}</p>
-                                            {r.tags.length > 0 && <div className="flex gap-1.5 mt-2">{r.tags.map(t => <span key={t} className="px-2 py-0.5 bg-white/5 border border-white/8 rounded font-mono text-[9px] text-white/40">{t}</span>)}</div>}
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                                                <h3 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{r.title}</h3>
+                                                <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", fontFamily: "'DM Sans',sans-serif", color: STATUS_COLORS[r.status] || "var(--smoke)" }}>
+                                                    {r.status}
+                                                </span>
+                                            </div>
+                                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)", marginBottom: 8 }}>{r.guild} · {r.builders} founders</p>
+                                            <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                                                {r.tags.map(t => (
+                                                    <span key={t} style={{ padding: "2px 7px", background: "rgba(13,13,13,.04)", border: "1px solid rgba(13,13,13,.07)", borderRadius: 5, fontSize: 10, color: "var(--smoke)" }}>{t}</span>
+                                                ))}
+                                            </div>
                                         </div>
                                         {r.progress > 0 && (
-                                            <div className="flex-shrink-0 w-24">
-                                                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-1"><div className={`h-full rounded-full ${r.progress === 100 ? "bg-lime" : "bg-cyber"}`} style={{ width: `${r.progress}%` }} /></div>
-                                                <p className="font-mono text-[10px] text-white/30 text-right">{r.progress}%</p>
+                                            <div style={{ flexShrink: 0, width: 80 }}>
+                                                <div style={{ height: 3, background: "rgba(13,13,13,.06)", borderRadius: 9999, overflow: "hidden", marginBottom: 4 }}>
+                                                    <div style={{ height: "100%", width: `${r.progress}%`, background: r.progress === 100 ? "#5B8A6F" : "#C9A353", borderRadius: 9999 }} />
+                                                </div>
+                                                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "#C9A353", textAlign: "right" }}>{r.progress}%</p>
                                             </div>
                                         )}
-                                        <span className="font-clash font-bold text-lime text-xl flex-shrink-0">{r.score > 0 ? r.score.toLocaleString() : "—"}</span>
-                                    </BentoCard>
+                                        <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", fontStyle: "italic", color: "#C9A353", flexShrink: 0, minWidth: 60, textAlign: "right" }}>
+                                            {r.score > 0 ? r.score.toLocaleString() : "—"}
+                                        </span>
+                                    </div>
                                 </Link>
                             </motion.div>
                         ))}
@@ -97,30 +125,32 @@ export default function SearchPage() {
                 </AnimatePresence>
 
                 {filtered.length === 0 && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
-                        <p className="text-4xl mb-4"><IconSearch className="w-5 h-5" /></p>
-                        <p className="font-clash font-bold text-xl mb-2">No results found</p>
-                        <p className="font-mono text-sm text-white/40">Try adjusting your search or category filter.</p>
-                    </motion.div>
+                    <div style={{ textAlign: "center", padding: "80px 0" }}>
+                        <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", color: "var(--ink)", marginBottom: 8 }}>No results found</p>
+                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)" }}>Try different keywords or clear the filter.</p>
+                    </div>
                 )}
 
                 {/* Quick Links */}
-                <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {[
-                        { label: "Browse Bounties", href: "/bounties", icon: "IconHire" },
-                        { label: "Explore Guilds", href: "/guilds", icon: "IconUsers" },
-                        { label: "Leaderboard", href: "/leaderboard", icon: "IconTrophy" },
-                        { label: "Global Pulse", href: "/pulse", icon: "IconSignal" },
-                    ].map(link => (
-                        <Link key={link.href} href={link.href}>
-                            <BentoCard className="p-5 text-center hover:border-lime/30 cursor-pointer group">
-                                <span className="text-2xl">{link.icon}</span>
-                                <p className="font-clash font-bold text-sm mt-2 group-hover:text-lime transition-colors">{link.label}</p>
-                            </BentoCard>
-                        </Link>
-                    ))}
+                <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={{ marginTop: 64 }}>
+                    <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(201,163,83,.4), transparent)", marginBottom: 40 }} />
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
+                        {[
+                            { label: "Browse Bounties", href: "/bounties", emoji: "💰" },
+                            { label: "Explore Guilds", href: "/guilds", emoji: "🏛️" },
+                            { label: "Leaderboard", href: "/leaderboard", emoji: "🏆" },
+                            { label: "Discovery Feed", href: "/feed", emoji: "🔭" },
+                        ].map(l => (
+                            <Link key={l.href} href={l.href} style={{ textDecoration: "none" }}>
+                                <div className="luxury-card" style={{ padding: 20, textAlign: "center", cursor: "pointer" }}>
+                                    <p style={{ fontSize: "1.5rem", marginBottom: 8 }}>{l.emoji}</p>
+                                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--ink)", fontWeight: 500 }}>{l.label}</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </motion.div>
-            </main>
+            </div>
         </div>
     );
 }

@@ -1,21 +1,33 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ForgeButton, BentoCard, ShipScoreCounter, DNACard, PulseTag } from "@/components/forge";
+import { motion } from "framer-motion";
 import { useCollabRiseStore } from "@/store/store";
 import type { PublicUser, BuilderProfile } from "@/lib/types";
 import { apiFetch } from "@/lib/api";
 import EditProfileModal from "@/components/profile/EditProfileModal";
 import AddProjectModal from "@/components/profile/AddProjectModal";
 import { GitHubCalendar } from "react-github-calendar";
+import Link from "next/link";
+import {
+    ArrowRight, Star, GitCommit, ExternalLink, Plus, Pencil,
+    Zap, Award, Clock, Globe, ChevronRight, Gem
+} from "lucide-react";
 
-const MOCK_PROJECTS: any[] = [];
+const FadeUp = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+        {children}
+    </motion.div>
+);
 
 export default function DashboardPage() {
     const shipScore = useCollabRiseStore(state => state.shipScore);
     const pulseEvents = useCollabRiseStore(state => state.pulseEvents);
 
-    // We fetch the deep user profile on mount to get the freshest data
     const [fullUser, setFullUser] = useState<PublicUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -39,11 +51,37 @@ export default function DashboardPage() {
     }, []);
 
     if (isLoading) {
-        return <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center font-mono text-lime animate-pulse">Initializing Ecosystem...</div>;
+        return (
+            <div className="luxury-page flex items-center justify-center" style={{ minHeight: "100vh" }}>
+                <div style={{ textAlign: "center" }}>
+                    <div className="hex-shape float-gentle" style={{
+                        width: 52, height: 52,
+                        background: "linear-gradient(135deg, rgba(201,163,83,.15), rgba(201,163,83,.05))",
+                        margin: "0 auto 24px",
+                        display: "flex", alignItems: "center", justifyContent: "center"
+                    }}>
+                        <Gem size={20} style={{ color: "#C9A353" }} />
+                    </div>
+                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(13,13,13,.35)", letterSpacing: ".15em", textTransform: "uppercase" }}>
+                        Loading your venture profile...
+                    </p>
+                </div>
+            </div>
+        );
     }
 
     if (!fullUser) {
-        return <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center font-mono text-acid">401: Unauthorized Entity</div>;
+        return (
+            <div className="luxury-page flex items-center justify-center" style={{ minHeight: "100vh" }}>
+                <div style={{ textAlign: "center", maxWidth: 400 }}>
+                    <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "3rem", color: "#C9A353", lineHeight: 1, marginBottom: 16 }}>401</p>
+                    <p style={{ fontFamily: "'DM Sans',sans-serif", color: "rgba(13,13,13,.5)" }}>Authentication required to access your dashboard.</p>
+                    <Link href="/auth/login" className="btn-primary" style={{ marginTop: 24, display: "inline-flex" }}>
+                        Sign In <ArrowRight size={14} />
+                    </Link>
+                </div>
+            </div>
+        );
     }
 
     const isBuilder = fullUser.type === "builder";
@@ -59,253 +97,350 @@ export default function DashboardPage() {
         }
     }
 
+    const STATS = [
+        { label: "Venture Score", value: String(shipScore), icon: <Star size={14} style={{ color: "#C9A353" }} /> },
+        { label: "Commitment", value: profile.commitmentLevel?.toUpperCase() || "CASUAL", icon: <Award size={14} style={{ color: "#C9A353" }} /> },
+        { label: "Availability", value: `${profile.availability || 0}h/wk`, icon: <Clock size={14} style={{ color: "#C9A353" }} /> },
+        { label: "Work Mode", value: profile.workPreference || "Any", icon: <Globe size={14} style={{ color: "#C9A353" }} /> },
+    ];
+
     return (
-        <div className="min-h-[calc(100vh-5rem)] p-6 md:p-12 max-w-7xl mx-auto">
-            {/* Modal */}
+        <div className="luxury-page">
             {isEditModalOpen && <EditProfileModal isOpen={true} onClose={() => setIsEditModalOpen(false)} user={fullUser} />}
             {isAddProjectModalOpen && <AddProjectModal isOpen={true} onClose={() => setIsAddProjectModalOpen(false)} user={fullUser} />}
 
-            {/* Welcome Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-white/10 pb-8">
-                <div>
-                    <PulseTag status="live" label="WELCOME TO THE FORGE" className="mb-4" />
-                    <h1 className="font-clash font-black text-4xl md:text-5xl text-white">
-                        {isBuilder ? "Founder" : "Partner"}_{fullUser.handle}
-                    </h1>
-                    <p className="font-mono text-white/50 text-sm mt-3 leading-relaxed max-w-2xl">
-                        {profile.manifesto || "No manifesto provided. Initiate your protocol."}
-                    </p>
-                </div>
-
-                <div className="mt-6 md:mt-0 flex gap-4">
-                    <ForgeButton variant="ghost" onClick={() => setIsEditModalOpen(true)}>EDIT PROFILE</ForgeButton>
-                    {isBuilder && (
-                        <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} className="bg-lime text-obsidian border-none hover:bg-white">NEW VENTURE</ForgeButton>
-                    )}
-                </div>
-            </div>
-
-            {/* Main Stack layout */}
-            <div className="space-y-8">
-
-                {/* --- 1. Hero Identity Card --- */}
-                <BentoCard className="p-0 overflow-hidden relative border border-white/10 group hover:border-white/20 transition-colors duration-500">
-                    <div className="absolute top-0 right-0 p-6 z-10 flex gap-2">
-                        <PulseTag status="building" label={profile.employmentStatus === "open" ? "OPEN TO COLLABORATE" : "LAUNCHING"} className="bg-obsidian/80 backdrop-blur" />
-                    </div>
-
-                    <div className="bg-gradient-to-r from-obsidian via-obsidian to-lime/[0.05] p-8 md:p-12 flex flex-col md:flex-row gap-12 items-start justify-between relative z-0">
-                        {/* Name & Basic Info */}
-                        <div className="flex-grow max-w-3xl">
-                            <h3 className="font-mono text-xs uppercase tracking-widest text-lime mb-4 flex items-center gap-3">
-                                <span className="w-2 h-2 rounded-full bg-lime animate-pulse" />
-                                {profile.craft || "UNDEFINED VENTURE ROLE"}
-                            </h3>
-                            <h2 className="font-clash font-black text-5xl md:text-6xl text-white mb-4 leading-none tracking-tight">
-                                {fullUser.fullName}
-                            </h2>
-                            <p className="font-mono text-sm text-white/50 mb-10 flex items-center gap-4 flex-wrap">
-                                <span className="bg-white/5 px-2 py-1 rounded text-white/70">@{fullUser.handle}</span>
-                                <span className="text-white/20">•</span>
-                                <span>{fullUser.email}</span>
-                                <span className="text-white/20">•</span>
-                                <span>{fullUser.country || "Earth"}</span>
-                            </p>
-
-                            {/* Manifesto Quote */}
-                            <div className="pl-6 border-l-2 border-lime/40">
-                                <p className="font-mono text-xl md:text-2xl text-white/90 leading-relaxed italic">
-                                    &ldquo;{profile.manifesto || "No manifesto provided."}&rdquo;
+            {/* ── Top Identity Banner ── */}
+            <div style={{ background: "var(--parchment)", borderBottom: "1px solid rgba(13,13,13,.08)", padding: "80px 0 56px" }}>
+                <div className="luxury-container">
+                    <FadeUp>
+                        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
+                            <div>
+                                <p className="luxury-overline" style={{ marginBottom: 12 }}>
+                                    {isBuilder ? "Founder" : "Partner"} Dashboard
                                 </p>
-                            </div>
-                        </div>
-
-                        {/* Top Level Stats */}
-                        <div className="flex-shrink-0 w-full md:w-auto grid grid-cols-2 md:grid-cols-1 gap-8 text-right md:border-l border-white/10 md:pl-12 py-2">
-                            <div>
-                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Total Traction Score</p>
-                                <p className="font-clash font-bold text-5xl text-lime">{shipScore}</p>
-                            </div>
-                            <div>
-                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Pledge</p>
-                                <p className="font-clash font-bold text-2xl text-white">{profile.commitmentLevel?.toUpperCase() || "CASUAL"}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Bottom Action / Links Bar */}
-                    <div className="bg-white/[0.02] border-t border-white/10 px-8 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div className="font-mono text-xs flex gap-8">
-                            {profile.githubUrl && <a href={profile.githubUrl} target="_blank" rel="noreferrer" className="text-white/50 hover:text-white transition-colors flex items-center gap-2">GITHUB ↗</a>}
-                            {profile.portfolioUrl && <a href={profile.portfolioUrl} target="_blank" rel="noreferrer" className="text-white/50 hover:text-white transition-colors flex items-center gap-2">PORTFOLIO ↗</a>}
-                            {!profile.githubUrl && !profile.portfolioUrl && <span className="text-white/20">No external links hooked</span>}
-                        </div>
-                        {profile.bestProject && (
-                            <p className="font-mono text-xs text-white/40 bg-white/5 px-4 py-2 rounded">
-                                <span className="uppercase tracking-widest mr-3">Crowning Venture:</span>
-                                <span className="text-white font-bold">{profile.bestProject}</span>
-                            </p>
-                        )}
-                    </div>
-                </BentoCard>
-
-                {/* --- 2. Details Split Grid --- */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                    {/* Column 1: Professional DNA */}
-                    <BentoCard className="p-8 border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent hover:bg-white/[0.04] transition-colors duration-500">
-                        <h3 className="font-clash font-bold text-2xl text-white mb-8">Professional DNA</h3>
-
-                        <div className="space-y-6">
-                            <div>
-                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Experience & Level</p>
-                                <p className="font-mono text-sm text-white capitalize">{profile.experienceLevel || "N/A"} <span className="text-lime">({profile.yearsOfExperience || 0} YRS)</span></p>
-                            </div>
-
-                            <div className="h-px bg-white/10" />
-
-                            <div>
-                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Availability & Preference</p>
-                                <p className="font-mono text-sm text-white capitalize">{profile.availability || 0} Hours/Week • {profile.workPreference || "Any"}</p>
-                            </div>
-
-                            <div className="h-px bg-white/10" />
-
-                            <div>
-                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-3">Bounty Status</p>
-                                <div className="flex items-center gap-3">
-                                    <span className={`w-2.5 h-2.5 rounded-full ${profile.openToBounties ? "bg-lime shadow-[0_0_10px_rgba(204,255,0,0.5)]" : "bg-red-500"}`} />
-                                    <span className="font-mono text-sm text-white">
-                                        {profile.openToBounties ? `OPEN (Min $${profile.minBountyReward})` : "CLOSED TO STRATEGIC BOUNTIES"}
+                                <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.2rem,4vw,3.5rem)", fontWeight: 400, color: "var(--ink)", lineHeight: 1.05, marginBottom: 12, letterSpacing: "-.02em" }}>
+                                    Welcome back,<br />
+                                    <em className="gold-shimmer-text">{fullUser.fullName}</em>
+                                </h1>
+                                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--smoke)", maxWidth: 480, lineHeight: 1.8 }}>
+                                    {profile.manifesto || "Your manifesto is the soul of your Ship Log. Add one in your profile."}
+                                </p>
+                                <div style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
+                                    <span className="luxury-tag">@{fullUser.handle}</span>
+                                    <span className="luxury-tag">{fullUser.country}</span>
+                                    {profile.craft && <span className="luxury-tag">{profile.craft}</span>}
+                                    <span className={`luxury-status luxury-status--${profile.employmentStatus === "open" ? "live" : "active"}`}>
+                                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: "currentColor" }} />
+                                        {profile.employmentStatus === "open" ? "Open to collaborate" : "Building"}
                                     </span>
                                 </div>
                             </div>
+                            <div style={{ display: "flex", gap: 10, flexShrink: 0, flexWrap: "wrap" }}>
+                                <button onClick={() => setIsEditModalOpen(true)} className="btn-secondary">
+                                    <Pencil size={13} /> Edit Profile
+                                </button>
+                                {isBuilder && (
+                                    <button onClick={() => setIsAddProjectModalOpen(true)} className="btn-primary">
+                                        <Plus size={13} /> New Venture
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                    </BentoCard>
+                    </FadeUp>
+                </div>
+            </div>
 
-                    {/* Column 2: Weaponry & Logistics */}
-                    <BentoCard className="p-8 border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent h-full md:col-span-2 flex flex-col hover:bg-white/[0.04] transition-colors duration-500">
-                        <h3 className="font-clash font-bold text-2xl text-white mb-8">Weaponry & Arsenal</h3>
+            {/* ── Stats Strip ── */}
+            <div style={{ background: "#fff", borderBottom: "1px solid rgba(13,13,13,.07)", padding: "32px 0" }}>
+                <div className="luxury-container">
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0 }}>
+                        {STATS.map((s, i) => (
+                            <div key={s.label} style={{
+                                padding: "0 24px",
+                                borderRight: i < 3 ? "1px solid rgba(13,13,13,.07)" : "none",
+                                textAlign: "center"
+                            }}>
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 6 }}>
+                                    {s.icon}
+                                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, fontWeight: 500, color: "rgba(13,13,13,.35)", letterSpacing: ".18em", textTransform: "uppercase" }}>
+                                        {s.label}
+                                    </p>
+                                </div>
+                                <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.6rem", fontWeight: 400, color: "var(--ink)", lineHeight: 1 }}>
+                                    {s.value}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
 
-                        <div className="flex-grow flex flex-col justify-between">
-                            <div className="mb-8">
-                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Equipped Skills</p>
-                                <div className="flex flex-wrap gap-2.5">
-                                    {profile.skills && profile.skills.length > 0 ? (
-                                        profile.skills.map((s: string) => <span key={s} className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg font-mono text-[11px] text-white/80 hover:border-lime/50 transition-colors hover:text-white cursor-default">{s}</span>)
-                                    ) : (
-                                        <span className="font-mono text-xs text-white/30">No skills equipped.</span>
+            {/* ── Main Content ── */}
+            <div className="luxury-container" style={{ paddingTop: 64, paddingBottom: 80 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 32, alignItems: "start" }}>
+
+                    {/* Left Column */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+
+                        {/* Skills & Guilds Card */}
+                        <FadeUp delay={0.1}>
+                            <div className="luxury-card" style={{ padding: 32, position: "relative", overflow: "hidden" }}>
+                                <div className="luxury-card-accent" />
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+                                    <div>
+                                        <p className="luxury-overline" style={{ marginBottom: 16 }}>Equipped Skills</p>
+                                        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                                            {profile.skills && profile.skills.length > 0 ? (
+                                                profile.skills.map((s: string) => (
+                                                    <span key={s} style={{
+                                                        padding: "5px 12px",
+                                                        background: "rgba(13,13,13,.04)",
+                                                        border: "1px solid rgba(13,13,13,.08)",
+                                                        borderRadius: 8,
+                                                        fontFamily: "'DM Sans',sans-serif",
+                                                        fontSize: 12,
+                                                        color: "var(--ink)",
+                                                        cursor: "default",
+                                                        transition: "border-color .3s"
+                                                    }}>{s}</span>
+                                                ))
+                                            ) : (
+                                                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)" }}>No skills added yet.</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="luxury-overline" style={{ marginBottom: 16 }}>Active Guilds</p>
+                                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                                            {profile.guilds && profile.guilds.length > 0 ? (
+                                                profile.guilds.map(g => (
+                                                    <div key={g} style={{
+                                                        display: "flex", alignItems: "center", gap: 8,
+                                                        padding: "8px 12px",
+                                                        background: "rgba(201,163,83,.06)",
+                                                        border: "1px solid rgba(201,163,83,.15)",
+                                                        borderRadius: 10,
+                                                        fontFamily: "'DM Sans',sans-serif",
+                                                        fontSize: 12, color: "#8B6B1A"
+                                                    }}>
+                                                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#C9A353", flexShrink: 0 }} />
+                                                        {g}
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)" }}>No guilds joined.</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style={{ marginTop: 28, paddingTop: 24, borderTop: "1px solid rgba(13,13,13,.07)" }}>
+                                    <p className="luxury-overline" style={{ marginBottom: 12 }}>Preferred Engagement Lengths</p>
+                                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                                        {profile.preferredProjectLength && profile.preferredProjectLength.length > 0 ? (
+                                            profile.preferredProjectLength.map(len => (
+                                                <span key={len} className="luxury-tag">{len}</span>
+                                            ))
+                                        ) : (
+                                            <span className="luxury-tag">Any Duration</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </FadeUp>
+
+                        {/* GitHub Heatmap */}
+                        {githubUsername && (
+                            <FadeUp delay={0.2}>
+                                <div className="luxury-card" style={{ padding: 32, position: "relative", overflow: "hidden" }}>
+                                    <div className="luxury-card-accent" />
+                                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
+                                        <GitCommit size={16} style={{ color: "#C9A353" }} />
+                                        <p className="luxury-overline">{githubUsername}&apos;s Contribution Heatmap</p>
+                                    </div>
+                                    <div style={{ overflowX: "auto" }}>
+                                        <GitHubCalendar
+                                            username={githubUsername}
+                                            colorScheme="light"
+                                            theme={{ light: ['#F0EDE5', '#e5d9b8', '#d4c080', '#c9a353', '#a07820'] }}
+                                            fontSize={11}
+                                            blockSize={10}
+                                            blockMargin={4}
+                                        />
+                                    </div>
+                                </div>
+                            </FadeUp>
+                        )}
+
+                        {/* Launched Ventures */}
+                        <FadeUp delay={0.25}>
+                            <div>
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+                                    <div>
+                                        <p className="luxury-overline" style={{ marginBottom: 4 }}>Proof of Execution</p>
+                                        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.5rem", fontWeight: 400, color: "var(--ink)" }}>
+                                            Launched Ventures
+                                        </h2>
+                                    </div>
+                                    <button onClick={() => setIsAddProjectModalOpen(true)} className="btn-secondary" style={{ fontSize: 12, padding: "10px 18px" }}>
+                                        <Plus size={12} /> Add Venture
+                                    </button>
+                                </div>
+
+                                {profile.projects && profile.projects.length > 0 ? (
+                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                                        {profile.projects.map(proj => (
+                                            <motion.div
+                                                key={proj.id}
+                                                className="luxury-card"
+                                                style={{ padding: 24, cursor: "default", position: "relative", overflow: "hidden" }}
+                                                whileHover={{ scale: 1.01 }}
+                                            >
+                                                <div className="luxury-card-accent" />
+                                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                                                    <span className="luxury-tag">{proj.type}</span>
+                                                    <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontStyle: "italic", color: "#C9A353" }}>{proj.score}</span>
+                                                </div>
+                                                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", fontWeight: 400, color: "var(--ink)", marginBottom: 8, lineHeight: 1.4 }}>
+                                                    {proj.name}
+                                                </h3>
+                                                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)", lineHeight: 1.6, marginBottom: 12 }}>
+                                                    {proj.description}
+                                                </p>
+                                                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                                                    {(proj.tags || []).map((t: string) => (
+                                                        <span key={t} style={{
+                                                            padding: "2px 8px", background: "rgba(13,13,13,.04)", border: "1px solid rgba(13,13,13,.07)",
+                                                            borderRadius: 6, fontSize: 10, color: "var(--smoke)"
+                                                        }}>{t}</span>
+                                                    ))}
+                                                </div>
+                                                {proj.url && (
+                                                    <a href={proj.url} target="_blank" rel="noreferrer" style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 14, fontSize: 11, color: "#C9A353", textDecoration: "none" }}>
+                                                        <ExternalLink size={10} /> View Project
+                                                    </a>
+                                                )}
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="luxury-card" style={{ padding: 48, textAlign: "center" }}>
+                                        <div className="hex-shape" style={{
+                                            width: 48, height: 48,
+                                            background: "linear-gradient(135deg, rgba(201,163,83,.12), rgba(201,163,83,.04))",
+                                            display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px"
+                                        }}>
+                                            <Zap size={18} style={{ color: "#C9A353" }} />
+                                        </div>
+                                        <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", color: "var(--ink)", marginBottom: 8 }}>
+                                            No ventures launched yet
+                                        </p>
+                                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", marginBottom: 20 }}>
+                                            Your Ship Log begins with your first logged venture.
+                                        </p>
+                                        <button onClick={() => setIsAddProjectModalOpen(true)} className="btn-primary">
+                                            <Plus size={13} /> Launch First Venture
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </FadeUp>
+                    </div>
+
+                    {/* Right Column — Sidebar */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+
+                        {/* Profile card */}
+                        <FadeUp delay={0.05}>
+                            <div className="luxury-card" style={{ padding: 28, position: "relative", overflow: "hidden" }}>
+                                <div className="luxury-card-accent" />
+                                <p className="luxury-overline" style={{ marginBottom: 8 }}>Crowning Venture</p>
+                                {profile.bestProject ? (
+                                    <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", color: "var(--ink)", fontStyle: "italic" }}>
+                                        {profile.bestProject}
+                                    </p>
+                                ) : (
+                                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>Not set</p>
+                                )}
+                                <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid rgba(13,13,13,.07)" }}>
+                                    <p className="luxury-overline" style={{ marginBottom: 8 }}>Bounty Status</p>
+                                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                        <span style={{ width: 7, height: 7, borderRadius: "50%", background: profile.openToBounties ? "#5B8A6F" : "#C9A353" }} />
+                                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--ink)" }}>
+                                            {profile.openToBounties ? `Open · Min $${profile.minBountyReward}` : "Closed to bounties"}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 8 }}>
+                                    {profile.githubUrl && (
+                                        <a href={profile.githubUrl} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#C9A353", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+                                            <ExternalLink size={11} /> GitHub ↗
+                                        </a>
+                                    )}
+                                    {profile.portfolioUrl && (
+                                        <a href={profile.portfolioUrl} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#C9A353", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+                                            <ExternalLink size={11} /> Portfolio ↗
+                                        </a>
                                     )}
                                 </div>
                             </div>
+                        </FadeUp>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8 border-t border-white/10">
-                                <div>
-                                    <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Active Guilds</p>
-                                    <div className="space-y-3">
-                                        {profile.guilds && profile.guilds.length > 0 ? (
-                                            profile.guilds.map(g => (
-                                                <div key={g} className="font-mono text-sm text-lime flex items-center gap-3 bg-lime/5 w-fit px-3 py-1.5 rounded border border-lime/10">
-                                                    <span className="w-1.5 h-1.5 bg-lime rounded-full animate-pulse" /> {g}
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <span className="font-mono text-xs text-white/30">Lone Wolf</span>
-                                        )}
-                                    </div>
+                        {/* Live Pulse */}
+                        <FadeUp delay={0.15}>
+                            <div className="luxury-card" style={{ padding: 24, maxHeight: 380, display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
+                                <div className="luxury-card-accent" />
+                                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#5B8A6F" }} />
+                                    <p className="luxury-overline">Ecosystem Pulse</p>
                                 </div>
-
-                                <div>
-                                    <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Venture Engagements</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {profile.preferredProjectLength && profile.preferredProjectLength.length > 0 ? (
-                                            profile.preferredProjectLength.map(len => (
-                                                <span key={len} className="font-mono text-[11px] bg-white/5 border border-white/10 px-3 py-1.5 rounded font-bold text-white/60">{len}</span>
-                                            ))
-                                        ) : (
-                                            <span className="font-mono text-xs text-white/30">Any duration</span>
-                                        )}
-                                    </div>
+                                <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 14 }}>
+                                    {pulseEvents.slice(0, 6).map(event => (
+                                        <div key={event.id}>
+                                            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
+                                                <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 12, color: "var(--ink)" }}>{event.builder}</span>
+                                            </div>
+                                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)", lineHeight: 1.5 }}>
+                                                {event.action} <span style={{ color: "var(--ink)", fontWeight: 500 }}>&quot;{event.project}&quot;</span>
+                                            </p>
+                                            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, color: "rgba(13,13,13,.25)", marginTop: 4 }}>
+                                                {new Date(event.timestamp || Date.now()).toLocaleTimeString()}
+                                            </p>
+                                            <div style={{ height: 1, background: "rgba(13,13,13,.06)", marginTop: 10 }} />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        </div>
-                    </BentoCard>
-                </div>
+                        </FadeUp>
 
-                {/* --- 3. Shipped Artifacts & Pulse --- */}
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    {/* Shipped Artifacts DNA Collection */}
-                    <div className="lg:col-span-3">
-                        <div className="flex justify-between items-center mb-6 pl-2">
-                            <h3 className="font-clash font-bold text-2xl text-white">Launched Ventures</h3>
-                        </div>
-
-                        {githubUsername && (
-                            <div className="mb-8 p-6 bg-white/[0.02] border border-white/5 rounded-bento overflow-x-auto custom-scrollbar">
-                                <div className="mb-6 flex items-center gap-2">
-                                    <svg className="w-5 h-5 text-lime" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                                    </svg>
-                                    <span className="font-mono text-xs text-white/50 uppercase tracking-widest">{githubUsername}&apos;s Heatmap</span>
-                                </div>
-                                <div className="w-fit mx-auto min-w-max">
-                                    <GitHubCalendar
-                                        username={githubUsername}
-                                        colorScheme="dark"
-                                        theme={{ dark: ['#ffffff08', '#baff2940', '#baff2970', '#baff29a0', '#baff29'] }}
-                                        fontSize={12}
-                                        blockSize={11}
-                                        blockMargin={4}
-                                    />
-                                </div>
+                        {/* Quick Links */}
+                        <FadeUp delay={0.2}>
+                            <div className="luxury-card" style={{ padding: 20, position: "relative", overflow: "hidden" }}>
+                                <div className="luxury-card-accent" />
+                                <p className="luxury-overline" style={{ marginBottom: 14 }}>Quick Access</p>
+                                {[
+                                    { label: "Explore Feed", href: "/feed" },
+                                    { label: "Guild Missions", href: "/guilds" },
+                                    { label: "Leaderboard", href: "/leaderboard" },
+                                    { label: "Settings", href: "/settings" },
+                                ].map(l => (
+                                    <Link key={l.href} href={l.href} style={{
+                                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                                        padding: "10px 14px", borderRadius: 10, fontFamily: "'DM Sans',sans-serif",
+                                        fontSize: 13, color: "var(--ink)", textDecoration: "none",
+                                        transition: "background .2s"
+                                    }}
+                                        onMouseEnter={e => (e.currentTarget.style.background = "rgba(201,163,83,.07)")}
+                                        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                                    >
+                                        {l.label}
+                                        <ChevronRight size={13} style={{ color: "#C9A353" }} />
+                                    </Link>
+                                ))}
                             </div>
-                        )}
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {(profile.projects && profile.projects.length > 0) ? (
-                                profile.projects.map(proj => (
-                                    <DNACard
-                                        key={proj.id}
-                                        title={proj.name}
-                                        description={proj.description}
-                                        url={proj.url}
-                                        type={proj.type}
-                                        score={proj.score}
-                                        date={proj.date}
-                                        tags={proj.tags || []}
-                                        metrics={[{ label: "IMPACT", value: "HIGH" }]}
-                                    />
-                                ))
-                            ) : (
-                                <div className="md:col-span-2 p-8 border border-white/5 bg-white/[0.02] rounded-bento text-center">
-                                    <p className="font-mono text-sm text-white/40 mb-4">No ventures launched yet.</p>
-                                    <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} variant="ghost" className="text-lime border-lime/20 hover:bg-lime/10">Launch First Venture</ForgeButton>
-                                </div>
-                            )}
-                        </div>
+                        </FadeUp>
                     </div>
-
-                    {/* Global Pulse Ticker Mini */}
-                    <BentoCard className="lg:col-span-1 h-[400px] flex flex-col p-6 overflow-hidden relative border border-white/10">
-                        <h3 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-6 sticky top-0 bg-obsidian z-10 pb-2 border-b border-white/10">Live Pulse</h3>
-                        <div className="flex-grow overflow-y-auto space-y-5 pr-2 custom-scrollbar relative z-0">
-                            {pulseEvents.slice(0, 5).map(event => (
-                                <div key={event.id} className="text-sm">
-                                    <div className="flex items-center gap-2 mb-1.5">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
-                                        <span className="font-mono font-bold text-white tracking-tight">{event.builder}</span>
-                                    </div>
-                                    <p className="font-mono text-white/60 text-[10px] leading-relaxed">
-                                        {event.action} <span className="text-white">&quot;{event.project}&quot;</span>
-                                    </p>
-                                    <p className="font-mono text-white/30 text-[8px] mt-2">{new Date(event.timestamp || Date.now()).toLocaleTimeString()}</p>
-                                    <div className="h-px bg-white/5 mt-4" />
-                                </div>
-                            ))}
-                        </div>
-                    </BentoCard>
                 </div>
-
             </div>
         </div>
     );
