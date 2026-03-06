@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { BentoCard, PulseTag, ForgeButton, GlitchText, RenderIcon } from "@/components/forge";
+import { BentoCard, PulseTag, ForgeButton, GlitchText, DNACard, RenderIcon } from "@/components/forge";
 import Link from "next/link";
 import { useState } from "react";
 import { IconFlame, IconMenu, IconTerminal } from "@/components/icons";

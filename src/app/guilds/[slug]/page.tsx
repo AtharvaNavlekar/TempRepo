@@ -1,5 +1,5 @@
 "use client";
-import { BentoCard, ForgeButton, GlitchText, ShipScoreCounter } from "@/components/forge";
+import { BentoCard, ForgeButton, PulseTag, GlitchText, ShipScoreCounter } from "@/components/forge";
 import Link from "next/link";
 import { IconCpu } from "@/components/icons";
 

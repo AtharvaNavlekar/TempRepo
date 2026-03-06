@@ -1,5 +1,6 @@
 "use client";
-import { BentoCard, ForgeButton, PulseTag } from "@/components/forge";
+import { BentoCard, ForgeButton, PulseTag, ShipScoreCounter } from "@/components/forge";
+import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 

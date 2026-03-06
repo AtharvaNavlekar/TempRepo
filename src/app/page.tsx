@@ -1,10 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
     ForgeButton,
     BentoCard,
+    GlitchText,
     SpringTransition,
     RenderIcon,
 } from "@/components/forge";
@@ -17,49 +19,49 @@ import ManifestoScroll from "@/components/landing/ManifestoScroll";
 const PROTOCOL_FEATURES = [
     {
         icon: "IconShipScore",
-        title: "Verified Experience",
+        title: "Verified Score",
         description:
-            "Your authentic proof of work. Every project, design, and line of code—quantified so you don't have to keep explaining yourself.",
+            "Your verified proof of execution. Every commit, every pixel, every plate — quantified and verified. No faking it.",
         accent: "lime" as const,
         colSpan: 2 as const,
     },
     {
         icon: "IconDNA",
-        title: "Authentic Output",
+        title: "Verified Work",
         description:
-            "We analyze the actual files you create to prove your work is genuinely yours. Let your craftsmanship speak for itself.",
+            "We analyze metadata to prove your work is authentic. PSD layers, Git commits, word counts. Your work speaks for itself.",
         accent: "cyber" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconLock",
-        title: "Trust & Reliability",
+        title: "Reliability Score",
         description:
-            "Your reputation matters. Building consistently and seeing projects through to the end naturally increases your standing.",
+            "Stake your reputation. If you abandon a project, your reliability score decreases in real-time.",
         accent: "acid" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconSkull",
-        title: "Growth Journey",
+        title: "Learning Log",
         description:
-            "Everyone fails sometimes. Track your past mistakes and showcase how you learn, adapt, and grow from breaking things.",
+            "Track your past mistakes. Post-mortems that prove you learn from breaking things and grow.",
         accent: "acid" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconGuild",
-        title: "Collaborative Communities",
+        title: "Communities",
         description:
-            "Find your people. Join groups of like-minded creators—whether in code, design, or craft—and learn from each other.",
+            "Join groups of builders. React Community. Woodworking Community. Chef Community. Rise through the ranks together.",
         accent: "cyber" as const,
         colSpan: 1 as const,
     },
     {
         icon: "IconHire",
-        title: "Hiring Based on Real Work",
+        title: "Direct Hiring",
         description:
-            "Skip the stressful trick questions. Companies can find and hire you based purely on the quality of the projects you've already built.",
+            "Companies bypass interviews and hire based on what you've actually built. Proof replaces the whiteboard forever.",
         accent: "lime" as const,
         colSpan: 2 as const,
     },
@@ -110,7 +112,7 @@ export default function ManifestoPage() {
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-lime" />
                             </span>
                             <span className="font-mono text-[11px] tracking-[0.2em] text-white/50 uppercase">
-                                Welcome to the Next Era of Work
+                                Protocol v1.0 — Now Live
                             </span>
                         </div>
                     </SpringTransition>
@@ -118,7 +120,7 @@ export default function ManifestoPage() {
                     {/* Main Headline */}
                     <SpringTransition preset="slideUp" delay={0.2}>
                         <h1 className="font-clash font-bold text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.1] tracking-tight mb-6">
-                            Show exactly what you can <span className="text-gradient-lime">Build</span>.
+                            The Professional Network for <span className="text-gradient-lime">Builders</span>.
                         </h1>
                     </SpringTransition>
 
@@ -126,7 +128,7 @@ export default function ManifestoPage() {
                     <SpringTransition preset="fadeIn" delay={0.5}>
                         <div className="mb-10 max-w-2xl mx-auto">
                             <p className="text-lg md:text-xl text-white/60 leading-relaxed">
-                                Stop tweaking your resume. Start proving your skills with real projects that speak for themselves.
+                                Ship real projects, build irrefutable proof of your skills, and let your work replace your resume forever.
                             </p>
                         </div>
                     </SpringTransition>
@@ -134,7 +136,7 @@ export default function ManifestoPage() {
                     {/* CTA Buttons */}
                     <SpringTransition preset="slideUp" delay={0.7}>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Link href="/onboard/identity">
+                            <Link href="/onboard">
                                 <ForgeButton variant="primary" size="lg" className="w-full sm:w-auto px-8">
                                     Get Started
                                 </ForgeButton>
@@ -202,20 +204,20 @@ export default function ManifestoPage() {
                     <SpringTransition preset="slideUp">
                         <div className="text-center mb-16">
                             <span className="font-mono text-[11px] tracking-[0.3em] text-lime/60 uppercase block mb-4">
-                                Our Approach
+                                The Core Protocol
                             </span>
                             <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-4">
                                 How It <span className="text-gradient-multi">Works</span>
                             </h2>
                             <p className="font-mono text-sm text-white/40 max-w-lg mx-auto">
-                                Six interconnected systems designed to highlight your authentic capabilities.
-                                No gatekeepers. No trick questions. Just your verified work.
+                                Six interconnected systems that replace credentials with proof.
+                                No gatekeepers. No interviews. Just verified output.
                             </p>
                         </div>
                     </SpringTransition>
 
                     {/* Bento Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:col-span-4 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {PROTOCOL_FEATURES.map((feature, i) => (
                             <BentoCard
                                 key={i}
