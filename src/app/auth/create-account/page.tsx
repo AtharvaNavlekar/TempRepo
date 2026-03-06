@@ -126,10 +126,8 @@ function buildPayload(form: FormState) {
     };
 }
 
-/* ─── Success Screen ─── */
 function SuccessScreen({ handle, type }: { handle: string; type: AccountType }) {
-    const router = useRouter();
-    useEffect(() => { setTimeout(() => router.push("/dashboard"), 3000); }, [router]);
+    useEffect(() => { setTimeout(() => window.location.href = "/dashboard", 3000); }, []);
     return (
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 space-y-6">
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 400, delay: 0.2 }} className="w-20 h-20 rounded-full bg-lime/10 border border-lime/30 flex items-center justify-center mx-auto">

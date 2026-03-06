@@ -33,21 +33,28 @@ export const metadata: Metadata = {
     robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+import { getAuthCookie } from "@/lib/auth";
+import AuthProvider from "@/components/auth/AuthProvider";
+
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const user = await getAuthCookie();
+
     return (
         <html lang="en" className="dark scroll-smooth">
             <body
                 className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} font-sans bg-obsidian text-white antialiased selection:bg-lime/30 selection:text-lime min-h-screen flex flex-col relative overflow-x-hidden`}
             >
-                <Navbar />
-                <main className="flex-grow pt-16">
-                    {children}
-                </main>
-                <Footer />
+                <AuthProvider user={user}>
+                    <Navbar />
+                    <main className="flex-grow pt-16">
+                        {children}
+                    </main>
+                    <Footer />
+                </AuthProvider>
             </body>
         </html>
     );

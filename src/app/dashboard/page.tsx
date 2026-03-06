@@ -1,145 +1,308 @@
 "use client";
 
-
+import { useState, useEffect } from "react";
 import { ForgeButton, BentoCard, ShipScoreCounter, DNACard, PulseTag } from "@/components/forge";
 import { useCollabRiseStore } from "@/store/store";
+import type { PublicUser, BuilderProfile } from "@/lib/db";
+import EditProfileModal from "@/components/profile/EditProfileModal";
+import AddProjectModal from "@/components/profile/AddProjectModal";
+import { GitHubCalendar } from "react-github-calendar";
 
-const MOCK_PROJECTS = [
-    { id: 1, name: "CollabRise Landing", type: "Frontend", score: 850, commits: 120 },
-    { id: 2, name: "Neural Engine API", type: "Backend", score: 1205, commits: 340 },
-];
+const MOCK_PROJECTS: any[] = [];
 
 export default function DashboardPage() {
     const shipScore = useCollabRiseStore(state => state.shipScore);
-    const identity = useCollabRiseStore(state => state.identity);
-    const selectedGuilds = useCollabRiseStore(state => state.selectedGuilds);
     const pulseEvents = useCollabRiseStore(state => state.pulseEvents);
+
+    // We fetch the deep user profile on mount to get the freshest data
+    const [fullUser, setFullUser] = useState<PublicUser | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const res = await fetch("/api/auth/me");
+                if (res.ok) {
+                    const data = await res.json();
+                    setFullUser(data);
+                }
+            } catch (e) {
+                console.error("Failed to fetch profile", e);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchProfile();
+    }, []);
+
+    if (isLoading) {
+        return <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center font-mono text-lime animate-pulse">Initializing Dashboard...</div>;
+    }
+
+    if (!fullUser) {
+        return <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center font-mono text-acid">401: Unauthorized Entity</div>;
+    }
+
+    const isBuilder = fullUser.type === "builder";
+    const profile = fullUser.profile as Partial<BuilderProfile>;
+
+    let githubUsername: string | null = null;
+    if (isBuilder && profile.githubUrl) {
+        try {
+            const url = new URL(profile.githubUrl);
+            githubUsername = url.pathname.split("/").filter(Boolean)[0] || null;
+        } catch (e) {
+            githubUsername = profile.githubUrl.replace("https://github.com/", "").replace("/", "");
+        }
+    }
 
     return (
         <div className="min-h-[calc(100vh-5rem)] p-6 md:p-12 max-w-7xl mx-auto">
+            {/* Modal */}
+            {isEditModalOpen && <EditProfileModal isOpen={true} onClose={() => setIsEditModalOpen(false)} user={fullUser} />}
+            {isAddProjectModalOpen && <AddProjectModal isOpen={true} onClose={() => setIsAddProjectModalOpen(false)} user={fullUser} />}
 
             {/* Welcome Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-white/10 pb-8">
                 <div>
                     <PulseTag status="live" label="WELCOME TO THE FORGE" className="mb-4" />
                     <h1 className="font-clash font-black text-4xl md:text-5xl text-white">
-                        {identity ? `Builder_${identity.split(' ')[0]}` : "Builder_0x7A9"}
+                        {isBuilder ? "Builder" : "Company"}_{fullUser.handle}
                     </h1>
-                    <p className="font-mono text-white/50 text-sm mt-2">
-                        Identity: {identity || "ENGINEER"} {"//"} Guilds: {selectedGuilds.length > 0 ? selectedGuilds.join(", ") : "React, Neural Ops"}
+                    <p className="font-mono text-white/50 text-sm mt-3 leading-relaxed max-w-2xl">
+                        {profile.manifesto || "No manifesto provided. Initiate your protocol."}
                     </p>
                 </div>
 
                 <div className="mt-6 md:mt-0 flex gap-4">
-                    <ForgeButton variant="ghost">SETTINGS</ForgeButton>
-                    <ForgeButton className="bg-lime text-obsidian border-none hover:bg-white">NEW PROJECT</ForgeButton>
+                    <ForgeButton variant="ghost" onClick={() => setIsEditModalOpen(true)}>EDIT PROFILE</ForgeButton>
+                    {isBuilder && (
+                        <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} className="bg-lime text-obsidian border-none hover:bg-white">NEW PROJECT</ForgeButton>
+                    )}
                 </div>
             </div>
 
-            {/* Bento Grid layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {/* Main Stack layout */}
+            <div className="space-y-8">
 
-                {/* Main Stats */}
-                <BentoCard className="md:col-span-2 lg:col-span-2 p-8 bg-gradient-to-br from-white/5 to-transparent">
-                    <h3 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-6">Global Ship Score</h3>
-                    <div className="flex items-end gap-6 mb-8">
-                        <ShipScoreCounter value={shipScore} size="lg" />
-                        <div className="mb-2">
-                            <span className="font-mono text-lime border border-lime/30 bg-lime/10 px-2 py-1 rounded text-xs">+14% THIS WEEK</span>
-                        </div>
+                {/* --- 1. Hero Identity Card --- */}
+                <BentoCard className="p-0 overflow-hidden relative border border-white/10 group hover:border-white/20 transition-colors duration-500">
+                    <div className="absolute top-0 right-0 p-6 z-10 flex gap-2">
+                        <PulseTag status="building" label={profile.employmentStatus === "open" ? "AVAILABLE TO HIRE" : "BUILDING"} className="bg-obsidian/80 backdrop-blur" />
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
-                        <div>
-                            <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-1">Total Shipped</p>
-                            <p className="font-clash font-bold text-2xl text-white">12</p>
-                        </div>
-                        <div>
-                            <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-1">Active Stakes</p>
-                            <p className="font-clash font-bold text-2xl text-white">850 PTS</p>
-                        </div>
-                        <div>
-                            <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-1">Failed</p>
-                            <p className="font-clash font-bold text-2xl text-red-500">2</p>
-                        </div>
-                    </div>
-                </BentoCard>
+                    <div className="bg-gradient-to-r from-obsidian via-obsidian to-lime/[0.05] p-8 md:p-12 flex flex-col md:flex-row gap-12 items-start justify-between relative z-0">
+                        {/* Name & Basic Info */}
+                        <div className="flex-grow max-w-3xl">
+                            <h3 className="font-mono text-xs uppercase tracking-widest text-lime mb-4 flex items-center gap-3">
+                                <span className="w-2 h-2 rounded-full bg-lime animate-pulse" />
+                                {profile.craft || "UNDEFINED CRAFT"}
+                            </h3>
+                            <h2 className="font-clash font-black text-5xl md:text-6xl text-white mb-4 leading-none tracking-tight">
+                                {fullUser.fullName}
+                            </h2>
+                            <p className="font-mono text-sm text-white/50 mb-10 flex items-center gap-4 flex-wrap">
+                                <span className="bg-white/5 px-2 py-1 rounded text-white/70">@{fullUser.handle}</span>
+                                <span className="text-white/20">•</span>
+                                <span>{fullUser.email}</span>
+                                <span className="text-white/20">•</span>
+                                <span>{fullUser.country || "Earth"}</span>
+                            </p>
 
-                {/* Global Pulse Ticker Mini */}
-                <BentoCard className="md:col-span-1 lg:col-span-1 h-full flex flex-col p-6 overflow-hidden relative">
-                    <h3 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-4 sticky top-0 bg-obsidian z-10 pb-2">Live Pulse</h3>
-                    <div className="flex-grow overflow-y-auto space-y-4 pr-2 custom-scrollbar relative z-0">
-                        {pulseEvents.slice(0, 5).map(event => (
-                            <div key={event.id} className="text-sm">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
-                                    <span className="font-mono font-bold text-white">{event.builder}</span>
-                                </div>
-                                <p className="font-mono text-white/60 text-[10px] leading-relaxed">
-                                    {event.action} <span className="text-white">&quot;{event.project}&quot;</span>
+                            {/* Manifesto Quote */}
+                            <div className="pl-6 border-l-2 border-lime/40">
+                                <p className="font-mono text-xl md:text-2xl text-white/90 leading-relaxed italic">
+                                    "{profile.manifesto || "No manifesto provided."}"
                                 </p>
-                                <p className="font-mono text-white/30 text-[8px] mt-1">{new Date(event.timestamp || Date.now()).toLocaleTimeString()}</p>
-                                <div className="h-px bg-white/5 mt-3" />
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Top Level Stats */}
+                        <div className="flex-shrink-0 w-full md:w-auto grid grid-cols-2 md:grid-cols-1 gap-8 text-right md:border-l border-white/10 md:pl-12 py-2">
+                            <div>
+                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Total Ship Score</p>
+                                <p className="font-clash font-bold text-5xl text-lime">{shipScore}</p>
+                            </div>
+                            <div>
+                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Pledge</p>
+                                <p className="font-clash font-bold text-2xl text-white">{profile.commitmentLevel?.toUpperCase() || "CASUAL"}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom Action / Links Bar */}
+                    <div className="bg-white/[0.02] border-t border-white/10 px-8 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div className="font-mono text-xs flex gap-8">
+                            {profile.githubUrl && <a href={profile.githubUrl} target="_blank" rel="noreferrer" className="text-white/50 hover:text-white transition-colors flex items-center gap-2">GITHUB ↗</a>}
+                            {profile.portfolioUrl && <a href={profile.portfolioUrl} target="_blank" rel="noreferrer" className="text-white/50 hover:text-white transition-colors flex items-center gap-2">PORTFOLIO ↗</a>}
+                            {!profile.githubUrl && !profile.portfolioUrl && <span className="text-white/20">No external links hooked</span>}
+                        </div>
+                        {profile.bestProject && (
+                            <p className="font-mono text-xs text-white/40 bg-white/5 px-4 py-2 rounded">
+                                <span className="uppercase tracking-widest mr-3">Crowning Artifact:</span>
+                                <span className="text-white font-bold">{profile.bestProject}</span>
+                            </p>
+                        )}
                     </div>
                 </BentoCard>
 
-                {/* Active War Rooms */}
-                <div className="md:col-span-3 lg:col-span-4 mt-8">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="font-clash font-bold text-xl text-white">Active War Rooms</h3>
-                        <span className="font-mono text-xs text-white/50 uppercase tracking-widest hover:text-white cursor-pointer transition-colors">View All ↗</span>
-                    </div>
+                {/* --- 2. Details Split Grid --- */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* War Room Empty State */}
-                        <BentoCard className="p-8 border border-white/5 border-dashed flex flex-col items-center justify-center text-center min-h-[250px] group hover:border-lime/50 transition-colors">
-                            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                <span className="text-2xl text-white/30">+</span>
-                            </div>
-                            <h4 className="font-clash font-bold text-lg text-white mb-2">Initialize New Project</h4>
-                            <p className="font-mono text-white/40 text-xs">Set up a War Room, stake points, and invite builders.</p>
-                        </BentoCard>
+                    {/* Column 1: Professional DNA */}
+                    <BentoCard className="p-8 border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent hover:bg-white/[0.04] transition-colors duration-500">
+                        <h3 className="font-clash font-bold text-2xl text-white mb-8">Professional DNA</h3>
 
-                        {/* War Room Active State (Mock) */}
-                        <BentoCard className="p-0 border border-white/10 relative overflow-hidden flex flex-col">
-                            <div className="absolute top-0 right-0 p-4 z-10">
-                                <PulseTag status="building" label="IN PROGRESS" className="bg-obsidian/80 backdrop-blur" />
+                        <div className="space-y-6">
+                            <div>
+                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Experience & Level</p>
+                                <p className="font-mono text-sm text-white capitalize">{profile.experienceLevel || "N/A"} <span className="text-lime">({profile.yearsOfExperience || 0} YRS)</span></p>
                             </div>
-                            <div className="bg-gradient-to-r from-cyber/20 to-lime/10 p-6 flex-grow flex flex-col justify-end">
-                                <h4 className="font-clash font-bold text-2xl text-white">Open Source Data CLI</h4>
-                                <p className="font-mono text-[10px] text-white/60 uppercase tracking-widest mt-1">Due in 4 days</p>
+
+                            <div className="h-px bg-white/10" />
+
+                            <div>
+                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Availability & Preference</p>
+                                <p className="font-mono text-sm text-white capitalize">{profile.availability || 0} Hours/Week • {profile.workPreference || "Any"}</p>
                             </div>
-                            <div className="bg-obsidian w-full px-6 py-4 flex justify-between items-center border-t border-white/10">
-                                <div className="flex -space-x-2">
-                                    <div className="w-8 h-8 rounded-full border border-obsidian bg-cyber/30 flex items-center justify-center text-[10px] font-mono">B1</div>
-                                    <div className="w-8 h-8 rounded-full border border-obsidian bg-lime/30 flex items-center justify-center text-[10px] font-mono">B2</div>
+
+                            <div className="h-px bg-white/10" />
+
+                            <div>
+                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-3">Bounty Status</p>
+                                <div className="flex items-center gap-3">
+                                    <span className={`w-2.5 h-2.5 rounded-full ${profile.openToBounties ? "bg-lime shadow-[0_0_10px_rgba(204,255,0,0.5)]" : "bg-red-500"}`} />
+                                    <span className="font-mono text-sm text-white">
+                                        {profile.openToBounties ? `OPEN (Min $${profile.minBountyReward})` : "CLOSED TO BOUNTIES"}
+                                    </span>
                                 </div>
-                                <ForgeButton variant="ghost" size="sm">ENTER WAR ROOM</ForgeButton>
                             </div>
-                        </BentoCard>
-                    </div>
+                        </div>
+                    </BentoCard>
+
+                    {/* Column 2: Weaponry & Logistics */}
+                    <BentoCard className="p-8 border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent h-full md:col-span-2 flex flex-col hover:bg-white/[0.04] transition-colors duration-500">
+                        <h3 className="font-clash font-bold text-2xl text-white mb-8">Weaponry & Arsenal</h3>
+
+                        <div className="flex-grow flex flex-col justify-between">
+                            <div className="mb-8">
+                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Equipped Skills</p>
+                                <div className="flex flex-wrap gap-2.5">
+                                    {profile.skills && profile.skills.length > 0 ? (
+                                        profile.skills.map((s: string) => <span key={s} className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg font-mono text-[11px] text-white/80 hover:border-lime/50 transition-colors hover:text-white cursor-default">{s}</span>)
+                                    ) : (
+                                        <span className="font-mono text-xs text-white/30">No skills equipped.</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8 border-t border-white/10">
+                                <div>
+                                    <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Active Guilds</p>
+                                    <div className="space-y-3">
+                                        {profile.guilds && profile.guilds.length > 0 ? (
+                                            profile.guilds.map(g => (
+                                                <div key={g} className="font-mono text-sm text-lime flex items-center gap-3 bg-lime/5 w-fit px-3 py-1.5 rounded border border-lime/10">
+                                                    <span className="w-1.5 h-1.5 bg-lime rounded-full animate-pulse" /> {g}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <span className="font-mono text-xs text-white/30">Lone Wolf</span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Target Engagements</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {profile.preferredProjectLength && profile.preferredProjectLength.length > 0 ? (
+                                            profile.preferredProjectLength.map(len => (
+                                                <span key={len} className="font-mono text-[11px] bg-white/5 border border-white/10 px-3 py-1.5 rounded font-bold text-white/60">{len}</span>
+                                            ))
+                                        ) : (
+                                            <span className="font-mono text-xs text-white/30">Any duration</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </BentoCard>
                 </div>
 
-                {/* Shipped Artifacts DNA Collection */}
-                <div className="md:col-span-3 lg:col-span-4 mt-8">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="font-clash font-bold text-xl text-white">Shipped Artifacts</h3>
+                {/* --- 3. Shipped Artifacts & Pulse --- */}
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    {/* Shipped Artifacts DNA Collection */}
+                    <div className="lg:col-span-3">
+                        <div className="flex justify-between items-center mb-6 pl-2">
+                            <h3 className="font-clash font-bold text-2xl text-white">Shipped Artifacts</h3>
+                        </div>
+
+                        {githubUsername && (
+                            <div className="mb-8 p-6 bg-white/[0.02] border border-white/5 rounded-bento overflow-x-auto custom-scrollbar">
+                                <div className="mb-6 flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-lime" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                    <span className="font-mono text-xs text-white/50 uppercase tracking-widest">{githubUsername}&apos;s Heatmap</span>
+                                </div>
+                                <div className="w-fit mx-auto min-w-max">
+                                    <GitHubCalendar
+                                        username={githubUsername}
+                                        colorScheme="dark"
+                                        theme={{ dark: ['#ffffff08', '#baff2940', '#baff2970', '#baff29a0', '#baff29'] }}
+                                        fontSize={12}
+                                        blockSize={11}
+                                        blockMargin={4}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {(profile.projects && profile.projects.length > 0) ? (
+                                profile.projects.map(proj => (
+                                    <DNACard
+                                        key={proj.id}
+                                        title={proj.name}
+                                        description={proj.description}
+                                        url={proj.url}
+                                        type={proj.type}
+                                        score={proj.score}
+                                        date={proj.date}
+                                        tags={proj.tags || []}
+                                        metrics={[{ label: "IMPACT", value: "HIGH" }]}
+                                    />
+                                ))
+                            ) : (
+                                <div className="md:col-span-2 p-8 border border-white/5 bg-white/[0.02] rounded-bento text-center">
+                                    <p className="font-mono text-sm text-white/40 mb-4">No artifacts shipped yet.</p>
+                                    <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} variant="ghost" className="text-lime border-lime/20 hover:bg-lime/10">Initialize First Project</ForgeButton>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {MOCK_PROJECTS.map(proj => (
-                            <DNACard
-                                key={proj.id}
-                                title={proj.name}
-                                type={proj.type}
-                                score={proj.score}
-                                date="2026-02-14"
-                                tags={["React", "TypeScript"]}
-                                metrics={[{ label: "COMMITS", value: proj.commits }, { label: "LOC", value: "1.2K" }]}
-                            />
-                        ))}
-                    </div>
+
+                    {/* Global Pulse Ticker Mini */}
+                    <BentoCard className="lg:col-span-1 h-[400px] flex flex-col p-6 overflow-hidden relative border border-white/10">
+                        <h3 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-6 sticky top-0 bg-obsidian z-10 pb-2 border-b border-white/10">Live Pulse</h3>
+                        <div className="flex-grow overflow-y-auto space-y-5 pr-2 custom-scrollbar relative z-0">
+                            {pulseEvents.slice(0, 5).map(event => (
+                                <div key={event.id} className="text-sm">
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
+                                        <span className="font-mono font-bold text-white tracking-tight">{event.builder}</span>
+                                    </div>
+                                    <p className="font-mono text-white/60 text-[10px] leading-relaxed">
+                                        {event.action} <span className="text-white">&quot;{event.project}&quot;</span>
+                                    </p>
+                                    <p className="font-mono text-white/30 text-[8px] mt-2">{new Date(event.timestamp || Date.now()).toLocaleTimeString()}</p>
+                                    <div className="h-px bg-white/5 mt-4" />
+                                </div>
+                            ))}
+                        </div>
+                    </BentoCard>
                 </div>
 
             </div>

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import type { JWTPayload } from "@/lib/auth";
 
 interface PulseEvent {
     id: string;
@@ -10,6 +11,16 @@ interface PulseEvent {
 }
 
 interface CollabRiseStore {
+    // Auth State
+    user: JWTPayload | null;
+    setUser: (user: JWTPayload | null) => void;
+
+    // Legacy Auth State (for /onboard flows)
+    identity: string;
+    setIdentity: (id: string) => void;
+    selectedGuilds: string[];
+    setSelectedGuilds: (guilds: string[]) => void;
+
     // Ship Score
     shipScore: number;
     incrementScore: (amount: number) => void;
@@ -22,6 +33,16 @@ interface CollabRiseStore {
 }
 
 export const useCollabRiseStore = create<CollabRiseStore>((set) => ({
+    // Auth State
+    user: null,
+    setUser: (user) => set({ user }),
+
+    // Legacy Auth State (for /onboard flows)
+    identity: "",
+    setIdentity: (id) => set({ identity: id }),
+    selectedGuilds: [],
+    setSelectedGuilds: (guilds) => set({ selectedGuilds: guilds }),
+
     // Ship Score
     shipScore: 0,
     incrementScore: (amount) =>
@@ -36,3 +57,4 @@ export const useCollabRiseStore = create<CollabRiseStore>((set) => ({
         })),
     clearPulse: () => set({ pulseEvents: [] }),
 }));
+

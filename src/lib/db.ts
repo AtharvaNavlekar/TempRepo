@@ -17,6 +17,17 @@ export type HiringType = "full-time" | "contract" | "bounty" | "internship";
 export type ExperienceLevel = "beginner" | "mid" | "senior" | "veteran" | "expert";
 export type RemotePolicy = "remote" | "hybrid" | "onsite" | "any";
 
+export interface Project {
+    id: string;
+    name: string;
+    description: string;
+    url?: string;
+    type: string;
+    score: number;
+    date: string;
+    tags: string[];
+}
+
 export interface BuilderProfile {
     craft: string;
     experienceLevel: ExperienceLevel;
@@ -34,6 +45,7 @@ export interface BuilderProfile {
     commitmentLevel: CommitmentLevel;
     guilds: string[];
     bestProject: string;
+    projects?: Project[];
 }
 
 export interface CompanyProfile {

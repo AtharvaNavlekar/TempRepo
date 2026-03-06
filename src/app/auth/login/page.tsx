@@ -117,7 +117,7 @@ export default function LoginPage() {
                     </div>
 
                     <p className="mt-8 text-center font-mono text-[10px] text-white/30 uppercase tracking-widest">
-                        Don&apos;t have an account? <Link href="/onboard/create" className="text-white hover:text-lime underline decoration-white/30 underline-offset-4">Sign Up</Link>
+                        Don&apos;t have an account? <Link href="/auth/create-account" className="text-white hover:text-lime underline decoration-white/30 underline-offset-4">Sign Up</Link>
                     </p>
 
                 </BentoCard>

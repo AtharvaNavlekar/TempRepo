@@ -55,6 +55,7 @@ const NAV_ITEMS = [
 export default function Navbar() {
     const pathname = usePathname();
     const shipScore = useCollabRiseStore((state) => state.shipScore);
+    const user = useCollabRiseStore((state) => state.user);
     const [openMenu, setOpenMenu] = useState<string | null>(null);
     const [mobileOpen, setMobileOpen] = useState(false);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -131,14 +132,38 @@ export default function Navbar() {
                         <div className="h-6 w-px bg-white/10 hidden sm:block" />
 
                         <div className="hidden sm:flex items-center gap-3">
-                            <Link href="/auth/login" className="font-clash font-semibold text-sm text-white/70 hover:text-white transition-colors">
-                                Sign In
-                            </Link>
-                            <Link href="/onboard/identity">
-                                <ForgeButton variant="primary" size="sm">
-                                    Get Started
-                                </ForgeButton>
-                            </Link>
+                            {user ? (
+                                <div className="flex items-center gap-3">
+                                    <Link href="/dashboard" className="flex items-center gap-2 group">
+                                        <div className="w-8 h-8 rounded-full border border-white/20 bg-cyber/20 flex items-center justify-center font-mono text-xs text-lime group-hover:bg-lime/20 transition-colors">
+                                            {user.handle.substring(0, 2).toUpperCase()}
+                                        </div>
+                                        <span className="font-mono text-xs text-white/70 group-hover:text-white transition-colors">
+                                            @{user.handle}
+                                        </span>
+                                    </Link>
+                                    <button
+                                        onClick={async () => {
+                                            await fetch("/api/auth/logout", { method: "POST" });
+                                            window.location.href = "/";
+                                        }}
+                                        className="font-mono text-[10px] uppercase text-white/40 hover:text-red-400 transition-colors"
+                                    >
+                                        Drop Out
+                                    </button>
+                                </div>
+                            ) : (
+                                <>
+                                    <Link href="/auth/login" className="font-clash font-semibold text-sm text-white/70 hover:text-white transition-colors">
+                                        Sign In
+                                    </Link>
+                                    <Link href="/auth/create-account">
+                                        <ForgeButton variant="primary" size="sm">
+                                            Get Started
+                                        </ForgeButton>
+                                    </Link>
+                                </>
+                            )}
                         </div>
 
                         <button className="lg:hidden w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-white/50 hover:text-white" onClick={() => setMobileOpen(!mobileOpen)}>
