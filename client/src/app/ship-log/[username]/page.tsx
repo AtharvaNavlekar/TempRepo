@@ -43,14 +43,42 @@ export default function Page() {
             </div>
 
             <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 140px", gap: 24, alignItems: "start" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
                     <div style={{ minWidth: 0 }}>
                         {/* Heatmap Section */}
-                        <div className="luxury-card" style={{ padding: 32, marginBottom: 32 }}>
-                            <p className="luxury-overline" style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
-                                <span style={{ height: 1, width: 24, background: "#C9A353" }}></span>
-                                ATHARVANAVLEKAR&apos;S CONTRIBUTION HEATMAP ({selectedYear})
-                            </p>
+                        <div className="luxury-card" style={{ padding: 32, marginBottom: 32, position: "relative", overflow: "hidden" }}>
+                            <div className="luxury-card-accent" />
+
+                            {/* Header with Year Selector */}
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24, flexWrap: "wrap", gap: 16 }}>
+                                <p className="luxury-overline" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span style={{ height: 1, width: 24, background: "#C9A353" }}></span>
+                                    ATHARVANAVLEKAR&apos;S CONTRIBUTION HEATMAP ({selectedYear})
+                                </p>
+
+                                <div style={{ display: "flex", gap: 4, background: "rgba(13,13,13,.03)", padding: 4, borderRadius: 10 }}>
+                                    {YEARS.map(year => (
+                                        <button
+                                            key={year}
+                                            onClick={() => setSelectedYear(year)}
+                                            style={{
+                                                padding: "6px 16px",
+                                                borderRadius: 8,
+                                                border: "none",
+                                                cursor: "pointer",
+                                                fontFamily: "'DM Sans',sans-serif",
+                                                fontSize: 12,
+                                                fontWeight: selectedYear === year ? 600 : 400,
+                                                background: selectedYear === year ? "#C9A353" : "transparent",
+                                                color: selectedYear === year ? "#fff" : "var(--smoke)",
+                                                transition: "all .2s ease"
+                                            }}
+                                        >
+                                            {year}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
 
                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, paddingLeft: 20 }}>
                                 {MONTHS.map(m => (
@@ -58,7 +86,19 @@ export default function Page() {
                                 ))}
                             </div>
 
-                            <div style={{ display: "grid", gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`, gap: 4, marginBottom: 16, overflowX: "auto", paddingBottom: 4 }}>
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
+                                    gap: 3,
+                                    marginBottom: 16,
+                                    overflowX: "auto",
+                                    paddingBottom: 4,
+                                    msOverflowStyle: "none",
+                                    scrollbarWidth: "none"
+                                }}
+                                className="no-scrollbar"
+                            >
                                 {Array.from({ length: GRID_SIZE * 7 }).map((_, i) => {
                                     // Make 2026 look active, older years slightly less so
                                     const isActive = selectedYear === 2026 ? i > 250 : i > 400;
@@ -69,8 +109,8 @@ export default function Page() {
                                         <div
                                             key={i}
                                             style={{
-                                                width: 12,
-                                                height: 12,
+                                                width: 11,
+                                                height: 11,
                                                 borderRadius: 2,
                                                 background: colors[colorIndex],
                                                 border: "1px solid rgba(13,13,13,.02)"
@@ -165,38 +205,6 @@ export default function Page() {
                         </div>
                     </div>
 
-                    {/* Year Filter Sidebar */}
-                    <div style={{ position: "sticky", top: 20 }}>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                            {YEARS.map(year => (
-                                <button
-                                    key={year}
-                                    onClick={() => setSelectedYear(year)}
-                                    style={{
-                                        padding: "10px 16px",
-                                        borderRadius: 8,
-                                        border: "none",
-                                        cursor: "pointer",
-                                        textAlign: "left",
-                                        fontFamily: "'DM Sans',sans-serif",
-                                        fontSize: 14,
-                                        fontWeight: selectedYear === year ? 600 : 400,
-                                        background: selectedYear === year ? "#C9A353" : "transparent",
-                                        color: selectedYear === year ? "#fff" : "var(--smoke)",
-                                        transition: "all .2s ease",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 10
-                                    }}
-                                    onMouseEnter={e => { if (selectedYear !== year) e.currentTarget.style.background = "rgba(201,163,83,.05)"; }}
-                                    onMouseLeave={e => { if (selectedYear !== year) e.currentTarget.style.background = "transparent"; }}
-                                >
-                                    <Calendar size={14} style={{ opacity: selectedYear === year ? 1 : 0.4 }} />
-                                    {year}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

@@ -604,6 +604,17 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
 /* ══════════════════════════════════════════════════════════════════
    LUXURY PAGE UTILITIES — shared across all pages
    Palette: Cream #F7F4EE · Ink #0D0D0D · Gold #C9A353 · Parchment #EDE8DA
