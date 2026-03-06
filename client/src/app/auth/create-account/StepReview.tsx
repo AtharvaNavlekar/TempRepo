@@ -49,7 +49,7 @@ export default function StepReview({ form, finalData, onFinalChange, onJumpToSte
 
                 {isBuilder ? (
                     <>
-                        <ReviewSection title="Builder Profile">
+                        <ReviewSection title="Founder Profile">
                             <ReviewRow label="Craft" value={form.builderDetails.craft} />
                             <ReviewRow label="Level" value={form.builderDetails.experienceLevel} />
                             <ReviewRow label="Skills" value={form.builderDetails.skills} />
@@ -63,10 +63,10 @@ export default function StepReview({ form, finalData, onFinalChange, onJumpToSte
                             <ReviewRow label="Availability" value={`${form.builderPrefs.availability} hrs/wk`} />
                             <button onClick={() => onJumpToStep(3)} className="mt-2 font-mono text-[10px] text-lime hover:text-white transition-colors">EDIT →</button>
                         </ReviewSection>
-                        <ReviewSection title="Identity & Guilds">
+                        <ReviewSection title="Founder Identity">
                             <ReviewRow label="Commitment" value={form.builderPersonality.commitmentLevel} />
                             <ReviewRow label="Guilds" value={form.builderPersonality.guilds} />
-                            <ReviewRow label="Best Project" value={form.builderPersonality.bestProject} />
+                            <ReviewRow label="Best Venture" value={form.builderPersonality.bestProject} />
                             <button onClick={() => onJumpToStep(4)} className="mt-2 font-mono text-[10px] text-lime hover:text-white transition-colors">EDIT →</button>
                         </ReviewSection>
                     </>
@@ -98,15 +98,15 @@ export default function StepReview({ form, finalData, onFinalChange, onJumpToSte
                     options={REFERRAL_SOURCES.map(r => ({ value: r, label: r }))}
                 />
                 <Toggle
-                    label="Subscribe to Builder Digest"
-                    desc="Weekly roundup of top ships, bounties, and community news"
+                    label="Subscribe to Founder Digest"
+                    desc="Weekly roundup of top ventures, strategic bounties, and founder insights"
                     checked={finalData.newsletterSubscribed}
                     onChange={v => onFinalChange({ ...finalData, newsletterSubscribed: v })}
                 />
                 <div className="space-y-3">
                     {[
                         { key: "agreedToTerms" as keyof FinalData, label: "I agree to the Terms of Service and Privacy Policy" },
-                        { key: "agreedToProtocol" as keyof FinalData, label: "I agree to the Proof-of-Work Protocol Rules — no fake work, no ghost projects" },
+                        { key: "agreedToProtocol" as keyof FinalData, label: "I agree to the Proof-of-Execution Protocol Rules — no fake traction, no vanity projects" },
                     ].map(({ key, label }) => (
                         <button
                             key={key}

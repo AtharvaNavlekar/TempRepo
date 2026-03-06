@@ -7,25 +7,25 @@ import { ArrowRight, CheckCircle2, Zap, Users, ShieldCheck, TrendingUp, Star } f
 /* ─── Feature rows ─── */
 const FEATURES = [
     {
-        overline: "Proof of Work",
-        title: "Your Ship Score replaces your resume.",
-        body: "Every commit, every pixel, every shipped project is quantified and verified through metadata analysis. Employers see irrefutable output — not self-reported claims.",
+        overline: "Proof of Execution",
+        title: "Your Ship Score replaces your pitch deck.",
+        body: "Every project, every milestone, every growth metric is quantified and verified. Investors and partners see irrefutable execution — not just slides.",
         icon: ShieldCheck,
         gradient: "mesh-gradient-warm",
         textLight: true,
     },
     {
-        overline: "Build Together",
-        title: "Find your team in seconds.",
-        body: "AI-powered matching surfaces builders whose skills, timezone, and work style complement yours. Form guilds, compete in war rooms, and ship faster together.",
+        overline: "Venture Together",
+        title: "Find your co-founder in seconds.",
+        body: "AI-powered matching surfaces founders whose skills, vision, and growth stage complement yours. Form guilds, launch ventures, and scale faster together.",
         icon: Users,
         gradient: "mesh-gradient-purple",
         textLight: true,
     },
     {
-        overline: "Get Hired",
-        title: "Companies skip the interview.",
-        body: "Your Ship Log is your living portfolio. Recruiters browse real shipped work — not a polished PDF. The best builders get found, not filtered out.",
+        overline: "Scale Fast",
+        title: "Partners skip the due diligence.",
+        body: "Your Ship Log is your living proof of concept. Ecosystems browse real traction — not a polished PDF. The best founders get noticed, not filtered out.",
         icon: TrendingUp,
         gradient: "mesh-gradient-warm",
         textLight: true,
@@ -34,28 +34,28 @@ const FEATURES = [
 
 /* ─── Stats ─── */
 const STATS = [
-    { value: "14.2K", label: "Builders" },
-    { value: "89.7K", label: "Artifacts Shipped" },
-    { value: "2,847", label: "Active Projects" },
-    { value: "342", label: "Communities" },
+    { value: "14.2K", label: "Founders" },
+    { value: "89.7K", label: "Ventures Launched" },
+    { value: "2,847", label: "Active Startups" },
+    { value: "342", label: "Guilds" },
 ];
 
 /* ─── Testimonials ─── */
 const TESTIMONIALS = [
     {
-        quote: "I got my first freelance contract 3 weeks after joining. My Ship Score spoke louder than my degree.",
+        quote: "I found my co-founder and closed my first angel round 3 weeks after joining. My Ship Score did the talking.",
         name: "Arjun M.",
-        role: "Frontend Builder",
+        role: "Venture Lead",
     },
     {
-        quote: "CollabRise cut our hiring time in half. We see actual work — not just promises on a resume.",
+        quote: "CollabRise cut our partner search time in half. We see actual traction — not just promises on a slide.",
         name: "Priya S.",
-        role: "Engineering Lead, Startup",
+        role: "Founder, Stealth Startup",
     },
     {
-        quote: "The guild system changed how I collaborate. Found three long-term partners within a month.",
+        quote: "The guild system changed how I scale ventures. Found three strategic partners within a month.",
         name: "Dani K.",
-        role: "Full-Stack & Founding Member",
+        role: "Solopreneur & Founding Member",
     },
 ];
 
@@ -73,29 +73,18 @@ export default function HomePage() {
             {/* ══════════════════════════════════════
              HERO
             ══════════════════════════════════════ */}
-            <section className="mesh-gradient relative flex flex-col items-center justify-center text-center px-6 py-36 md:py-48 min-h-[90vh]">
-                {/* Ornamental divider (inspired by Sarvam's decorative motif) */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="mb-8"
-                    aria-hidden="true"
-                >
-                    <svg width="96" height="32" viewBox="0 0 96 32" fill="none" className="text-[#131313]/20">
-                        <path d="M48 4 C30 4 16 16 4 16 C16 16 30 28 48 28 C66 28 80 16 92 16 C80 16 66 4 48 4Z" stroke="currentColor" strokeWidth="1.2" fill="none" />
-                        <circle cx="48" cy="16" r="3" fill="currentColor" opacity="0.4" />
-                    </svg>
-                </motion.div>
+            <section className="mesh-gradient relative flex flex-col items-center justify-center text-center px-6 pt-24 pb-48 md:pt-32 md:pb-56 min-h-[70vh]">
+
 
                 {/* Pill badge */}
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
+                    className="mb-4"
                 >
-                    <span className="inline-block mb-6 px-4 py-1.5 rounded-full bg-white/70 border border-black/[0.08] text-[12px] font-medium text-[#555] tracking-wide shadow-sm backdrop-blur-sm">
-                        For Builders · For Freelancers · For Founders
+                    <span className="inline-block px-4 py-1.5 rounded-full bg-white/70 border border-black/[0.08] text-[12px] font-medium text-[#4A4A4A] tracking-wide shadow-sm backdrop-blur-sm">
+                        For Founders · For Solopreneurs · For Entrepreneurs
                     </span>
                 </motion.div>
 
@@ -104,10 +93,10 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.2 }}
-                    className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-[#131313] leading-[1.08] tracking-tight max-w-4xl mx-auto mb-6"
+                    className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-[#1A1A1A] leading-[1.08] tracking-tight max-w-4xl mx-auto mb-6 relative z-10"
                 >
                     The professional network for people who{" "}
-                    <em className="not-italic" style={{ fontStyle: "italic" }}>ship</em>.
+                    <span className="sketch-underline font-serif italic text-inherit">ship</span>.
                 </motion.h1>
 
                 {/* Subtitle */}
@@ -115,25 +104,25 @@ export default function HomePage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.45 }}
-                    className="text-[17px] text-[#555] leading-relaxed max-w-xl mx-auto mb-10"
+                    className="text-[17px] text-[#4A4A4A] leading-relaxed max-w-xl mx-auto mb-10 relative z-10"
                 >
-                    Build irrefutable proof of your skills, earn a verified Ship Score,
-                    and let your work replace your résumé — forever.
+                    Create irrefutable proof of your ventures, earn a verified Ship Score,
+                    and let your traction replace your pitch deck — forever.
                 </motion.p>
 
                 {/* CTA */}
                 <motion.div
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.65 }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-3"
+                    transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-col sm:flex-row items-center justify-center gap-3 relative z-10"
                 >
-                    <Link href="/auth/create-account" className="btn-pill-primary text-[15px] px-8 py-3.5 gap-2">
-                        Start Building Free
+                    <Link href="/auth/create-account" className="btn-pill-primary text-[15px] px-8 py-3.5 gap-2 shadow-lg hover:shadow-xl">
+                        Start Launching Free
                         <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </Link>
-                    <Link href="/feed" className="btn-pill-secondary text-[15px] px-8 py-3.5">
-                        Explore Projects
+                    <Link href="/feed" className="btn-pill-dark text-[15px] px-8 py-3.5">
+                        Explore Ventures
                     </Link>
                 </motion.div>
 
@@ -141,11 +130,11 @@ export default function HomePage() {
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.9 }}
-                    className="mt-8 text-[12px] text-[#999] flex items-center gap-1.5 justify-center"
+                    transition={{ delay: 0.8, duration: 1 }}
+                    className="mt-8 text-[12px] text-[#8C8C8C] flex items-center gap-1.5 justify-center"
                 >
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
-                    No credit card required · Free forever for builders
+                    No credit card required · Free forever for entrepreneurs
                 </motion.p>
 
                 {/* Overline label below hero */}
@@ -153,10 +142,22 @@ export default function HomePage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.1 }}
-                    className="absolute bottom-10 overline-label"
+                    className="absolute bottom-16 sm:bottom-20 overline-label text-[#E86A33] z-10"
                 >
-                    TRUSTED BY BUILDERS WORLDWIDE
+                    TRUSTED BY ENTREPRENEURS WORLDWIDE
                 </motion.p>
+
+                {/* Architectural Skyline Line Art */}
+                <div
+                    className="absolute bottom-0 left-0 w-full overflow-hidden text-[#E86A33]/30 pointer-events-none flex justify-center items-end" aria-hidden="true"
+                >
+                    <svg width="1200" height="80" viewBox="0 0 1200 80" fill="none" className="min-w-[1200px]" preserveAspectRatio="xMidYMax meet">
+                        {/* Outer architectural silhouette */}
+                        <path d="M0,80 L0,70 L50,70 L50,60 L100,60 L100,70 L150,70 L150,50 L200,50 L200,70 L250,70 L250,40 Q275,20 300,40 L300,70 L350,70 L350,30 L400,30 L400,70 L450,70 L450,50 L500,50 L500,70 L550,70 L550,60 L600,60 L600,70 L650,70 L650,40 Q675,20 700,40 L700,70 L750,70 L750,30 L800,30 L800,70 L850,70 L850,50 L900,50 L900,70 L950,70 L950,60 L1000,60 L1000,70 L1050,70 L1050,40 Q1075,20 1100,40 L1100,70 L1150,70 L1150,60 L1200,60 L1200,80 Z" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                        {/* Inner architectural details */}
+                        <path d="M150,70 L150,60 L200,60 L200,70 M350,70 L350,40 L400,40 L400,70 M450,70 L450,60 L500,60 L500,70 M750,70 L750,40 L800,40 L800,70 M850,70 L850,60 L900,60 L900,70 M650,70 L650,50 L700,50 L700,70 M250,70 L250,50 L300,50 L300,70 M1050,70 L1050,50 L1100,50 L1100,70 M365,70 L365,50 M385,70 L385,50 M765,70 L765,50 M785,70 L785,50" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" />
+                    </svg>
+                </div>
             </section>
 
             {/* ══════════════════════════════════════
@@ -176,7 +177,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: i * 0.1 }}
                         >
-                            <p className="font-serif text-4xl font-normal text-[#131313] mb-1">{stat.value}</p>
+                            <p className="font-serif text-4xl font-normal text-[#1A1A1A] mb-1">{stat.value}</p>
                             <p className="overline-label">{stat.label}</p>
                         </motion.div>
                     ))}
@@ -197,27 +198,28 @@ export default function HomePage() {
                                 variants={fadeUp}
                                 initial="hidden"
                                 whileInView="show"
-                                viewport={{ once: true, margin: "-60px" }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                                className={`light-card overflow-hidden flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                                className={`light-card group flex flex-col p-4 md:p-6 gap-8 ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}
                             >
-                                {/* Visual panel */}
-                                <div className={`${feat.gradient} flex items-center justify-center p-16 md:p-20 md:w-2/5 shrink-0`}>
-                                    <Icon className="w-20 h-20 text-white/80 drop-shadow-lg" aria-hidden="true" />
+                                {/* Visual panel (Sarvam style inner arch) */}
+                                <div className={`${feat.gradient} flex items-center justify-center p-16 md:p-20 md:w-2/5 shrink-0 rounded-[4rem_4rem_1rem_1rem] md:rounded-[6rem_6rem_1rem_1rem] shadow-inner overflow-hidden relative group-hover:scale-[0.98] transition-transform duration-500`}>
+                                    <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-500" />
+                                    <Icon className="w-20 h-20 text-white/80 drop-shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 ease-out" aria-hidden="true" />
                                 </div>
 
-                                {/* Text panel */}
-                                <div className="p-10 md:p-14 flex flex-col justify-center">
-                                    <p className="overline-label mb-3">{feat.overline}</p>
-                                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-[#131313] leading-tight mb-4">
+                                {/* Text panel (Verified style airy white card) */}
+                                <div className="p-6 md:p-14 flex flex-col justify-center">
+                                    <p className="overline-label mb-3 text-[#E86A33]">{feat.overline}</p>
+                                    <h2 className="font-serif text-3xl md:text-4xl font-normal text-[#1A1A1A] leading-tight mb-4">
                                         {feat.title}
                                     </h2>
-                                    <p className="text-[15px] text-[#555] leading-relaxed max-w-md mb-8">
+                                    <p className="text-[15px] text-[#4A4A4A] leading-relaxed max-w-md mb-8">
                                         {feat.body}
                                     </p>
                                     <Link
                                         href="/auth/create-account"
-                                        className="inline-flex items-center gap-2 text-[13px] font-medium text-[#131313] hover:gap-3 transition-all group"
+                                        className="inline-flex items-center gap-2 text-[14px] font-semibold text-[#1A1A1A] hover:text-[#E86A33] hover:gap-3 transition-all group"
                                     >
                                         Get started free
                                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -246,7 +248,7 @@ export default function HomePage() {
                         className="text-center mb-16"
                     >
                         <p className="overline-label mb-4">How It Works</p>
-                        <h2 className="font-serif text-4xl md:text-5xl font-normal text-[#131313] leading-tight">
+                        <h2 className="font-serif text-4xl md:text-5xl font-normal text-[#1A1A1A] leading-tight">
                             Three steps to proof.
                         </h2>
                     </motion.div>
@@ -256,19 +258,19 @@ export default function HomePage() {
                             {
                                 step: "01",
                                 title: "Create your Ship Log",
-                                body: "Your public portfolio that logs every project, commit, and milestone in real time.",
+                                body: "Your public proof of concept that logs every venture, milestone, and pivot in real time.",
                                 icon: Zap,
                             },
                             {
                                 step: "02",
-                                title: "Ship & get verified",
-                                body: "Our system audits your metadata — Git history, file diffs, word counts — and issues a Ship Score.",
+                                title: "Launch & get verified",
+                                body: "Our system audits your execution metadata — Git history, growth metrics, traction data — and issues a Ship Score.",
                                 icon: ShieldCheck,
                             },
                             {
                                 step: "03",
-                                title: "Get hired or go freelance",
-                                body: "Share your Ship Log link instead of a résumé. Let verified output do the talking.",
+                                title: "Scale or close deals",
+                                body: "Share your Ship Log link instead of a pitch deck. Let verified traction do the talking.",
                                 icon: Star,
                             },
                         ].map((item, i) => {
@@ -286,11 +288,11 @@ export default function HomePage() {
                                     <p className="font-serif text-6xl font-normal text-black/10 mb-4 leading-none">
                                         {item.step}
                                     </p>
-                                    <StepIcon className="w-6 h-6 text-[#131313] mb-4" aria-hidden="true" />
-                                    <h3 className="font-serif text-xl font-normal text-[#131313] mb-2">
+                                    <StepIcon className="w-6 h-6 text-[#1A1A1A] mb-4" aria-hidden="true" />
+                                    <h3 className="font-serif text-xl font-normal text-[#1A1A1A] mb-2">
                                         {item.title}
                                     </h3>
-                                    <p className="text-[14px] text-[#555] leading-relaxed">{item.body}</p>
+                                    <p className="text-[14px] text-[#4A4A4A] leading-relaxed">{item.body}</p>
                                 </motion.div>
                             );
                         })}
@@ -311,9 +313,9 @@ export default function HomePage() {
                         transition={{ duration: 0.5 }}
                         className="text-center mb-14"
                     >
-                        <p className="overline-label mb-4">Trusted by Builders</p>
-                        <h2 className="font-serif text-4xl md:text-5xl font-normal text-[#131313]">
-                            What they&apos;re shipping.
+                        <p className="overline-label mb-4">Trusted by Founders</p>
+                        <h2 className="font-serif text-4xl md:text-5xl font-normal text-[#1A1A1A]">
+                            What they&apos;re launching.
                         </h2>
                     </motion.div>
 
@@ -337,8 +339,8 @@ export default function HomePage() {
                                     &ldquo;{t.quote}&rdquo;
                                 </blockquote>
                                 <div>
-                                    <p className="text-[13px] font-semibold text-[#131313]">{t.name}</p>
-                                    <p className="text-[12px] text-[#999]">{t.role}</p>
+                                    <p className="text-[13px] font-semibold text-[#1A1A1A]">{t.name}</p>
+                                    <p className="text-[12px] text-[#8C8C8C]">{t.role}</p>
                                 </div>
                             </motion.div>
                         ))}
@@ -358,9 +360,9 @@ export default function HomePage() {
                     transition={{ duration: 0.6 }}
                     className="max-w-2xl mx-auto"
                 >
-                    <p className="overline-label mb-5">Ready to ship?</p>
-                    <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal text-[#131313] leading-tight mb-8">
-                        Stop applying.<br />Start building.
+                    <p className="overline-label mb-5">Ready to launch?</p>
+                    <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal text-[#1A1A1A] leading-tight mb-8">
+                        Stop dreaming.<br />Start launching.
                     </h2>
                     <Link href="/auth/create-account" className="btn-pill-primary text-[15px] px-10 py-4 gap-2">
                         Join CollabRise Free
@@ -368,6 +370,6 @@ export default function HomePage() {
                     </Link>
                 </motion.div>
             </section>
-        </main>
+        </main >
     );
 }

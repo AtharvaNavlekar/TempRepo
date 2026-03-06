@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react";
 import { TerminalBlock } from "@/components/forge";
 
-const MANIFESTO_TEXT = `We don't care about your resume. We don't care about your LinkedIn. We don't care what school you went to or who you know. We care about one thing — what have you SHIPPED? In a world drowning in credentials, we built a protocol for proof. Every line of code. Every pixel pushed. Every dish plated. Every pitch delivered. Verified. On chain. Undeniable. This is CollabRise. This is the Forge. Ship. Or die trying.`;
+const MANIFESTO_TEXT = `We don't care about your resume. We don't care about your LinkedIn. We don't care what school you went to or who you know. We care about one thing — what have you LAUNCHED? In a world drowning in credentials, we built a protocol for proof of execution. Every venture started. Every product scaled. Every metric verified. Every pitch delivered. Validated. On chain. Undeniable. This is CollabRise. This is the Forge. Launch. Or stay stagnant.`;
 
 export default function ManifestoScroll() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -43,24 +43,24 @@ export default function ManifestoScroll() {
     const BOOT_LINES = [
         "// COLLABRISE PROTOCOL v1.0.0",
         "[OK] Initializing Ship Score Engine...",
-        "[OK] Loading Artifact Verification Layer...",
+        "[OK] Loading Traction Verification Layer...",
         "[OK] Connecting to Guild Network...",
-        "[OK] Syncing Builder DNA Profiles...",
+        "[OK] Syncing Founder Profile DNA...",
         "[OK] Commitment Contract Module: ARMED",
-        "[OK] Failure Vault: ENCRYPTED",
+        "[OK] Venture Vault: ENCRYPTED",
         "[OK] The Forge is ONLINE.",
         "",
-        "> Welcome, Builder. Your journey starts now.",
-        "> Type 'ship --init' to begin.",
+        "> Welcome, Founder. Your journey starts now.",
+        "> Type 'launch --init' to begin.",
     ];
 
-    /* Highlight specific words in the editorial dark style */
+    /* Highlight specific words in the editorial style */
     const getWordColor = (word: string): string => {
-        if (["SHIPPED?", "CollabRise.", "Forge.", "Undeniable."].includes(word))
-            return "#131313";
-        if (["Ship.", "die"].includes(word))
-            return "#555555";
-        return "#555555";
+        if (["LAUNCHED?", "CollabRise.", "Forge.", "Undeniable."].includes(word))
+            return "#1A1A1A";
+        if (["Launch.", "stagnant."].includes(word))
+            return "#4A4A4A";
+        return "#4A4A4A";
     };
 
     return (
@@ -78,7 +78,7 @@ export default function ManifestoScroll() {
 
                 {/* Word-by-word reveal */}
                 <div ref={containerRef} className="mb-16">
-                    <p className="font-serif text-2xl md:text-3xl lg:text-4xl leading-relaxed font-normal text-[#131313]">
+                    <p className="font-serif text-2xl md:text-3xl lg:text-4xl leading-relaxed font-normal text-[#1A1A1A]">
                         {words.map((word, i) => (
                             <span
                                 key={i}
@@ -92,7 +92,7 @@ export default function ManifestoScroll() {
                                     filter: "blur(4px)",
                                     transitionDelay: `${i * 30}ms`,
                                     color: getWordColor(word),
-                                    fontWeight: ["SHIPPED?", "CollabRise.", "Forge."].includes(word)
+                                    fontWeight: ["LAUNCHED?", "CollabRise.", "Forge."].includes(word)
                                         ? 500
                                         : 400,
                                 }}

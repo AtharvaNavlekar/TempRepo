@@ -11,17 +11,17 @@ import { CRAFTS, SKILLS, GUILDS } from "@/app/auth/create-account/types";
 
 // Extracted from arrays used in create-account pages
 const EXP_LEVELS = [
-    { value: "beginner", label: "BEGINNER", desc: "0–1 yrs" },
-    { value: "mid", label: "MID", desc: "1–3 yrs" },
-    { value: "senior", label: "SENIOR", desc: "3–7 yrs" },
-    { value: "veteran", label: "VETERAN", desc: "7+ yrs" },
+    { value: "beginner", label: "EARLY-STAGE", desc: "0–1 yrs" },
+    { value: "mid", label: "SCALING", desc: "1–3 yrs" },
+    { value: "senior", label: "ESTABLISHED", desc: "3–7 yrs" },
+    { value: "veteran", label: "SERIAL FOUNDER", desc: "7+ yrs" },
 ];
 
 const EMP_STATUSES = [
-    { value: "open", label: "OPEN TO WORK" },
-    { value: "employed", label: "EMPLOYED" },
-    { value: "freelancing", label: "FREELANCING" },
-    { value: "student", label: "STUDENT" },
+    { value: "open", label: "OPEN TO COLLABORATE" },
+    { value: "employed", label: "FOUNDING" },
+    { value: "freelancing", label: "SOLOPRENEURING" },
+    { value: "student", label: "ASPIRING FOUNDER" },
 ];
 
 const WORK_PREFS = [
@@ -32,9 +32,9 @@ const WORK_PREFS = [
 ];
 
 const COMMITMENT_LEVELS = [
-    { value: "casual", label: "CASUAL (0-10 hrs)", desc: "Just exploring or side projects" },
-    { value: "builder", label: "BUILDER (10-30 hrs)", desc: "Consistent active contributor" },
-    { value: "hardcore", label: "HARDCORE (40+ hrs)", desc: "100% dedicated to shipping" },
+    { value: "casual", label: "CASUAL (0-10 hrs)", desc: "Just exploring or side ventures" },
+    { value: "builder", label: "FOUNDER (10-30 hrs)", desc: "Consistent active contributor" },
+    { value: "hardcore", label: "HARDCORE (40+ hrs)", desc: "100% dedicated to launching" },
 ];
 
 interface Props {
@@ -153,8 +153,8 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
                             <div className="space-y-6">
                                 <FormInput label="Full Name" value={fullName} onChange={e => setFullName(e.target.value)} placeholder="Your Name" />
                                 <FormInput label="Handle" value={handle} onChange={e => setHandle(e.target.value)} placeholder="username" prefix="@" />
-                                <FormInput label="Country" value={country} onChange={e => setCountry(e.target.value)} placeholder="e.g. United States" />
-                                <FormTextarea label="Your Manifesto (Bio)" placeholder="What drives you to build?" value={manifesto} onChange={e => setManifesto(e.target.value)} maxLength={200} />
+                                <FormInput label="Country" value={country} onChange={e => setCountry(e.target.value)} placeholder="e.g. India" />
+                                <FormTextarea label="Your Manifesto (Bio)" placeholder="What drives you to launch?" value={manifesto} onChange={e => setManifesto(e.target.value)} maxLength={200} />
                             </div>
                         )}
 
@@ -169,7 +169,7 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
                                     <label className="block font-mono text-xs text-white/70 uppercase tracking-widest mb-3">Skills & Tools</label>
                                     <TagPicker label="Skills" selected={skills} onChange={setSkills} options={SKILLS} max={10} />
                                 </div>
-                                <FormInput label="Best Project Name" value={bestProject} onChange={e => setBestProject(e.target.value)} placeholder="Name of the best thing you've shipped" />
+                                <FormInput label="Best Venture Name" value={bestProject} onChange={e => setBestProject(e.target.value)} placeholder="Name of the best thing you've launched" />
                                 <FormInput label="GitHub URL" value={githubUrl} onChange={e => setGithubUrl(e.target.value)} placeholder="https://github.com/..." />
                                 <div>
                                     <label className="block font-mono text-xs text-white/70 uppercase tracking-widest mb-3">Guilds</label>
@@ -188,7 +188,7 @@ export default function EditProfileModal({ isOpen, onClose, user }: Props) {
                             <div className="space-y-6">
                                 <RadioGroup label="Current Employment Status" value={employmentStatus} onChange={setEmploymentStatus} options={EMP_STATUSES} />
                                 <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
-                                    <Toggle label="Open to Paid Bounties?" checked={openToBounties} onChange={setOpenToBounties} />
+                                    <Toggle label="Open to Strategic Bounties?" checked={openToBounties} onChange={setOpenToBounties} />
                                     {openToBounties && (
                                         <div className="mt-4 pt-4 border-t border-white/5">
                                             <FormSlider label="Minimum Bounty Reward (USD)" value={minBountyReward} onChange={setMinBountyReward} min={50} max={5000} step={50} format={(v: number) => `$${v}${v === 5000 ? "+" : ""}`} />

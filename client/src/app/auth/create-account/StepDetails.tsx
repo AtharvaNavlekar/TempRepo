@@ -24,10 +24,10 @@ export function StepBuilderDetails({ data, onChange, errors }: BuilderDetailsPro
                 error={errors.experienceLevel}
                 columns={4}
                 options={[
-                    { value: "beginner", label: "BEGINNER", desc: "0–1 yrs" },
-                    { value: "mid", label: "MID", desc: "1–3 yrs" },
-                    { value: "senior", label: "SENIOR", desc: "3–7 yrs" },
-                    { value: "veteran", label: "VETERAN", desc: "7+ yrs" },
+                    { value: "beginner", label: "EARLY-STAGE", desc: "0–1 yrs" },
+                    { value: "mid", label: "SCALING", desc: "1–3 yrs" },
+                    { value: "senior", label: "ESTABLISHED", desc: "3–7 yrs" },
+                    { value: "veteran", label: "SERIAL FOUNDER", desc: "7+ yrs" },
                 ]}
             />
             <TagPicker
@@ -45,15 +45,15 @@ export function StepBuilderDetails({ data, onChange, errors }: BuilderDetailsPro
                 error={errors.employmentStatus}
                 columns={2}
                 options={[
-                    { value: "open", label: "OPEN TO WORK" },
-                    { value: "employed", label: "EMPLOYED" },
-                    { value: "freelancing", label: "FREELANCING" },
-                    { value: "student", label: "STUDENT" },
+                    { value: "open", label: "OPEN TO COLLABORATE" },
+                    { value: "employed", label: "FOUNDING" },
+                    { value: "freelancing", label: "SOLOPRENEURING" },
+                    { value: "student", label: "ASPIRING FOUNDER" },
                 ]}
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <FormInput label="GitHub URL" type="url" placeholder="https://github.com/you" value={data.githubUrl} onChange={set("githubUrl")} error={errors.githubUrl} />
-                <FormInput label="Portfolio / Behance" type="url" placeholder="https://yoursite.com" value={data.portfolioUrl} onChange={set("portfolioUrl")} error={errors.portfolioUrl} />
+                <FormInput label="GitHub / Source" type="url" placeholder="https://github.com/you" value={data.githubUrl} onChange={set("githubUrl")} error={errors.githubUrl} />
+                <FormInput label="Venture Website / Deck" type="url" placeholder="https://venturesite.com" value={data.portfolioUrl} onChange={set("portfolioUrl")} error={errors.portfolioUrl} />
             </div>
         </div>
     );

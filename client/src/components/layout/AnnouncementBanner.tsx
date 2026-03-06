@@ -13,7 +13,7 @@ export default function AnnouncementBanner() {
             className="relative flex items-center justify-center gap-3 px-4 py-2.5 text-sm text-white"
             style={{
                 background:
-                    "linear-gradient(90deg, #c2410c 0%, #ea580c 30%, #f97316 55%, #a78bfa 80%, #7c3aed 100%)",
+                    "linear-gradient(90deg, #E86A33 0%, #FF9933 40%, #D81B60 100%)",
             }}
             role="banner"
             aria-label="Site announcement"

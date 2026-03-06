@@ -5,37 +5,37 @@
 @tailwind utilities;
 
 /* ============================================
-   COLLABRISE — PUBLIC SITE (SARVAM THEME)
-   Editorial · Minimalist · Light Mode
+   COLLABRISE — PUBLIC SITE (MODERN INDIAN THEME)
+   Heritage · Warm · Sandstone
    ============================================ */
 
 :root {
   /* ── Public / Landing Site Palette ── */
-  --bg-base: #F5F5F2;
-  /* Warm off-white page background  */
-  --bg-surface: #EFEFEC;
+  --bg-base: #FDFBF7;
+  /* Warm sandstone background       */
+  --bg-surface: #FFFFFF;
   /* Card / navbar surface           */
-  --bg-card: #EAEAE7;
+  --bg-card: #F9F7F1;
   /* Slightly deeper card fill       */
-  --text-primary: #131313;
-  /* Headlines                       */
-  --text-secondary: #555555;
+  --text-primary: #1A1A1A;
+  /* Ink / Deep Charcoal Headlines   */
+  --text-secondary: #4A4A4A;
   /* Body copy                       */
-  --text-muted: #999999;
+  --text-muted: #8C8C8C;
   /* Timestamps, captions, labels    */
-  --accent-dark: #131313;
-  /* Primary button fill             */
+  --accent-dark: #E86A33;
+  /* Primary button fill (Saffron)   */
   --accent-light: #FFFFFF;
   /* Secondary button fill           */
-  --border-subtle: rgba(0, 0, 0, 0.07);
+  --border-subtle: rgba(0, 0, 0, 0.06);
   /* Card borders             */
 
-  /* Mesh gradient palette */
-  --grad-orange: #F97316;
-  --grad-amber: #FBBF24;
-  --grad-blue: #A5B4FC;
-  --grad-lavender: #C4B5FD;
-  --grad-purple: #C084FC;
+  /* Mesh gradient & Accent palette (Vibrant Indian colors) */
+  --grad-saffron: #E86A33;
+  --grad-marigold: #FF9933;
+  --grad-indigo: #2E3192;
+  --grad-lotus: #D81B60;
+  --grad-teal: #008080;
 
   /* ── App / Authenticated Theme (unchanged) ── */
   --obsidian: #050505;
@@ -74,10 +74,10 @@
   --shadow-brutal-cyber: 0 0 10px 0 rgba(138, 43, 226, 0.2);
   --shadow-brutal-acid: 0 0 10px 0 rgba(255, 0, 255, 0.2);
 
-  /* Public site shadows */
-  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --shadow-btn: 0 1px 4px rgba(0, 0, 0, 0.18);
+  /* Public site shadows — Premium Diffused */
+  --shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.04), 0 2px 8px -2px rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 20px 40px -8px rgba(0, 0, 0, 0.08), 0 10px 16px -4px rgba(0, 0, 0, 0.03);
+  --shadow-btn: 0 2px 8px -2px rgba(232, 106, 51, 0.15), 0 1px 3px -1px rgba(0, 0, 0, 0.08);
 }
 
 /* ── Base layer ── */
@@ -126,6 +126,43 @@
   ::-webkit-scrollbar-thumb:hover {
     background: var(--cyber);
   }
+}
+
+/* ── Custom Animations ── */
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.01);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
 }
 
 /* ── Shared component classes (app theme) ── */
@@ -204,7 +241,7 @@
 
   /* ── Public site (light) components ── */
 
-  /* Pill button — primary (dark fill) */
+  /* Pill button — primary (Orange solid, Verified style) */
   .btn-pill-primary {
     display: inline-flex;
     align-items: center;
@@ -212,28 +249,60 @@
     gap: 0.5rem;
     background: var(--accent-dark);
     color: #fff;
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.9375rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    font-weight: 600;
     padding: 0.65rem 1.6rem;
     border-radius: var(--radius-pill);
     border: none;
     cursor: pointer;
-    box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.08), var(--shadow-btn);
+    box-shadow: var(--shadow-btn);
     transition: opacity 0.3s ease, transform 0.15s ease;
   }
 
   .btn-pill-primary:hover {
-    opacity: 0.85;
+    opacity: 0.9;
   }
 
   .btn-pill-primary:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
   }
 
   .btn-pill-primary:focus-visible {
     outline: 2px solid var(--accent-dark);
+    outline-offset: 3px;
+  }
+
+  /* Pill button — Dark (Ink with inner glow, Sarvam style) */
+  .btn-pill-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--text-primary);
+    color: #fff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    padding: 0.65rem 1.6rem;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.2), var(--shadow-btn);
+    transition: all 0.3s ease;
+  }
+
+  .btn-pill-dark:hover {
+    box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.3), var(--shadow-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-pill-dark:active {
+    transform: scale(0.97);
+  }
+
+  .btn-pill-dark:focus-visible {
+    outline: 2px solid var(--text-primary);
     outline-offset: 3px;
   }
 
@@ -272,40 +341,76 @@
   /* Light-mode card */
   .light-card {
     background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid rgba(0, 0, 0, 0.04);
     border-radius: var(--radius-bento-lg);
     box-shadow: var(--shadow-card);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, box-shadow;
   }
 
   .light-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-hover);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  /* Arch card (inspired by specific cultural architecture) */
+  .arch-card {
+    background: var(--bg-surface);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 6rem 6rem 1rem 1rem;
+    box-shadow: var(--shadow-card);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, box-shadow;
+  }
+
+  .arch-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  /* Verified.RealEstate wavy underline */
+  .sketch-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .sketch-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -0.1em;
+    left: 0;
+    width: 100%;
+    height: 0.3em;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath d='M0,15 Q25,5 50,15 T100,10' fill='none' stroke='%23E86A33' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 100% 100%;
+    z-index: -1;
   }
 
   /* Mesh gradient background for hero / product cards */
   .mesh-gradient {
     background:
-      radial-gradient(ellipse 80% 60% at 15% 90%, rgba(249, 115, 22, 0.35) 0%, transparent 60%),
-      radial-gradient(ellipse 70% 60% at 85% 15%, rgba(165, 180, 252, 0.45) 0%, transparent 55%),
-      radial-gradient(ellipse 60% 50% at 50% 50%, rgba(192, 132, 252, 0.2) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 60% at 15% 90%, rgba(232, 106, 51, 0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 60% at 85% 15%, rgba(46, 49, 146, 0.15) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 50% 50%, rgba(216, 27, 96, 0.1) 0%, transparent 70%),
       var(--bg-base);
   }
 
-  /* Orange-to-blue product card gradient */
+  /* Saffron/Marigold product card gradient */
   .mesh-gradient-warm {
     background:
-      radial-gradient(ellipse 90% 80% at 20% 80%, rgba(251, 191, 36, 0.6) 0%, transparent 55%),
-      radial-gradient(ellipse 70% 70% at 80% 20%, rgba(165, 180, 252, 0.5) 0%, transparent 55%),
-      #f5a555;
+      radial-gradient(ellipse 90% 80% at 20% 80%, rgba(255, 153, 51, 0.8) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 70% at 80% 20%, rgba(232, 106, 51, 0.9) 0%, transparent 55%),
+      #f5b041;
   }
 
-  /* Purple product card gradient */
+  /* Indigo/Lotus product card gradient */
   .mesh-gradient-purple {
     background:
-      radial-gradient(ellipse 80% 70% at 30% 70%, rgba(192, 132, 252, 0.7) 0%, transparent 55%),
-      radial-gradient(ellipse 60% 60% at 70% 30%, rgba(165, 180, 252, 0.5) 0%, transparent 50%),
-      #b48cde;
+      radial-gradient(ellipse 80% 70% at 30% 70%, rgba(46, 49, 146, 0.8) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 60% at 70% 30%, rgba(216, 27, 96, 0.7) 0%, transparent 50%),
+      #3f51b5;
   }
 
   /* Overline / label style */

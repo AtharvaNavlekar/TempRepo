@@ -8,11 +8,11 @@ const FOOTER_SECTIONS = [
     {
         title: "Protocol",
         links: [
-            { label: "Discovery Feed", href: "/feed" },
+            { label: "Venture Feed", href: "/feed" },
             { label: "Ship Log", href: "/ship-log/studio" },
-            { label: "War Rooms", href: "/project/new" },
+            { label: "Ventures", href: "/project/new" },
             { label: "Guilds", href: "/guilds" },
-            { label: "Global Pulse", href: "/pulse" },
+            { label: "Market Pulse", href: "/pulse" },
             { label: "Leaderboard", href: "/leaderboard" },
         ],
     },
@@ -83,11 +83,11 @@ export default function Footer() {
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
                         {/* Brand column */}
                         <div className="col-span-2 md:col-span-1">
-                            <Link href="/" className="font-serif text-xl font-medium text-[#131313] hover:opacity-70 transition-opacity">
+                            <Link href="/" className="font-serif text-xl font-medium text-[#1A1A1A] hover:opacity-70 transition-opacity">
                                 CollabRise
                             </Link>
-                            <p className="text-[12px] text-[#999] leading-relaxed mt-3 max-w-48">
-                                The universal Proof-of-Work protocol. Ship real projects. Replace your resume.
+                            <p className="text-[12px] text-[#8C8C8C] leading-relaxed mt-3 max-w-48">
+                                The universal execution protocol. Launch real ventures. Replace your pitch deck.
                             </p>
                             <div className="flex gap-2 mt-5">
                                 {SOCIAL_ICONS.map(s => (
@@ -97,7 +97,7 @@ export default function Footer() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={`Visit CollabRise on ${s.label}`}
-                                        className="w-8 h-8 rounded-lg bg-white border border-black/[0.07] flex items-center justify-center text-[#999] hover:text-[#131313] hover:border-black/20 transition-colors shadow-sm"
+                                        className="w-8 h-8 rounded-lg bg-white border border-black/[0.07] flex items-center justify-center text-[#8C8C8C] hover:text-[#1A1A1A] hover:border-black/20 transition-colors shadow-sm"
                                     >
                                         <s.Icon className="w-3.5 h-3.5" />
                                     </a>
@@ -114,7 +114,7 @@ export default function Footer() {
                                         <li key={link.href + link.label}>
                                             <Link
                                                 href={link.href}
-                                                className="text-[13px] text-[#777] hover:text-[#131313] transition-colors"
+                                                className="text-[13px] text-[#4A4A4A] hover:text-[#1A1A1A] transition-colors"
                                             >
                                                 {link.label}
                                             </Link>
@@ -130,13 +130,13 @@ export default function Footer() {
                         className="mt-12 pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4"
                         style={{ borderColor: "var(--border-subtle)" }}
                     >
-                        <p className="text-[11px] text-[#bbb] tracking-wide">
+                        <p className="text-[11px] text-[#8C8C8C] tracking-wide">
                             © 2026 CollabRise. All rights reserved.
                         </p>
                         <div className="flex items-center gap-6">
-                            <Link href="/settings/privacy" className="text-[11px] text-[#bbb] hover:text-[#555] transition-colors">Privacy</Link>
-                            <Link href="/help" className="text-[11px] text-[#bbb] hover:text-[#555] transition-colors">Terms</Link>
-                            <Link href="/developers" className="text-[11px] text-[#bbb] hover:text-[#555] transition-colors">API</Link>
+                            <Link href="/settings/privacy" className="text-[11px] text-[#8C8C8C] hover:text-[#4A4A4A] transition-colors">Privacy</Link>
+                            <Link href="/help" className="text-[11px] text-[#8C8C8C] hover:text-[#4A4A4A] transition-colors">Terms</Link>
+                            <Link href="/developers" className="text-[11px] text-[#8C8C8C] hover:text-[#4A4A4A] transition-colors">API</Link>
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@ export default function Footer() {
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
                     <div className="col-span-2 md:col-span-1">
                         <Link href="/" className="font-clash font-bold text-xl text-lime">CollabRise</Link>
-                        <p className="font-mono text-[11px] text-white/30 leading-relaxed mt-3 max-w-48">The universal Proof-of-Work protocol. Ship real projects. Replace your resume.</p>
+                        <p className="font-mono text-[11px] text-white/30 leading-relaxed mt-3 max-w-48">The universal execution protocol. Launch real ventures. Replace your pitch deck.</p>
                         <div className="flex gap-3 mt-4">
                             {SOCIAL_ICONS.map(s => (
                                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit CollabRise on ${s.label}`}
@@ -177,7 +177,7 @@ export default function Footer() {
                 </div>
 
                 <div className="mt-12 pt-8 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="font-mono text-[10px] text-white/20 tracking-wider">© 2026 COLLABRISE PROTOCOL. SHIP OR DIE.</p>
+                    <p className="font-mono text-[10px] text-white/20 tracking-wider">© 2026 COLLABRISE PROTOCOL. LAUNCH AND SCALE.</p>
                     <div className="flex items-center gap-6">
                         <Link href="/settings/privacy" className="font-mono text-[10px] text-white/20 tracking-wider hover:text-lime transition-colors uppercase">Privacy</Link>
                         <Link href="/help" className="font-mono text-[10px] text-white/20 tracking-wider hover:text-lime transition-colors uppercase">Terms</Link>

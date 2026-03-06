@@ -7,7 +7,7 @@ import { FormInput, FormTextarea, TagPicker } from "@/app/auth/create-account/Fo
 import { PublicUser } from "@/lib/types";
 import { apiFetch } from "@/lib/api";
 
-const PROJECT_TYPES = ["Frontend", "Backend", "Full-Stack", "Design", "Mobile", "AI/ML", "Web3"];
+const PROJECT_TYPES = ["SaaS", "Fintech", "Consumer App", "B2B / Enterprise", "Deep Tech", "Web3", "Marketplace"];
 
 // A list of common tags for projects
 const PROJECT_TAGS = [
@@ -80,8 +80,8 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
                     {/* Header */}
                     <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/[0.02]">
                         <div>
-                            <h2 className="font-clash font-bold text-2xl text-white">Ship New Artifact</h2>
-                            <p className="font-mono text-xs text-white/50 mt-1">Add a project to your portfolio</p>
+                            <h2 className="font-clash font-bold text-2xl text-white">Launch New Venture</h2>
+                            <p className="font-mono text-xs text-white/50 mt-1">Add a venture to your venture log</p>
                         </div>
                         <button onClick={onClose} className="text-white/50 hover:text-white transition-colors p-2">
                             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,15 +99,15 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
                         )}
 
                         <FormInput
-                            label="Project Name"
-                            placeholder="e.g. Neural Engine API"
+                            label="Venture Name"
+                            placeholder="e.g. Neural Engine AI"
                             value={name}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         />
 
                         <FormTextarea
                             label="Description"
-                            placeholder="What did you build? What problem does it solve?"
+                            placeholder="What did you launch? What problem does it solve?"
                             value={description}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
                             maxLen={500}
@@ -116,7 +116,7 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
                         />
 
                         <FormInput
-                            label="Project Link (Optional)"
+                            label="Venture Link (Optional)"
                             placeholder="https://..."
                             value={url}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
@@ -124,7 +124,7 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
 
                         <div>
                             <label className="block font-mono text-xs text-white/50 mb-3 uppercase tracking-widest">
-                                Project Type
+                                Venture Type
                             </label>
                             <div className="flex flex-wrap gap-2">
                                 {PROJECT_TYPES.map((t) => (
@@ -153,7 +153,7 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
                     <div className="p-6 border-t border-white/10 bg-white/[0.02] flex justify-end gap-4">
                         <ForgeButton variant="ghost" onClick={onClose} disabled={isSaving}>Cancel</ForgeButton>
                         <ForgeButton onClick={handleSave} disabled={isSaving} className="bg-lime text-obsidian border-none hover:bg-white min-w-[120px]">
-                            {isSaving ? "SHIPPING..." : "SHIP PROJECT"}
+                            {isSaving ? "LAUNCHING..." : "LAUNCH VENTURE"}
                         </ForgeButton>
                     </div>
                 </motion.div>

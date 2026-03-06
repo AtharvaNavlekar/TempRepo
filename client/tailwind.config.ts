@@ -20,14 +20,14 @@ const config: Config = {
                 "glass-white": "rgba(255, 255, 255, 0.04)",
                 "glass-border": "rgba(255, 255, 255, 0.08)",
 
-                // ── Public / Light Theme (Sarvam-inspired) ──
-                "site-base": "#F5F5F2",
-                "site-surface": "#EFEFEC",
-                "site-card": "#EAEAE7",
-                "site-primary": "#131313",
-                "site-secondary": "#555555",
-                "site-muted": "#999999",
-                "site-border": "rgba(0,0,0,0.07)",
+                // ── Public / Light Theme (Modern Indian) ──
+                "site-base": "#FDFBF7",
+                "site-surface": "#F7F3EB",
+                "site-card": "#EFECE1",
+                "site-primary": "#1A1A1A",
+                "site-secondary": "#4A4A4A",
+                "site-muted": "#8C8C8C",
+                "site-border": "rgba(0,0,0,0.06)",
             },
             fontFamily: {
                 clash: ["Inter", "system-ui", "sans-serif"],

@@ -12,43 +12,43 @@ import { apiFetch } from "@/lib/api";
 
 const NAV_ITEMS = [
     {
-        label: "Discover",
+        label: "Explore",
         href: "/feed",
         children: [
-            { label: "Feed", href: "/feed", desc: "Browse active projects" },
-            { label: "Search", href: "/search", desc: "Find projects, builders, freelance work" },
-            { label: "Activity Pulse", href: "/pulse", desc: "Real-time ecosystem activity" },
+            { label: "Venture Feed", href: "/feed", desc: "Browse active ventures" },
+            { label: "Search", href: "/search", desc: "Find ventures, founders, partners" },
+            { label: "Market Pulse", href: "/pulse", desc: "Real-time ecosystem activity" },
             { label: "Leaderboard", href: "/leaderboard", desc: "Hall of Fame rankings" },
         ],
     },
     {
-        label: "Build",
+        label: "Launch",
         href: "/project/new",
         children: [
-            { label: "New Project", href: "/project/new", desc: "Create a new project" },
-            { label: "Recruit Team", href: "/project/recruit", desc: "AI-matched builders" },
-            { label: "Templates", href: "/templates/code-lab", desc: "Pre-built project blueprints" },
-            { label: "My Portfolio", href: "/ship-log/studio", desc: "Your builder portfolio" },
+            { label: "New Venture", href: "/project/new", desc: "Create a new venture" },
+            { label: "Recruit Co-founders", href: "/project/recruit", desc: "AI-matched founders" },
+            { label: "Blueprints", href: "/templates/code-lab", desc: "Pre-built venture blueprints" },
+            { label: "Ship Log", href: "/ship-log/studio", desc: "Your venture portfolio" },
         ],
     },
     {
-        label: "Communities",
+        label: "Guilds",
         href: "/guilds",
         children: [
-            { label: "Community Directory", href: "/guilds", desc: "Browse all communities" },
-            { label: "Find a Partner", href: "/matchmaker", desc: "Pair-Builder AI matching" },
-            { label: "Mentorship Hub", href: "/mentorship", desc: "Connect with mentors" },
-            { label: "Your Communities", href: "/guilds", desc: "Communities you belong to" },
+            { label: "Guild Directory", href: "/guilds", desc: "Browse all venture guilds" },
+            { label: "Find a Co-founder", href: "/matchmaker", desc: "AI-powered founder matching" },
+            { label: "Mentorship", href: "/mentorship", desc: "Connect with industry leaders" },
+            { label: "Your Guilds", href: "/guilds", desc: "Guilds you lead or belong to" },
         ],
     },
     {
-        label: "Work",
+        label: "Exchange",
         href: "/bounties",
         children: [
-            { label: "Freelance Work", href: "/bounties", desc: "Paid challenge marketplace" },
-            { label: "Job Board", href: "/jobs", desc: "Reverse job board for builders" },
-            { label: "Payments", href: "/escrow", desc: "Manage verified payments" },
-            { label: "Payouts", href: "/payouts", desc: "Invoice & payout dashboard" },
+            { label: "Strategic Bounties", href: "/bounties", desc: "Outcome-based challenge market" },
+            { label: "Opportunity Board", href: "/jobs", desc: "Strategic board for founders" },
+            { label: "Settlements", href: "/escrow", desc: "Manage verified transactions" },
+            { label: "Payouts", href: "/payouts", desc: "Revenue & distribution hub" },
         ],
     },
 ];
@@ -98,20 +98,19 @@ export default function Navbar() {
     /* ── Light-mode Navbar (public pages) ─────────────────────────── */
     if (isLight) {
         const navBg = scrolled
-            ? "bg-[#F5F5F2]/95 border-b border-black/[0.06] shadow-sm backdrop-blur-xl"
-            : "bg-transparent border-b border-transparent";
+            ? "bg-[#FDFBF7]/90 border-b border-black/[0.06] shadow-md backdrop-blur-2xl translate-y-0"
+            : "bg-[#FDFBF7] border-b border-transparent translate-y-0";
 
         return (
             <>
                 <nav
-                    className={`fixed top-[var(--banner-h,0px)] left-0 right-0 z-50 h-16 transition-all duration-400 ${navBg}`}
-                    style={{ "--banner-h": "0px" } as React.CSSProperties}
+                    className={`sticky top-0 z-50 h-16 transition-all duration-500 ease-[0.16_1_0.3_1] ${navBg}`}
                 >
                     <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
                         {/* Logo */}
                         <Link
                             href="/"
-                            className="font-serif text-xl font-medium text-[#131313] tracking-tight hover:opacity-70 transition-opacity"
+                            className="font-serif text-xl font-medium text-[#1A1A1A] tracking-tight hover:opacity-70 transition-opacity"
                         >
                             CollabRise
                         </Link>
@@ -127,7 +126,7 @@ export default function Navbar() {
                                 >
                                     <Link
                                         href={item.href}
-                                        className="px-4 py-2 text-[13.5px] font-medium text-[#555555] hover:text-[#131313] transition-colors flex items-center gap-1 rounded-lg"
+                                        className="px-4 py-2 text-[13.5px] font-medium text-[#4A4A4A] hover:text-[#1A1A1A] transition-colors flex items-center gap-1 rounded-lg"
                                     >
                                         {item.label}
                                         <IconChevronDown className="w-3 h-3 opacity-50" />
@@ -140,7 +139,7 @@ export default function Navbar() {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 8, scale: 0.97 }}
                                                 transition={{ duration: 0.15 }}
-                                                className="absolute top-full left-0 mt-2 w-64 bg-[#F5F5F2]/98 backdrop-blur-xl border border-black/[0.07] rounded-xl overflow-hidden shadow-hover z-50"
+                                                className="absolute top-full left-0 mt-2 w-64 bg-[#FDFBF7]/98 backdrop-blur-xl border border-black/[0.07] rounded-xl overflow-hidden shadow-hover z-50"
                                                 onMouseEnter={() => handleMouseEnter(item.label)}
                                                 onMouseLeave={handleMouseLeave}
                                             >
@@ -150,7 +149,7 @@ export default function Navbar() {
                                                         href={child.href}
                                                         className="flex flex-col gap-0.5 px-4 py-3 hover:bg-black/[0.04] transition-colors border-b border-black/[0.05] last:border-0 group"
                                                     >
-                                                        <span className="font-medium text-[13px] text-[#131313] group-hover:text-[#131313]">
+                                                        <span className="font-medium text-[13px] text-[#1A1A1A] group-hover:text-[#1A1A1A]">
                                                             {child.label}
                                                         </span>
                                                         <span className="text-[11px] text-[#999]">{child.desc}</span>
@@ -166,7 +165,7 @@ export default function Navbar() {
                         {/* Right CTAs */}
                         <div className="flex items-center gap-2">
                             <div className="hidden lg:flex items-center gap-2">
-                                <Link href="/auth/login" className="btn-pill-secondary text-[13.5px] py-2 px-5">
+                                <Link href="/auth/login" className="btn-pill-dark text-[13.5px] py-2 px-5">
                                     Sign In
                                 </Link>
                                 <Link href="/auth/create-account" className="btn-pill-primary text-[13.5px] py-2 px-5">
@@ -175,7 +174,7 @@ export default function Navbar() {
                             </div>
                             <button
                                 aria-label="Open menu"
-                                className="lg:hidden w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-[#555] hover:bg-black/5 transition-colors"
+                                className="lg:hidden w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-[#4A4A4A] hover:bg-black/5 transition-colors"
                                 onClick={() => setMobileOpen(!mobileOpen)}
                             >
                                 {mobileOpen ? <IconClose className="w-4 h-4" /> : <IconMenu className="w-4 h-4" />}
@@ -191,7 +190,7 @@ export default function Navbar() {
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            className="fixed inset-0 top-16 z-40 bg-[#F5F5F2]/98 backdrop-blur-xl overflow-y-auto lg:hidden"
+                            className="fixed inset-0 top-16 z-40 bg-[#FDFBF7]/98 backdrop-blur-xl overflow-y-auto lg:hidden"
                         >
                             <div className="p-6 space-y-6">
                                 {NAV_ITEMS.map(item => (
@@ -208,8 +207,8 @@ export default function Navbar() {
                                                     className="flex justify-between items-center p-3 rounded-xl hover:bg-black/[0.04] transition-colors"
                                                 >
                                                     <div>
-                                                        <p className="font-medium text-sm text-[#131313]">{child.label}</p>
-                                                        <p className="text-[11px] text-[#999]">{child.desc}</p>
+                                                        <p className="font-medium text-sm text-[#1A1A1A]">{child.label}</p>
+                                                        <p className="text-[11px] text-[#8C8C8C]">{child.desc}</p>
                                                     </div>
                                                     <span className="text-[#999]">→</span>
                                                 </Link>
@@ -218,7 +217,7 @@ export default function Navbar() {
                                     </div>
                                 ))}
                                 <div className="pt-6 border-t border-black/[0.07] flex flex-col gap-2">
-                                    <Link href="/auth/login" className="btn-pill-secondary text-center">Sign In</Link>
+                                    <Link href="/auth/login" className="btn-pill-dark text-center">Sign In</Link>
                                     <Link href="/auth/create-account" className="btn-pill-primary text-center">Get Started</Link>
                                 </div>
                             </div>
@@ -232,7 +231,7 @@ export default function Navbar() {
     /* ── Dark-mode Navbar (authenticated app pages) — unchanged ────── */
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/10 bg-obsidian/90 backdrop-blur-xl">
+            <nav className="sticky top-0 z-50 h-16 border-b border-white/10 bg-obsidian/90 backdrop-blur-xl">
                 <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
                     <div className="flex items-center gap-8">
                         <Link href="/" className="font-clash font-bold text-xl tracking-tighter text-white hover:text-lime transition-colors">

@@ -41,76 +41,28 @@ Whether you write code, design interfaces, bake bread, or weld steel — CollabR
 
 ```
 CollabRise/
-├── src/
-│   ├── app/                          # Next.js App Router pages
-│   │   ├── page.tsx                  # Landing page (Manifesto)
-│   │   ├── layout.tsx                # Root layout with Navbar
-│   │   ├── globals.css               # Global styles & design tokens
-│   │   │
-│   │   ├── auth/                     # Authentication
-│   │   │   ├── login/                #   Login page
-│   │   │   └── recovery/             #   Account recovery
-│   │   │
-│   │   ├── dashboard/                # Builder command center
-│   │   │
-│   │   ├── onboard/                  # Onboarding flow (6 steps)
-│   │   │   ├── identity/             #   Step 1 — Create identity
-│   │   │   ├── scraper/              #   Step 2 — Import existing work
-│   │   │   ├── psychometric/         #   Step 3 — Personality calibration
-│   │   │   ├── guilds/               #   Step 4 — Join guilds
-│   │   │   ├── seed/                 #   Step 5 — Seed your ship log
-│   │   │   └── contract/             #   Step 6 — Commitment contract
-│   │   │
-│   │   ├── ship-log/                 # The Ship Log (Identity Layer)
-│   │   │   ├── [username]/           #   Public profile page
-│   │   │   ├── studio/               #   Ship Log editor/studio
-│   │   │   ├── calendar/             #   Contribution calendar
-│   │   │   ├── dna/[id]/             #   Artifact DNA deep-dive
-│   │   │   ├── heatmap/              #   Skill heatmap
-│   │   │   ├── failures/             #   Failure vault & new post-mortem
-│   │   │   ├── reputation/           #   Reputation score breakdown
-│   │   │   └── reviews/              #   Peer review wall
-│   │   │
-│   │   ├── profiles/[industry]/      # Industry-specific profile views
-│   │   ├── vibe-check/               # "Are you ready to ship?" gateway
-│   │   └── waitlist/                 # Waitlist signup
-│   │
-│   ├── components/
-│   │   ├── forge/                    # 🔥 Forge Design System
-│   │   │   ├── ForgeButton.tsx       #   Primary action button
-│   │   │   ├── BentoCard.tsx         #   Glassmorphic bento grid card
-│   │   │   ├── GlitchText.tsx        #   Cyberpunk glitch text effect
-│   │   │   ├── ShipScoreCounter.tsx  #   Animated score counter
-│   │   │   ├── DNACard.tsx           #   Artifact DNA display card
-│   │   │   ├── PulseTag.tsx          #   Animated status tag
-│   │   │   ├── TerminalBlock.tsx     #   CLI-styled code/output block
-│   │   │   ├── GlassOverlay.tsx      #   Glassmorphism modal overlay
-│   │   │   ├── SpringTransition.tsx  #   Spring-physics scroll reveal
-│   │   │   └── index.ts             #   Barrel exports
-│   │   │
-│   │   ├── landing/                  # Landing page sections
-│   │   │   ├── ArtifactCloud.tsx     #   3D Three.js floating artifacts
-│   │   │   ├── BuilderTicker.tsx     #   Live builder activity ticker
-│   │   │   └── ManifestoScroll.tsx   #   Scroll-driven manifesto section
-│   │   │
-│   │   └── layout/
-│   │       └── Navbar.tsx            # Top navigation bar
-│   │
-│   ├── store/
-│   │   └── store.ts                  # Zustand global state
-│   │
-│   ├── fonts/
-│   │   └── ClashDisplay-Medium.woff2 # Custom display typeface
-│   │
-│   └── types/
-│       └── r3f.d.ts                  # React Three Fiber type defs
-│
-├── tailwind.config.ts                # Extended theme (obsidian, lime, cyber, acid)
-├── next.config.ts                    # Next.js configuration
-├── tsconfig.json                     # TypeScript configuration
-├── eslint.config.mjs                 # ESLint flat config
-├── postcss.config.mjs                # PostCSS configuration
-└── package.json                      # Dependencies & scripts
+├── client/                     # Next.js Frontend
+│   ├── src/
+│   │   ├── app/                # App Router pages and layouts
+│   │   ├── components/         # React components (Forge UI, etc.)
+│   │   ├── fonts/              # Custom typography
+│   │   ├── lib/                # API helpers and shared types
+│   │   └── store/              # Zustand global state
+│   ├── package.json            # Client dependencies
+│   ├── tailwind.config.ts      # Tailwind CSS configuration
+│   └── ...                     # Other client configs
+├── server/                     # Express.js Backend
+│   ├── src/
+│   │   ├── index.ts            # Express app entry point & CORS
+│   │   ├── lib/                # Database layer, auth logic, validation
+│   │   └── routes/             # API route handlers
+│   ├── data/
+│   │   └── users.json          # File-based JSON Database
+│   ├── package.json            # Server dependencies
+│   └── .env                    # Server environment variables
+├── package.json                # Root monorepo scripts
+├── .gitignore                  # Root gitignore
+└── README.md                   # Project documentation
 ```
 
 ---
@@ -166,23 +118,23 @@ CollabRise uses a custom design system called **The Forge**, built for a dark, c
 git clone https://github.com/AtharvaNavlekar/TempRepo.git
 cd TempRepo
 
-# Install dependencies
-npm install
+# Install dependencies concurrently for both client and server
+npm run install:all
 
-# Start the development server
+# Start the development servers (Client on :3000, Server on :5000)
 npm run dev
 ```
 
-The app will be available at **http://localhost:3000**
+The Next.js app will be available at **http://localhost:3000** and the Express API at **http://localhost:5000**.
 
-### Available Scripts
+### Available Monorepo Scripts
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Start the development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start the production server |
-| `npm run lint` | Run ESLint |
+| `npm run install:all` | Installs dependencies for the root, client, and server |
+| `npm run dev` | Starts both the Next.js client and Express server concurrently |
+| `npm run dev:client` | Starts only the Next.js client |
+| `npm run dev:server` | Starts only the Express server |
 
 ---
 
@@ -226,10 +178,11 @@ Dynamic, industry-specific profile views tailored for different career verticals
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| **Framework** | Next.js 15 (App Router) | Server & client rendering, file-based routing |
-| **UI Library** | React 19 | Component architecture |
+| **Frontend Framework** | Next.js 15 (App Router) | React framework and file-based routing |
+| **Backend Framework** | Node.js + Express.js | Standalone API server running on port 5000 |
 | **Language** | TypeScript 5 | Type safety |
 | **Styling** | Tailwind CSS 3.4 | Utility-first CSS with custom design tokens |
+| **Database** | File-based JSON | Lightweight storage (`server/data/users.json`) |
 | **3D Graphics** | Three.js + React Three Fiber + Drei | Interactive 3D artifact cloud |
 | **Animation** | Framer Motion + GSAP | Page transitions, scroll-driven animations |
 | **State** | Zustand | Lightweight global state management |

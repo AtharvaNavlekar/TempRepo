@@ -39,7 +39,7 @@ export default function DashboardPage() {
     }, []);
 
     if (isLoading) {
-        return <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center font-mono text-lime animate-pulse">Initializing Dashboard...</div>;
+        return <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center font-mono text-lime animate-pulse">Initializing Ecosystem...</div>;
     }
 
     if (!fullUser) {
@@ -70,7 +70,7 @@ export default function DashboardPage() {
                 <div>
                     <PulseTag status="live" label="WELCOME TO THE FORGE" className="mb-4" />
                     <h1 className="font-clash font-black text-4xl md:text-5xl text-white">
-                        {isBuilder ? "Builder" : "Company"}_{fullUser.handle}
+                        {isBuilder ? "Founder" : "Partner"}_{fullUser.handle}
                     </h1>
                     <p className="font-mono text-white/50 text-sm mt-3 leading-relaxed max-w-2xl">
                         {profile.manifesto || "No manifesto provided. Initiate your protocol."}
@@ -80,7 +80,7 @@ export default function DashboardPage() {
                 <div className="mt-6 md:mt-0 flex gap-4">
                     <ForgeButton variant="ghost" onClick={() => setIsEditModalOpen(true)}>EDIT PROFILE</ForgeButton>
                     {isBuilder && (
-                        <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} className="bg-lime text-obsidian border-none hover:bg-white">NEW PROJECT</ForgeButton>
+                        <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} className="bg-lime text-obsidian border-none hover:bg-white">NEW VENTURE</ForgeButton>
                     )}
                 </div>
             </div>
@@ -91,7 +91,7 @@ export default function DashboardPage() {
                 {/* --- 1. Hero Identity Card --- */}
                 <BentoCard className="p-0 overflow-hidden relative border border-white/10 group hover:border-white/20 transition-colors duration-500">
                     <div className="absolute top-0 right-0 p-6 z-10 flex gap-2">
-                        <PulseTag status="building" label={profile.employmentStatus === "open" ? "AVAILABLE TO HIRE" : "BUILDING"} className="bg-obsidian/80 backdrop-blur" />
+                        <PulseTag status="building" label={profile.employmentStatus === "open" ? "OPEN TO COLLABORATE" : "LAUNCHING"} className="bg-obsidian/80 backdrop-blur" />
                     </div>
 
                     <div className="bg-gradient-to-r from-obsidian via-obsidian to-lime/[0.05] p-8 md:p-12 flex flex-col md:flex-row gap-12 items-start justify-between relative z-0">
@@ -99,7 +99,7 @@ export default function DashboardPage() {
                         <div className="flex-grow max-w-3xl">
                             <h3 className="font-mono text-xs uppercase tracking-widest text-lime mb-4 flex items-center gap-3">
                                 <span className="w-2 h-2 rounded-full bg-lime animate-pulse" />
-                                {profile.craft || "UNDEFINED CRAFT"}
+                                {profile.craft || "UNDEFINED VENTURE ROLE"}
                             </h3>
                             <h2 className="font-clash font-black text-5xl md:text-6xl text-white mb-4 leading-none tracking-tight">
                                 {fullUser.fullName}
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                         {/* Top Level Stats */}
                         <div className="flex-shrink-0 w-full md:w-auto grid grid-cols-2 md:grid-cols-1 gap-8 text-right md:border-l border-white/10 md:pl-12 py-2">
                             <div>
-                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Total Ship Score</p>
+                                <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-2">Total Traction Score</p>
                                 <p className="font-clash font-bold text-5xl text-lime">{shipScore}</p>
                             </div>
                             <div>
@@ -142,7 +142,7 @@ export default function DashboardPage() {
                         </div>
                         {profile.bestProject && (
                             <p className="font-mono text-xs text-white/40 bg-white/5 px-4 py-2 rounded">
-                                <span className="uppercase tracking-widest mr-3">Crowning Artifact:</span>
+                                <span className="uppercase tracking-widest mr-3">Crowning Venture:</span>
                                 <span className="text-white font-bold">{profile.bestProject}</span>
                             </p>
                         )}
@@ -176,7 +176,7 @@ export default function DashboardPage() {
                                 <div className="flex items-center gap-3">
                                     <span className={`w-2.5 h-2.5 rounded-full ${profile.openToBounties ? "bg-lime shadow-[0_0_10px_rgba(204,255,0,0.5)]" : "bg-red-500"}`} />
                                     <span className="font-mono text-sm text-white">
-                                        {profile.openToBounties ? `OPEN (Min $${profile.minBountyReward})` : "CLOSED TO BOUNTIES"}
+                                        {profile.openToBounties ? `OPEN (Min $${profile.minBountyReward})` : "CLOSED TO STRATEGIC BOUNTIES"}
                                     </span>
                                 </div>
                             </div>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
                                 </div>
 
                                 <div>
-                                    <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Target Engagements</p>
+                                    <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest mb-4">Venture Engagements</p>
                                     <div className="flex flex-wrap gap-2">
                                         {profile.preferredProjectLength && profile.preferredProjectLength.length > 0 ? (
                                             profile.preferredProjectLength.map(len => (
@@ -237,7 +237,7 @@ export default function DashboardPage() {
                     {/* Shipped Artifacts DNA Collection */}
                     <div className="lg:col-span-3">
                         <div className="flex justify-between items-center mb-6 pl-2">
-                            <h3 className="font-clash font-bold text-2xl text-white">Shipped Artifacts</h3>
+                            <h3 className="font-clash font-bold text-2xl text-white">Launched Ventures</h3>
                         </div>
 
                         {githubUsername && (
@@ -278,8 +278,8 @@ export default function DashboardPage() {
                                 ))
                             ) : (
                                 <div className="md:col-span-2 p-8 border border-white/5 bg-white/[0.02] rounded-bento text-center">
-                                    <p className="font-mono text-sm text-white/40 mb-4">No artifacts shipped yet.</p>
-                                    <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} variant="ghost" className="text-lime border-lime/20 hover:bg-lime/10">Initialize First Project</ForgeButton>
+                                    <p className="font-mono text-sm text-white/40 mb-4">No ventures launched yet.</p>
+                                    <ForgeButton onClick={() => setIsAddProjectModalOpen(true)} variant="ghost" className="text-lime border-lime/20 hover:bg-lime/10">Launch First Venture</ForgeButton>
                                 </div>
                             )}
                         </div>

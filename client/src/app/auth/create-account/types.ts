@@ -97,9 +97,9 @@ export const INITIAL_FORM_STATE: FormState = {
 
 export const SKILLS = ["React", "Next.js", "TypeScript", "Python", "Node.js", "Figma", "Vue", "Go", "Rust", "Swift", "Kotlin", "Solidity", "PostgreSQL", "MongoDB", "Docker", "AWS", "GraphQL", "TailwindCSS", "Unity", "Blender", "Ableton", "After Effects", "Illustrator", "Framer"];
 export const GUILDS = ["⚡ React Guild", "🎨 Design Guild", "🔧 Backend Guild", "🔒 Security Guild", "🍳 Chef Guild", "🎵 Music Guild", "🎮 Game Dev Guild", "📐 Hardware Guild", "✍️ Writing Guild", "🌐 Web3 Guild"];
-export const CRAFTS = ["Frontend Developer", "Backend Developer", "Full-Stack Developer", "UI/UX Designer", "Product Designer", "Mobile Developer", "DevOps Engineer", "Data Scientist", "ML Engineer", "Blockchain Developer", "Game Developer", "3D Artist", "Music Producer", "Chef / Culinary", "Filmmaker", "Writer / Content"];
+export const CRAFTS = ["Tech Founder", "Growth Hacker", "Product Lead", "Design Partner", "Operations Lead", "Marketing Strategist", "Solopreneur", "Creative Director", "Music Executive", "Culinary Entrepreneur", "Independent Creator", "Business Strategist"];
 export const INDUSTRIES = ["SaaS / Software", "Fintech", "Gaming", "Healthcare", "E-commerce", "Agency / Studio", "Web3 / Crypto", "AI / ML", "EdTech", "Hardware / IoT", "Media & Entertainment", "Deep Tech"];
 export const COUNTRIES = ["India", "United States", "United Kingdom", "Germany", "Canada", "Australia", "Singapore", "France", "Brazil", "Japan", "Netherlands", "UAE", "Other"];
 export const TEAM_SKILLS = ["React", "Next.js", "TypeScript", "Python", "Go", "Rust", "Figma", "AWS", "GCP", "PostgreSQL", "MongoDB", "Docker", "Kubernetes", "GraphQL", "Solidity", "Swift", "Kotlin"];
-export const FINDER_METHODS = ["Browse Ship Logs", "Post Bounties", "Run Sprint Challenges", "Browse Leaderboard", "Guild Recruitment"];
+export const FINDER_METHODS = ["Browse Venture Logs", "Post Strategic Bounties", "Run Venture Challenges", "Browse Alpha Leaderboard", "Guild Networking"];
 export const REFERRAL_SOURCES = ["Twitter / X", "GitHub", "ProductHunt", "Friend Referral", "LinkedIn", "Discord", "YouTube", "Other"];

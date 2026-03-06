@@ -16,8 +16,8 @@ export function StepBuilderPrefs({ data, onChange, errors }: BuilderPrefsProps) 
     return (
         <div className="space-y-6">
             <Toggle
-                label="Open to paid bounties?"
-                desc="Get matched to company bounties in your area of expertise"
+                label="Open to strategic bounties?"
+                desc="Get matched to ecosystem opportunities in your venture area"
                 checked={data.openToBounties}
                 onChange={v => onChange({ ...data, openToBounties: v })}
             />
@@ -71,8 +71,8 @@ interface CompanyPrefsProps {
     errors: Partial<Record<keyof CompanyPrefsData, string>>;
 }
 
-const HIRING_TYPES = ["full-time", "contract", "bounty", "internship"];
-const EXP_LEVELS = ["beginner", "mid", "senior", "veteran", "expert"];
+const HIRING_TYPES = ["co-founder", "foundation partner", "equity based", "strategic advisor"];
+const EXP_LEVELS = ["early-stage", "scaling", "established", "serial founder", "expert"];
 
 export function StepCompanyPrefs({ data, onChange, errors }: CompanyPrefsProps) {
     const set = (key: keyof CompanyPrefsData) => (e: React.ChangeEvent<HTMLInputElement>) =>

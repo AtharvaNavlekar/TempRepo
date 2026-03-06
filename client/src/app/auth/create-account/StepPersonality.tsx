@@ -14,12 +14,12 @@ export function StepBuilderPersonality({ data, onChange, errors }: BuilderPerson
     return (
         <div className="space-y-6">
             <div className="p-4 bg-lime/5 border border-lime/20 rounded-bento-sm">
-                <p className="font-mono text-[11px] text-lime/80 uppercase tracking-widest mb-1">⚡ This is what makes CollabRise different</p>
-                <p className="font-mono text-xs text-white/50">We don&apos;t want your résumé. We want your story as a builder.</p>
+                <p className="font-mono text-[11px] text-lime/80 uppercase tracking-widest mb-1">🚀 This is what makes CollabRise different</p>
+                <p className="font-mono text-xs text-white/50">We don&apos;t want your résumé. We want your story as a founder.</p>
             </div>
             <FormTextarea
-                label="Your Builder Manifesto"
-                placeholder="I build because... / My superpower is... / What drives me to ship..."
+                label="Your Founder Manifesto"
+                placeholder="I start ventures because... / My superpower is... / What drives me to launch..."
                 value={data.manifesto}
                 onChange={e => onChange({ ...data, manifesto: e.target.value })}
                 error={errors.manifesto}
@@ -28,8 +28,8 @@ export function StepBuilderPersonality({ data, onChange, errors }: BuilderPerson
                 rows={4}
             />
             <FormInput
-                label="Your Best Shipped Project"
-                placeholder="e.g. Built a real-time dashboard used by 500 users"
+                label="Your Best Scaled Venture"
+                placeholder="e.g. Scaled a SaaS to 10k MRR or launched a successful non-profit"
                 value={data.bestProject}
                 onChange={e => onChange({ ...data, bestProject: e.target.value })}
                 error={errors.bestProject}
@@ -41,9 +41,9 @@ export function StepBuilderPersonality({ data, onChange, errors }: BuilderPerson
                 error={errors.commitmentLevel}
                 columns={3}
                 options={[
-                    { value: "casual", label: "CASUAL", desc: "Side project energy" },
-                    { value: "builder", label: "BUILDER", desc: "Consistent shipper" },
-                    { value: "hardcore", label: "HARDCORE", desc: "Ship or die trying" },
+                    { value: "casual", label: "CASUAL", desc: "Hobbyist founder" },
+                    { value: "builder", label: "FOUNDER", desc: "Consistent launcher" },
+                    { value: "hardcore", label: "HARDCORE", desc: "Launch and scale at all costs" },
                 ]}
             />
             <TagPicker
@@ -88,7 +88,7 @@ export function StepCompanyCulture({ data, onChange, errors }: CompanyCulturePro
                 accentColor="cyber"
             />
             <TagPicker
-                label="How Will You Find Builders?"
+                label="How Will You Find Co-founders?"
                 options={FINDER_METHODS}
                 selected={data.findBuildersVia}
                 onChange={findBuildersVia => onChange({ ...data, findBuildersVia })}
