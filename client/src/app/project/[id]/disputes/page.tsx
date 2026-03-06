@@ -16,7 +16,7 @@ export default function DisputeCenterPage() {
                 <div className="space-y-4">
                     {DISPUTES.map((d, i) => (
                         <motion.div key={d.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                            <BentoCard accent="acid" className="p-6">
+                            <BentoCard accent="saffron" className="p-6">
                                 <div className="flex justify-between items-start mb-3">
                                     <div><span className="font-clash font-bold text-acid">{d.filed}</span><span className="font-mono text-xs text-white/30"> vs </span><span className="font-clash font-bold">{d.against}</span></div>
                                     <PulseTag status={d.status} />

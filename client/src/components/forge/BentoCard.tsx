@@ -3,7 +3,7 @@
 import { motion, HTMLMotionProps } from "framer-motion";
 import React from "react";
 
-type AccentColor = "lime" | "cyber" | "acid" | "default";
+type AccentColor = "gold" | "indigo" | "saffron" | "default";
 
 interface BentoCardProps extends Omit<HTMLMotionProps<"div">, "children"> {
     children: React.ReactNode;
@@ -17,10 +17,10 @@ interface BentoCardProps extends Omit<HTMLMotionProps<"div">, "children"> {
 }
 
 const accentBorders: Record<AccentColor, string> = {
-    lime: "hover:border-lime/30 group-hover:shadow-[0_0_25px_rgba(204,255,0,0.15)]",
-    cyber: "hover:border-cyber/30 group-hover:shadow-[0_0_25px_rgba(138,43,226,0.15)]",
-    acid: "hover:border-acid/30 group-hover:shadow-[0_0_25px_rgba(255,0,255,0.15)]",
-    default: "hover:border-white/10 hover:shadow-lg",
+    gold: "hover:border-royal-gold/40 group-hover:shadow-[0_0_25px_rgba(212,168,83,0.15)]",
+    indigo: "hover:border-indigo/20 group-hover:shadow-[0_0_25px_rgba(45,31,110,0.1)]",
+    saffron: "hover:border-saffron/30 group-hover:shadow-[0_0_25px_rgba(212,135,46,0.15)]",
+    default: "hover:border-ink/15 hover:shadow-luxury",
 };
 
 const colSpanMap: Record<number, string> = {
@@ -51,8 +51,8 @@ export default function BentoCard({
             className={`
         relative overflow-hidden
         rounded-2xl p-6
-        border border-white/[0.05]
-        ${glass ? "bg-white/[0.02] backdrop-blur-md" : "bg-transparent"}
+        border border-ink/[0.06]
+        ${glass ? "bg-white/50 backdrop-blur-xl shadow-sm" : "bg-transparent"}
         ${hoverable ? `transition-all duration-300 ${accentBorders[accent]} hover:-translate-y-1` : ""}
         ${colSpanMap[colSpan]}
         ${rowSpanMap[rowSpan]}

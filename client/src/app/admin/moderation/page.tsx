@@ -17,7 +17,7 @@ export default function ModerationPage() {
                 <div className="space-y-4">
                     {FLAGGED_USERS.map((u, i) => (
                         <motion.div key={u.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                            <BentoCard accent="acid" className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <BentoCard accent="saffron" className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div><h3 className="font-clash font-bold text-lg text-acid">{u.name}</h3><p className="font-mono text-xs text-white/40">{u.reason}</p><p className="font-mono text-xs text-white/30 mt-1">{u.reports} report(s)</p></div>
                                 <div className="flex items-center gap-3"><ForgeButton variant="ghost" size="sm">DISMISS</ForgeButton><ForgeButton variant="danger" size="sm">BAN</ForgeButton></div>
                             </BentoCard>

@@ -86,7 +86,7 @@ export function StepCompanyPrefs({ data, onChange, errors }: CompanyPrefsProps) 
                 selected={data.hiringFor}
                 onChange={hiringFor => onChange({ ...data, hiringFor })}
                 error={errors.hiringFor as string}
-                accentColor="cyber"
+                accentColor="indigo"
             />
             <TagPicker
                 label="Target Experience Levels"
@@ -94,10 +94,10 @@ export function StepCompanyPrefs({ data, onChange, errors }: CompanyPrefsProps) 
                 selected={data.targetExperienceLevels}
                 onChange={targetExperienceLevels => onChange({ ...data, targetExperienceLevels })}
                 error={errors.targetExperienceLevels as string}
-                accentColor="cyber"
+                accentColor="indigo"
             />
             <div className="space-y-2">
-                <p className="font-mono text-[11px] tracking-[0.2em] text-white/50 uppercase">Budget Range (USD)</p>
+                <p className="font-sans font-bold text-[10px] tracking-widest text-smoke uppercase">Budget Range (USD)</p>
                 <div className="grid grid-cols-2 gap-4">
                     <FormSlider label="Min Budget" value={data.minBudget} min={500} max={50000} step={500} onChange={v => onChange({ ...data, minBudget: v })} format={v => `$${v.toLocaleString()}`} />
                     <FormSlider label="Max Budget" value={data.maxBudget} min={500} max={50000} step={500} onChange={v => onChange({ ...data, maxBudget: v })} format={v => `$${v.toLocaleString()}`} />

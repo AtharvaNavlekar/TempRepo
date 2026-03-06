@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ForgeButton, BentoCard, PulseTag } from "@/components/forge";
+import { Rocket, Search } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 
 /* ─── Types ─── */
@@ -87,7 +88,7 @@ function InviteModal({ project, onClose }: { project: FeedProject; onClose: () =
             >
                 {sent ? (
                     <div className="p-10 text-center">
-                        <div className="text-5xl mb-4">🚀</div>
+                        <div className="w-14 h-14 rounded-2xl bg-lime/10 flex items-center justify-center mb-4"><Rocket className="w-7 h-7 text-lime" /></div>
                         <h2 className="font-clash font-bold text-2xl text-lime mb-2">Invite Sent!</h2>
                         <p className="font-mono text-sm text-white/50 mb-6">
                             @{project.builderHandle} will see your interview invite.
@@ -235,7 +236,7 @@ export default function CompanyDiscoverPage() {
             </div>
 
             {/* ─── Filter Bar ─── */}
-            <BentoCard className="mb-10 p-6" accent="lime">
+            <BentoCard className="mb-10 p-6" accent="gold">
                 <div className="space-y-6">
                     {/* Search */}
                     <div>
@@ -328,7 +329,7 @@ export default function CompanyDiscoverPage() {
                 </div>
             ) : projects.length === 0 ? (
                 <BentoCard className="p-12 text-center">
-                    <div className="text-5xl mb-4">🔍</div>
+                    <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-4"><Search className="w-7 h-7 text-white/40" /></div>
                     <h3 className="font-clash font-bold text-xl text-white mb-2">No Artifacts Match</h3>
                     <p className="font-mono text-sm text-white/40 mb-6">
                         Try broadening your filters or search query.

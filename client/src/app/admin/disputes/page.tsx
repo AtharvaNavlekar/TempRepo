@@ -16,7 +16,7 @@ export default function AdminDisputesPage() {
                 <div className="space-y-6">
                     {DISPUTES.map((d, i) => (
                         <motion.div key={d.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                            <BentoCard accent="acid" className="p-8">
+                            <BentoCard accent="saffron" className="p-8">
                                 <div className="flex justify-between items-start mb-4">
                                     <div><h3 className="font-clash font-bold text-xl">{d.project}</h3><p className="font-mono text-xs text-white/40 mt-1">{d.filed} vs {d.against}</p></div>
                                     <PulseTag status={d.status} />

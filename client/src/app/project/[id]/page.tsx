@@ -184,7 +184,7 @@ export default function WarRoomPage() {
                         </BentoCard>
 
                         {/* Danger Zone */}
-                        <BentoCard accent="acid" className="p-6">
+                        <BentoCard accent="saffron" className="p-6">
                             <h3 className="font-clash font-semibold text-lg mb-2 text-acid">Danger Zone</h3>
                             <p className="font-mono text-xs text-white/30 mb-4">Actions that affect all team members and staked points.</p>
                             <div className="space-y-2">

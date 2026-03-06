@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ForgeButton } from "@/components/forge";
+import { Zap } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import StepTypeSelect from "./StepTypeSelect";
 import StepCore from "./StepCore";
@@ -131,17 +132,17 @@ function SuccessScreen({ handle, type }: { handle: string; type: AccountType }) 
     useEffect(() => { setTimeout(() => window.location.href = "/dashboard", 3000); }, []);
     return (
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 space-y-6">
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 400, delay: 0.2 }} className="w-20 h-20 rounded-full bg-lime/10 border border-lime/30 flex items-center justify-center mx-auto">
-                <span className="text-4xl">⚡</span>
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 400, delay: 0.2 }} className="w-20 h-20 rounded-full bg-saffron/10 border border-saffron/30 flex items-center justify-center mx-auto">
+                <Zap className="w-8 h-8 text-saffron" />
             </motion.div>
             <div>
-                <h2 className="font-clash font-black text-4xl text-white mb-2">ACCOUNT INITIALIZED</h2>
-                <p className="font-mono text-white/50 text-sm">@{handle} · {type === "builder" ? "Builder" : "Company"}</p>
+                <h2 className="font-serif italic tracking-wide font-black text-4xl text-ink mb-2">ACCOUNT INITIALIZED</h2>
+                <p className="font-sans font-semibold text-smoke text-sm">@{handle} · {type === "builder" ? "Founder" : "Company"}</p>
             </div>
-            <p className="font-mono text-xs text-white/30">Redirecting to your dashboard...</p>
+            <p className="font-sans font-semibold text-xs text-smoke/70">Redirecting to your dashboard...</p>
             <div className="flex justify-center gap-1">
                 {[0, 1, 2].map(i => (
-                    <motion.div key={i} className="w-2 h-2 rounded-full bg-lime" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }} />
+                    <motion.div key={i} className="w-2 h-2 rounded-full bg-saffron" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }} />
                 ))}
             </div>
         </motion.div>
@@ -213,32 +214,32 @@ export default function CreateAccountPage() {
     };
 
     if (success) return (
-        <div className="min-h-screen bg-obsidian flex items-center justify-center p-6">
+        <div className="min-h-screen flex items-center justify-center p-6">
             <SuccessScreen handle={form.core.handle} type={form.accountType!} />
         </div>
     );
 
     const stepTitles: Record<number, string> = {
         1: "Core Identity",
-        2: isBuilder ? "Builder Profile" : "Company Info",
+        2: isBuilder ? "Founder Profile" : "Company Info",
         3: isBuilder ? "Work Preferences" : "Hiring Preferences",
         4: isBuilder ? "Your Manifesto" : "Company Culture",
         5: "Review & Launch",
     };
 
     return (
-        <div className="min-h-screen bg-obsidian flex items-start justify-center px-4 py-16">
+        <div className="min-h-screen flex items-start justify-center px-4 py-16">
             {/* Background glows */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-lime/5 rounded-full blur-[150px]" />
-                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyber/5 rounded-full blur-[120px]" />
+                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-saffron/5 rounded-full blur-[150px]" />
+                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-indigo/5 rounded-full blur-[120px]" />
             </div>
 
             <div className="w-full max-w-2xl relative z-10">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <p className="font-clash font-bold text-2xl text-white">COLLAB<span className="text-lime">RISE</span></p>
-                    <p className="font-mono text-[11px] text-white/30 tracking-widest mt-1">ACCOUNT INITIALIZATION PROTOCOL</p>
+                    <p className="font-sans font-bold text-2xl text-ink tracking-widest">COLLAB<span className="text-saffron">RISE</span></p>
+                    <p className="font-sans text-[11px] font-bold text-smoke tracking-widest mt-1">ACCOUNT INITIALIZATION PROTOCOL</p>
                 </div>
 
                 {/* Progress Bar */}
@@ -248,15 +249,15 @@ export default function CreateAccountPage() {
                             {STEP_LABELS.slice(1).map((label, i) => {
                                 const s = i + 1;
                                 return (
-                                    <span key={s} className={`font-mono text-[9px] uppercase tracking-wider ${step === s ? (isBuilder ? "text-lime" : "text-cyber") : step > s ? "text-white/40" : "text-white/15"}`}>
+                                    <span key={s} className={`font-sans font-bold text-[9px] uppercase tracking-wider ${step === s ? (isBuilder ? "text-saffron" : "text-indigo") : step > s ? "text-smoke/60" : "text-smoke/30"}`}>
                                         {label}
                                     </span>
                                 );
                             })}
                         </div>
-                        <div className="h-0.5 bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-0.5 bg-ink/10 rounded-full overflow-hidden">
                             <motion.div
-                                className={`h-full rounded-full ${isBuilder ? "bg-lime" : "bg-cyber"}`}
+                                className={`h-full rounded-full ${isBuilder ? "bg-saffron" : "bg-indigo"}`}
                                 animate={{ width: `${((step - 1) / 4) * 100}%` }}
                                 transition={{ duration: 0.4, ease: "easeOut" }}
                             />
@@ -265,20 +266,20 @@ export default function CreateAccountPage() {
                 )}
 
                 {/* Card */}
-                <div className="bg-white/[0.02] border border-white/10 rounded-bento backdrop-blur-sm p-8 md:p-10">
+                <div className="bg-white/60 border border-ink/[0.08] shadow-sm rounded-bento backdrop-blur-xl p-8 md:p-10">
                     {step > 0 && (
                         <div className="mb-8">
                             <div className="flex items-center gap-3 mb-1">
-                                <span className={`font-mono text-[10px] ${isBuilder ? "text-lime/60" : "text-cyber/60"} uppercase tracking-[0.3em]`}>
+                                <span className={`font-sans font-bold text-[10px] ${isBuilder ? "text-saffron/80" : "text-indigo/80"} uppercase tracking-[0.3em]`}>
                                     Step {step} of 5
                                 </span>
                                 {form.accountType && (
-                                    <span className={`px-2 py-0.5 rounded font-mono text-[9px] uppercase ${isBuilder ? "bg-lime/10 text-lime border border-lime/20" : "bg-cyber/10 text-cyber border border-cyber/20"}`}>
+                                    <span className={`px-2 py-0.5 rounded font-sans font-bold text-[9px] uppercase ${isBuilder ? "bg-saffron/10 text-saffron border border-saffron/20" : "bg-indigo/10 text-indigo border border-indigo/20"}`}>
                                         {form.accountType}
                                     </span>
                                 )}
                             </div>
-                            <h2 className="font-clash font-bold text-2xl text-white">{stepTitles[step]}</h2>
+                            <h2 className="font-serif italic text-3xl font-bold text-ink mb-1">{stepTitles[step]}</h2>
                         </div>
                     )}
 
@@ -362,10 +363,10 @@ export default function CreateAccountPage() {
 
                     {/* Navigation */}
                     {step > 0 && (
-                        <div className="flex justify-between items-center mt-8 pt-6 border-t border-white/10">
+                        <div className="flex justify-between items-center mt-8 pt-6 border-t border-ink/10">
                             <button
                                 onClick={goBack}
-                                className="font-mono text-xs text-white/40 hover:text-white transition-colors uppercase tracking-widest"
+                                className="font-sans font-bold text-[11px] text-smoke hover:text-ink transition-colors uppercase tracking-widest"
                             >
                                 ← Back
                             </button>
@@ -389,9 +390,9 @@ export default function CreateAccountPage() {
                 </div>
 
                 {/* Login link */}
-                <p className="text-center font-mono text-[11px] text-white/25 mt-6">
+                <p className="text-center font-sans font-semibold text-[11px] text-smoke mt-6 tracking-wide">
                     Already have an account?{" "}
-                    <a href="/auth/login" className="text-white/50 hover:text-lime transition-colors underline underline-offset-4">Sign In</a>
+                    <a href="/auth/login" className="text-ink font-bold hover:text-saffron transition-colors underline underline-offset-4">Sign In</a>
                 </p>
             </div>
         </div>

@@ -1,4 +1,5 @@
 "use client";
+import { Rocket } from "lucide-react";
 import { FormTextarea, RadioGroup, TagPicker, FormInput } from "./FormField";
 import type { BuilderPersonalityData, CompanyCultureData } from "./types";
 import { GUILDS, TEAM_SKILLS, FINDER_METHODS } from "./types";
@@ -13,9 +14,9 @@ interface BuilderPersonalityProps {
 export function StepBuilderPersonality({ data, onChange, errors }: BuilderPersonalityProps) {
     return (
         <div className="space-y-6">
-            <div className="p-4 bg-lime/5 border border-lime/20 rounded-bento-sm">
-                <p className="font-mono text-[11px] text-lime/80 uppercase tracking-widest mb-1">🚀 This is what makes CollabRise different</p>
-                <p className="font-mono text-xs text-white/50">We don&apos;t want your résumé. We want your story as a founder.</p>
+            <div className="p-4 bg-saffron/5 border border-saffron/20 rounded-lg">
+                <p className="font-sans font-bold text-[10px] text-saffron/80 uppercase tracking-widest mb-1 flex items-center gap-1.5"><Rocket className="w-3.5 h-3.5" /> This is what makes CollabRise different</p>
+                <p className="font-sans font-medium text-xs text-smoke/90">We don&apos;t want your résumé. We want your story as a founder.</p>
             </div>
             <FormTextarea
                 label="Your Founder Manifesto"
@@ -53,7 +54,7 @@ export function StepBuilderPersonality({ data, onChange, errors }: BuilderPerson
                 onChange={guilds => onChange({ ...data, guilds })}
                 error={errors.guilds as string}
                 max={5}
-                accentColor="lime"
+                accentColor="saffron"
             />
         </div>
     );
@@ -85,7 +86,7 @@ export function StepCompanyCulture({ data, onChange, errors }: CompanyCulturePro
                 selected={data.teamStack}
                 onChange={teamStack => onChange({ ...data, teamStack })}
                 error={errors.teamStack as string}
-                accentColor="cyber"
+                accentColor="indigo"
             />
             <TagPicker
                 label="How Will You Find Co-founders?"
@@ -93,14 +94,14 @@ export function StepCompanyCulture({ data, onChange, errors }: CompanyCulturePro
                 selected={data.findBuildersVia}
                 onChange={findBuildersVia => onChange({ ...data, findBuildersVia })}
                 error={errors.findBuildersVia as string}
-                accentColor="cyber"
+                accentColor="indigo"
             />
             <TagPicker
                 label="Recruit From Guilds (optional)"
                 options={GUILDS}
                 selected={data.recruitFromGuilds}
                 onChange={recruitFromGuilds => onChange({ ...data, recruitFromGuilds })}
-                accentColor="cyber"
+                accentColor="indigo"
             />
         </div>
     );

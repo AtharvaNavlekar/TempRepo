@@ -66,7 +66,7 @@ export default function FailureVaultPage() {
                             transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
                         >
                             <BentoCard
-                                accent={failure.recovered ? "acid" : "default"}
+                                accent={failure.recovered ? "saffron" : "default"}
                                 className={`h-full flex flex-col justify-between ${!failure.recovered ? "opacity-50 grayscale" : "bg-acid/[0.03]"}`}
                             >
                                 <div>

@@ -21,7 +21,7 @@ interface CollabRiseStore {
     selectedGuilds: string[];
     setSelectedGuilds: (guilds: string[]) => void;
 
-    // Ship Score
+    // Venture Score
     shipScore: number;
     incrementScore: (amount: number) => void;
     setScore: (score: number) => void;
@@ -43,7 +43,7 @@ export const useCollabRiseStore = create<CollabRiseStore>((set) => ({
     selectedGuilds: [],
     setSelectedGuilds: (guilds) => set({ selectedGuilds: guilds }),
 
-    // Ship Score
+    // Venture Score
     shipScore: 0,
     incrementScore: (amount) =>
         set((state) => ({ shipScore: state.shipScore + amount })),

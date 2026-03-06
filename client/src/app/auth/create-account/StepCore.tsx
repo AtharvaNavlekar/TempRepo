@@ -36,9 +36,9 @@ function useAvailabilityCheck(endpoint: string, paramName: string, minLen: numbe
 
 function AvailBadge({ status }: { status: AvailStatus }) {
     if (status === "idle") return null;
-    if (status === "checking") return <span className="font-mono text-[10px] text-white/40 animate-pulse">CHECKING...</span>;
-    if (status === "available") return <span className="font-mono text-[10px] text-lime">✓ AVAILABLE</span>;
-    return <span className="font-mono text-[10px] text-acid">✗ TAKEN</span>;
+    if (status === "checking") return <span className="font-sans font-bold tracking-widest text-[10px] text-smoke/60 animate-pulse">CHECKING...</span>;
+    if (status === "available") return <span className="font-sans font-bold tracking-widest text-[10px] text-saffron">✓ AVAILABLE</span>;
+    return <span className="font-sans font-bold tracking-widest text-[10px] text-red-500">✗ TAKEN</span>;
 }
 
 export default function StepCore({ data, accountType, onChange, errors }: StepCoreProps) {
@@ -65,7 +65,7 @@ export default function StepCore({ data, accountType, onChange, errors }: StepCo
                 suffix={<AvailBadge status={email.status} />}
             />
             <FormInput
-                label={`${accountType === "builder" ? "Builder" : "Company"} Handle`}
+                label={`${accountType === "builder" ? "Founder" : "Company"} Handle`}
                 placeholder="yourhandle"
                 value={data.handle}
                 onChange={set("handle")}
@@ -73,7 +73,7 @@ export default function StepCore({ data, accountType, onChange, errors }: StepCo
                 hint="Letters, numbers, underscores, hyphens only"
                 suffix={
                     <div className="flex items-center gap-1.5">
-                        <span className="font-mono text-[10px] text-white/30">@</span>
+                        <span className="font-sans font-bold text-[10px] text-smoke/60">@</span>
                         <AvailBadge status={handle.status} />
                     </div>
                 }

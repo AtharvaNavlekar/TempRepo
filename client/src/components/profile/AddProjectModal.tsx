@@ -227,7 +227,7 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
                                     selected={tags}
                                     onChange={setTags}
                                     max={5}
-                                    accentColor="cyber"
+                                    accentColor="gold"
                                 />
                             </div>
 
@@ -332,6 +332,7 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
                                 )}
                             </div>
                         </div>
+
                     </div>
 
                     {/* Footer */}

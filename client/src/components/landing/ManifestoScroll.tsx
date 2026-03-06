@@ -42,7 +42,7 @@ export default function ManifestoScroll() {
 
     const BOOT_LINES = [
         "// COLLABRISE PROTOCOL v1.0.0",
-        "[OK] Initializing Ship Score Engine...",
+        "[OK] Initializing Venture Score Engine...",
         "[OK] Loading Traction Verification Layer...",
         "[OK] Connecting to Guild Network...",
         "[OK] Syncing Founder Profile DNA...",
@@ -54,56 +54,56 @@ export default function ManifestoScroll() {
         "> Type 'launch --init' to begin.",
     ];
 
-    /* Highlight specific words in the editorial style */
-    const getWordColor = (word: string): string => {
+    /* Highlight specific words */
+    const getWordStyle = (word: string): { color: string; weight: number } => {
         if (["LAUNCHED?", "CollabRise.", "Forge.", "Undeniable."].includes(word))
-            return "#1A1A1A";
+            return { color: "#0D0D0D", weight: 600 };
         if (["Launch.", "stagnant."].includes(word))
-            return "#4A4A4A";
-        return "#4A4A4A";
+            return { color: "#EF6C33", weight: 500 };
+        return { color: "#5A544F", weight: 400 };
     };
 
     return (
         <section
-            className="relative py-24 md:py-32 px-6 md:px-12"
-            style={{ background: "var(--bg-base)" }}
+            className="relative py-24 md:py-32 px-6 md:px-12 bg-cream"
         >
             <div className="max-w-4xl mx-auto">
                 {/* Section label */}
                 <div className="flex items-center gap-4 mb-12">
-                    <div className="h-px flex-1 bg-black/[0.07]" />
-                    <span className="overline-label">The Manifesto</span>
-                    <div className="h-px flex-1 bg-black/[0.07]" />
+                    <div className="h-px flex-1 bg-ink/[0.07]" />
+                    <span className="section-label">The Manifesto</span>
+                    <div className="h-px flex-1 bg-ink/[0.07]" />
                 </div>
 
                 {/* Word-by-word reveal */}
                 <div ref={containerRef} className="mb-16">
-                    <p className="font-serif text-2xl md:text-3xl lg:text-4xl leading-relaxed font-normal text-[#1A1A1A]">
-                        {words.map((word, i) => (
-                            <span
-                                key={i}
-                                ref={(el) => {
-                                    if (el) wordsRef.current[i] = el;
-                                }}
-                                className="inline-block mr-[0.3em] mb-1 transition-all duration-700"
-                                style={{
-                                    opacity: 0,
-                                    transform: "translateY(12px)",
-                                    filter: "blur(4px)",
-                                    transitionDelay: `${i * 30}ms`,
-                                    color: getWordColor(word),
-                                    fontWeight: ["LAUNCHED?", "CollabRise.", "Forge."].includes(word)
-                                        ? 500
-                                        : 400,
-                                }}
-                            >
-                                {word}
-                            </span>
-                        ))}
+                    <p className="font-serif text-2xl md:text-3xl lg:text-4xl leading-relaxed font-normal text-ink">
+                        {words.map((word, i) => {
+                            const style = getWordStyle(word);
+                            return (
+                                <span
+                                    key={i}
+                                    ref={(el) => {
+                                        if (el) wordsRef.current[i] = el;
+                                    }}
+                                    className="inline-block mr-[0.3em] mb-1 transition-all duration-700"
+                                    style={{
+                                        opacity: 0,
+                                        transform: "translateY(12px)",
+                                        filter: "blur(4px)",
+                                        transitionDelay: `${i * 30}ms`,
+                                        color: style.color,
+                                        fontWeight: style.weight,
+                                    }}
+                                >
+                                    {word}
+                                </span>
+                            );
+                        })}
                     </p>
                 </div>
 
-                {/* Terminal boot sequence (preserved in dark glass for contrast) */}
+                {/* Terminal boot sequence */}
                 <div className="max-w-2xl mx-auto">
                     <TerminalBlock
                         lines={BOOT_LINES}

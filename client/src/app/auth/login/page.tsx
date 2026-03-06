@@ -23,76 +23,76 @@ export default function LoginPage() {
 
             {/* Background Glow */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-lime/10 rounded-full blur-[120px]" />
-                <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-cyber/10 rounded-full blur-[100px]" />
+                <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-saffron/10 rounded-full blur-[120px]" />
+                <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-indigo/10 rounded-full blur-[100px]" />
             </div>
 
             <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
 
                 {/* Left Side: Branding/Visual */}
-                <BentoCard className="hidden md:flex flex-col justify-between min-h-[500px] p-10 bg-gradient-to-br from-obsidian via-obsidian to-obsidian border-white/10 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay"></div>
+                <BentoCard glass={false} className="hidden md:flex flex-col justify-between min-h-[500px] p-10 bg-ink border-ink/20 relative overflow-hidden group shadow-2xl">
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
 
                     <div className="relative z-10">
                         <PulseTag status="live" label="SYSTEM ONLINE" className="mb-6" />
-                        <GlitchText text="WELCOME" className="text-6xl font-black text-white" />
-                        <GlitchText text="TO" className="text-6xl font-black text-white/80" speed="slow" />
-                        <GlitchText text="COLLABRISE" className="text-5xl font-black text-lime" speed="fast" />
+                        <GlitchText text="WELCOME" className="text-6xl font-serif text-white uppercase italic tracking-wider" />
+                        <GlitchText text="TO" className="text-6xl font-serif text-white/80 uppercase italic tracking-wider" speed="slow" />
+                        <h1 className="text-5xl font-sans font-bold text-saffron tracking-widest uppercase mt-2">COLLABRISE</h1>
                     </div>
 
                     <div className="relative z-10">
-                        <p className="font-mono text-white/50 text-sm max-w-[80%] uppercase tracking-wider leading-relaxed">
+                        <p className="font-sans text-smoke/90 text-sm max-w-[80%] uppercase tracking-wider leading-loose font-medium">
                             Ship real projects, build irrefutable proof of your skills, and let your work replace your resume.
                         </p>
                     </div>
 
                     {/* Decorative Corner Elements */}
-                    <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-white/10 m-6" />
-                    <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-white/10 m-6" />
+                    <div className="absolute top-0 right-0 w-16 h-16 border-t font-serif border-r border-royal-gold/30 m-6" />
+                    <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-royal-gold/30 m-6" />
                 </BentoCard>
 
                 {/* Right Side: Auth Form */}
-                <BentoCard className="min-h-[500px] p-8 md:p-10 flex flex-col justify-center">
+                <BentoCard accent="default" className="min-h-[500px] p-8 md:p-10 flex flex-col justify-center">
                     <div className="mb-8">
-                        <h2 className="font-clash font-bold text-3xl text-white mb-2">Welcome Back.</h2>
-                        <p className="font-mono text-white/50 text-sm">Please sign in to continue to your account.</p>
+                        <h2 className="font-serif font-bold text-4xl text-ink mb-2">Welcome Back.</h2>
+                        <p className="font-sans text-smoke text-sm">Please sign in to continue to your account.</p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="font-mono text-xs text-white/70 tracking-widest uppercase">
+                            <label className="font-sans font-bold text-[10px] text-smoke tracking-widest uppercase">
                                 Email Address
                             </label>
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="builder@edge.net"
-                                className="w-full bg-black/50 border border-white/10 focus:border-lime rounded-bento-sm px-4 py-3 font-mono text-white placeholder:text-white/20 outline-none transition-colors duration-300 backdrop-blur-sm"
+                                placeholder="founder@venture.net"
+                                className="w-full bg-white/60 border border-ink/10 focus:border-royal-gold rounded-lg px-4 py-3 font-sans text-ink placeholder:text-smoke/40 outline-none transition-colors duration-300 backdrop-blur-sm"
                                 required
                             />
                         </div>
 
                         <div className="space-y-2">
                             <div className="flex justify-between items-center">
-                                <label className="font-mono text-xs text-white/70 tracking-widest uppercase">
+                                <label className="font-sans font-bold text-[10px] text-smoke tracking-widest uppercase">
                                     Password
                                 </label>
-                                <Link href="/auth/recovery" className="font-mono text-[10px] text-lime hover:text-white transition-colors duration-200">
-                                    FORGOT PASSWORD?
+                                <Link href="/auth/recovery" className="font-sans text-[10px] font-bold tracking-wider uppercase text-saffron hover:text-ink transition-colors duration-200">
+                                    Forgot Password?
                                 </Link>
                             </div>
                             <input
                                 type="password"
                                 placeholder="••••••••••••"
-                                className="w-full bg-black/50 border border-white/10 focus:border-lime rounded-bento-sm px-4 py-3 font-mono text-white placeholder:text-white/20 outline-none transition-colors duration-300 backdrop-blur-sm"
+                                className="w-full bg-white/60 border border-ink/10 focus:border-royal-gold rounded-lg px-4 py-3 font-sans text-ink outline-none transition-colors duration-300 backdrop-blur-sm"
                                 required
                             />
                         </div>
 
                         <ForgeButton
                             type="submit"
-                            className="w-full py-4 text-lg"
+                            className="w-full py-4 text-[13px] tracking-widest uppercase font-bold"
                             loading={loading}
                         >
                             Sign In
@@ -101,23 +101,23 @@ export default function LoginPage() {
 
                     <div className="mt-8">
                         <div className="relative flex items-center mb-6">
-                            <div className="flex-grow border-t border-white/10"></div>
-                            <span className="flex-shrink-0 mx-4 font-mono text-xs text-white/30 uppercase">Or Continue With</span>
-                            <div className="flex-grow border-t border-white/10"></div>
+                            <div className="flex-grow border-t border-ink/10"></div>
+                            <span className="flex-shrink-0 mx-4 font-sans font-semibold text-[10px] text-smoke uppercase tracking-wider">Or Continue With</span>
+                            <div className="flex-grow border-t border-ink/10"></div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <ForgeButton variant="secondary" className="font-mono w-full">
+                            <ForgeButton variant="ghost" className="font-sans text-[12px] font-bold tracking-wider w-full shadow-sm bg-white/50 border-ink/10">
                                 GITHUB
                             </ForgeButton>
-                            <ForgeButton variant="secondary" className="font-mono w-full border-cyber/30 hover:bg-cyber/10 hover:text-cyber">
+                            <ForgeButton variant="ghost" className="font-sans text-[12px] font-bold tracking-wider w-full shadow-sm bg-white/50 border-ink/10">
                                 WALLET
                             </ForgeButton>
                         </div>
                     </div>
 
-                    <p className="mt-8 text-center font-mono text-[10px] text-white/30 uppercase tracking-widest">
-                        Don&apos;t have an account? <Link href="/auth/create-account" className="text-white hover:text-lime underline decoration-white/30 underline-offset-4">Sign Up</Link>
+                    <p className="mt-8 text-center font-sans font-semibold text-[11px] text-smoke tracking-wider">
+                        Don&apos;t have an account? <Link href="/auth/create-account" className="text-ink font-bold hover:text-saffron transition-colors">Sign Up</Link>
                     </p>
 
                 </BentoCard>

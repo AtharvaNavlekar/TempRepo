@@ -15,10 +15,10 @@ interface ForgeButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-    primary: "bg-lime text-obsidian border border-lime/20 shadow-[0_0_15px_rgba(204,255,0,0.2)] hover:shadow-[0_0_30px_rgba(204,255,0,0.4)] hover:-translate-y-1 hover:bg-white",
-    secondary: "bg-obsidian border border-white/10 text-white hover:border-lime/50 hover:text-lime hover:bg-lime/5 hover:-translate-y-1",
-    ghost: "bg-transparent text-slate-300 hover:text-lime hover:bg-lime/5",
-    danger: "bg-acid/10 text-acid border border-acid/20 hover:bg-acid/20 hover:border-acid/40 hover:shadow-glow-acid",
+    primary: "btn-saffron",
+    secondary: "btn-outline",
+    ghost: "btn-ghost-white !text-ink !border-ink/20 hover:!border-ink/40 hover:!bg-black/[0.04]", // Override for light mode
+    danger: "bg-red-500/10 text-red-600 border border-red-500/20 hover:bg-red-500/20 hover:border-red-500/40",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -40,25 +40,20 @@ export default function ForgeButton({
         <motion.button
             className={`
         relative inline-flex items-center justify-center
-        rounded-lg
-        font-medium tracking-normal
         transition-all duration-200
         cursor-pointer select-none
-        border border-transparent
         disabled:opacity-50 disabled:cursor-not-allowed
         ${variantStyles[variant]}
-        ${sizeStyles[size]}
+        ${!variantStyles[variant].includes('btn-') ? sizeStyles[size] + ' rounded-lg font-medium tracking-normal' : ''}
         ${className}
       `}
             whileHover={{
                 y: -1,
-                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
                 transition: { type: "tween", duration: 0.2 },
             }}
             whileTap={{
                 y: 0,
                 scale: 0.98,
-                boxShadow: "none",
                 transition: { type: "tween", duration: 0.1 },
             }}
             disabled={loading}
