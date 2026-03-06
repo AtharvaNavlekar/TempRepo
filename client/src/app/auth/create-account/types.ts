@@ -95,11 +95,11 @@ export const INITIAL_FORM_STATE: FormState = {
     final: { agreedToTerms: false, agreedToProtocol: false, referralSource: "", newsletterSubscribed: false },
 };
 
-export const SKILLS = ["React", "Next.js", "TypeScript", "Python", "Node.js", "Figma", "Vue", "Go", "Rust", "Swift", "Kotlin", "Solidity", "PostgreSQL", "MongoDB", "Docker", "AWS", "GraphQL", "TailwindCSS", "Unity", "Blender", "Ableton", "After Effects", "Illustrator", "Framer"];
-export const GUILDS = ["⚡ React Guild", "🎨 Design Guild", "🔧 Backend Guild", "🔒 Security Guild", "🍳 Chef Guild", "🎵 Music Guild", "🎮 Game Dev Guild", "📐 Hardware Guild", "✍️ Writing Guild", "🌐 Web3 Guild"];
-export const CRAFTS = ["Tech Founder", "Growth Hacker", "Product Lead", "Design Partner", "Operations Lead", "Marketing Strategist", "Solopreneur", "Creative Director", "Music Executive", "Culinary Entrepreneur", "Independent Creator", "Business Strategist"];
-export const INDUSTRIES = ["SaaS / Software", "Fintech", "Gaming", "Healthcare", "E-commerce", "Agency / Studio", "Web3 / Crypto", "AI / ML", "EdTech", "Hardware / IoT", "Media & Entertainment", "Deep Tech"];
+export const SKILLS = ["React", "Next.js", "TypeScript", "Python", "Node.js", "Vue", "Go", "Rust", "Swift", "Kotlin", "Solidity", "PostgreSQL", "MongoDB", "Docker", "AWS", "GraphQL", "TailwindCSS", "Unity", "C++", "Java", "C#"];
+export const GUILDS = ["⚡ React Guild", "🔧 Backend Guild", "🔒 Security Guild", "🤖 AI/ML Guild", "🎮 Game Dev Guild", "📐 Hardware Guild", "🌐 Web3 Guild", "📱 Mobile Guild", "☁️ Cloud Guild", "📊 Data Guild"];
+export const CRAFTS = ["Frontend Engineer", "Backend Engineer", "Fullstack Engineer", "Mobile Developer", "Data Scientist", "Machine Learning Engineer", "DevOps Engineer", "Security Researcher", "Smart Contract Engineer", "Hardware Engineer", "Tech Founder", "Cloud Architect"];
+export const INDUSTRIES = ["SaaS / Software", "Fintech", "Gaming", "Healthcare", "E-commerce", "Web3 / Crypto", "AI / ML", "EdTech", "Hardware / IoT", "Deep Tech", "Cybersecurity", "Cloud Computing"];
 export const COUNTRIES = ["India", "United States", "United Kingdom", "Germany", "Canada", "Australia", "Singapore", "France", "Brazil", "Japan", "Netherlands", "UAE", "Other"];
-export const TEAM_SKILLS = ["React", "Next.js", "TypeScript", "Python", "Go", "Rust", "Figma", "AWS", "GCP", "PostgreSQL", "MongoDB", "Docker", "Kubernetes", "GraphQL", "Solidity", "Swift", "Kotlin"];
+export const TEAM_SKILLS = ["React", "Next.js", "TypeScript", "Python", "Go", "Rust", "AWS", "GCP", "PostgreSQL", "MongoDB", "Docker", "Kubernetes", "GraphQL", "Solidity", "Swift", "Kotlin", "C++", "Java"];
 export const FINDER_METHODS = ["Browse Venture Logs", "Post Strategic Bounties", "Run Venture Challenges", "Browse Alpha Leaderboard", "Guild Networking"];
 export const REFERRAL_SOURCES = ["Twitter / X", "GitHub", "ProductHunt", "Friend Referral", "LinkedIn", "Discord", "YouTube", "Other"];

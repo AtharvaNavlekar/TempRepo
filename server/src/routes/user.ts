@@ -7,6 +7,7 @@
 import { Router, Request, Response } from "express";
 import { verifyToken, COOKIE_NAME } from "../lib/auth";
 import { findById, findByHandle, saveUser, toPublicUser, BuilderProfile, Project } from "../lib/db";
+import { computeShipScore, getDepartmentConfig } from "../lib/ship-score";
 import { z } from "zod";
 
 const router = Router();
@@ -16,7 +17,10 @@ const projectSchema = z.object({
     description: z.string().min(10, "Description must be at least 10 characters").max(500),
     url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
     type: z.string().min(1, "Type is required"),
+    department: z.string().min(1, "Department is required"),
+    category: z.enum(["code", "document", "analysis", "design", "content", "case-study", "achievement", "other"]),
     tags: z.array(z.string()).max(5, "Maximum 5 tags allowed"),
+    scoreInputs: z.record(z.string(), z.number()).optional(),
 });
 
 /* ─── PATCH /user/profile ─────────────────────────────────────── */
@@ -42,7 +46,6 @@ router.patch("/profile", (req: Request, res: Response): void => {
 
         const { fullName, handle, country, profile: profileUpdates } = req.body;
 
-        // Handle duplication check if it's being changed
         if (handle && handle !== user.handle && handle.length >= 3) {
             const existing = findByHandle(handle);
             if (existing) {
@@ -51,12 +54,10 @@ router.patch("/profile", (req: Request, res: Response): void => {
             }
         }
 
-        // Apply Core updates
         if (fullName) user.fullName = fullName;
         if (handle) user.handle = handle;
         if (country) user.country = country;
 
-        // Apply Profile deep merge updates
         if (profileUpdates && typeof profileUpdates === "object") {
             user.profile = {
                 ...user.profile,
@@ -64,9 +65,7 @@ router.patch("/profile", (req: Request, res: Response): void => {
             };
         }
 
-        // Save back to DB
         const updatedUser = saveUser(user);
-
         res.json({ success: true, user: toPublicUser(updatedUser) });
     } catch (error) {
         console.error("API Error in PATCH /api/user/profile:", error);
@@ -100,15 +99,28 @@ router.post("/project", (req: Request, res: Response): void => {
             return;
         }
 
-        // Validate payload
+        console.log("INCOMING PROJECT DATA:", JSON.stringify(req.body, null, 2));
+
         const parsed = projectSchema.safeParse(req.body);
         if (!parsed.success) {
+            console.error("VALIDATION FAILED:", JSON.stringify(parsed.error.format(), null, 2));
             res.status(400).json({
                 error: "Validation failed",
                 details: parsed.error.format(),
             });
             return;
         }
+
+        // Validate department exists in the engine
+        const deptConfig = getDepartmentConfig(parsed.data.department);
+        if (!deptConfig) {
+            res.status(400).json({ error: `Unknown department: "${parsed.data.department}"` });
+            return;
+        }
+
+        // Compute Ship Score dynamically using the scoring engine
+        const scoreInputs: Record<string, number> = parsed.data.scoreInputs ? { ...parsed.data.scoreInputs } : {};
+        const scoreResult = computeShipScore(parsed.data.department, scoreInputs);
 
         const builderProfile = user.profile as BuilderProfile;
         const newProject: Project = {
@@ -117,7 +129,11 @@ router.post("/project", (req: Request, res: Response): void => {
             description: parsed.data.description,
             url: parsed.data.url || undefined,
             type: parsed.data.type,
-            score: Math.floor(Math.random() * 500) + 100,
+            department: parsed.data.department,
+            category: parsed.data.category,
+            score: scoreResult.totalScore,
+            scoreInputs: scoreInputs,
+            scoreBreakdown: scoreResult.breakdown,
             date: new Date().toISOString().split("T")[0],
             tags: parsed.data.tags || [],
         };
@@ -128,9 +144,12 @@ router.post("/project", (req: Request, res: Response): void => {
         user.profile = builderProfile;
         saveUser(user);
 
-        res.json({ message: "Project added successfully", project: newProject });
+        res.json({ message: "Project added successfully", project: newProject, scoreResult });
     } catch (error) {
         console.error("Profile Edit Error:", error);
+        if (error instanceof Error) {
+            console.error(error.stack);
+        }
         res.status(500).json({ error: "Internal Server Error" });
     }
 });

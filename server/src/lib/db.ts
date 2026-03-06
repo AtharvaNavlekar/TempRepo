@@ -23,7 +23,17 @@ export interface Project {
     description: string;
     url?: string;
     type: string;
-    score: number;
+    department: string;         // e.g. "software-engineering", "human-resources"
+    category: "code" | "document" | "analysis" | "design" | "content" | "case-study" | "achievement" | "other";
+    score: number;              // final Ship Score 0-100
+    scoreInputs?: Record<string, number>;   // raw parameter inputs used to compute score
+    scoreBreakdown?: {          // detailed per-parameter breakdown
+        parameterKey: string;
+        parameterLabel: string;
+        rawValue: number;
+        weight: number;
+        weightedScore: number;
+    }[];
     date: string;
     tags: string[];
 }

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "b6352bc1-4a0d-4501-a613-509b3655c876",
+    "type": "builder",
+    "fullName": "shobha",
+    "email": "shobha008@gmail.com",
+    "passwordHash": "$2b$12$Qc1xxZ4V419VXijQjFPbc.vFcdbOeFs6xbNyvqz98SuPZofNXEd7.",
+    "handle": "shobha_008",
+    "country": "India",
+    "createdAt": "2026-03-05T15:43:52.390Z",
+    "updatedAt": "2026-03-05T18:31:31.612Z",
+    "isVerified": false,
+    "referralSource": "Friend Referral",
+    "newsletterSubscribed": true,
+    "profile": {
+      "craft": "Full-Stack Developer",
+      "experienceLevel": "beginner",
+      "yearsOfExperience": 1,
+      "skills": [
+        "React",
+        "Next.js",
+        "Python",
+        "Node.js",
+        "Docker",
+        "MongoDB",
+        "PostgreSQL",
+        "TypeScript",
+        "TailwindCSS"
+      ],
+      "githubUrl": "https://github.com/shobhabagleinfeno",
+      "portfolioUrl": "",
+      "employmentStatus": "open",
+      "openToBounties": true,
+      "minBountyReward": 100,
+      "preferredProjectLength": [
+        "< 1 week",
+        "1–2 weeks",
+        "6+ months"
+      ],
+      "workPreference": "remote",
+      "availability": 18,
+      "manifesto": "I can build SaaS Products using AI / Vibe Coding ",
+      "commitmentLevel": "builder",
+      "guilds": [
+        "⚡ React Guild"
+      ],
+      "bestProject": "QuT"
+    }
+  }
+]

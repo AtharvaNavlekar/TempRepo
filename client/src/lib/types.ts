@@ -20,13 +20,44 @@ export type HiringType = "full-time" | "contract" | "bounty" | "internship";
 export type ExperienceLevel = "beginner" | "mid" | "senior" | "veteran" | "expert";
 export type RemotePolicy = "remote" | "hybrid" | "onsite" | "any";
 
+export interface ScoreParameter {
+    key: string;
+    label: string;
+    description: string;
+    weight: number;
+    inputType: "slider" | "boolean" | "select";
+    min?: number;
+    max?: number;
+    options?: string[];
+}
+
+export interface DepartmentConfig {
+    id: string;
+    name: string;
+    icon: string;
+    description: string;
+    parameters: ScoreParameter[];
+}
+
+export type ProjectCategory = "code" | "architecture" | "analysis" | "model" | "automation" | "hardware" | "achievement" | "other";
+
 export interface Project {
     id: string;
     name: string;
     description: string;
     url?: string;
     type: string;
+    department?: string;
+    category?: ProjectCategory | string;
     score: number;
+    scoreInputs?: Record<string, number>;
+    scoreBreakdown?: {
+        parameterKey: string;
+        parameterLabel: string;
+        rawValue: number;
+        weight: number;
+        weightedScore: number;
+    }[];
     date: string;
     tags: string[];
 }

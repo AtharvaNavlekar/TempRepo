@@ -11,6 +11,7 @@ import authRoutes from "./routes/auth";
 import feedRoutes from "./routes/feed";
 import inviteRoutes from "./routes/invite";
 import userRoutes from "./routes/user";
+import scoreRoutes from "./routes/score";
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 5000;
@@ -29,6 +30,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/feed", feedRoutes);
 app.use("/api/invite", inviteRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/score", scoreRoutes);
 
 /* ─── Health Check ─── */
 app.get("/api/health", (_req, res) => {
