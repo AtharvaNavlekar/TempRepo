@@ -28,6 +28,7 @@ export default function DashboardPage() {
     const shipScore = useCollabRiseStore(state => state.shipScore);
     const pulseEvents = useCollabRiseStore(state => state.pulseEvents);
 
+    const [selectedYear, setSelectedYear] = useState(2026);
     const [fullUser, setFullUser] = useState<PublicUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -249,24 +250,117 @@ export default function DashboardPage() {
                             </div>
                         </FadeUp>
 
-                        {/* GitHub Heatmap */}
+                        {/* GitHub Heatmap & Activity */}
                         {githubUsername && (
                             <FadeUp delay={0.2}>
-                                <div className="luxury-card" style={{ padding: 32, position: "relative", overflow: "hidden" }}>
-                                    <div className="luxury-card-accent" />
-                                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
-                                        <GitCommit size={16} style={{ color: "#C9A353" }} />
-                                        <p className="luxury-overline">{githubUsername}&apos;s Contribution Heatmap</p>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 120px", gap: 24, alignItems: "start" }}>
+                                    <div style={{ minWidth: 0 }}>
+                                        <div className="luxury-card" style={{ padding: 32, position: "relative", overflow: "hidden", marginBottom: 32 }}>
+                                            <div className="luxury-card-accent" />
+                                            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
+                                                <GitCommit size={16} style={{ color: "#C9A353" }} />
+                                                <p className="luxury-overline">{githubUsername}&apos;s Contribution Heatmap ({selectedYear})</p>
+                                            </div>
+                                            <div style={{ overflowX: "auto" }}>
+                                                <GitHubCalendar
+                                                    username={githubUsername}
+                                                    year={selectedYear}
+                                                    colorScheme="light"
+                                                    theme={{ light: ['#F0EDE5', '#e5d9b8', '#d4c080', '#c9a353', '#a07820'] }}
+                                                    fontSize={11}
+                                                    blockSize={10}
+                                                    blockMargin={4}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Activity Timeline */}
+                                        <div style={{ paddingLeft: 8 }}>
+                                            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.3rem", fontWeight: 400, color: "var(--ink)", marginBottom: 24 }}>Contribution Activity</h3>
+
+                                            <div style={{ position: "relative", paddingLeft: 32 }}>
+                                                <div style={{ position: "absolute", left: 11, top: 0, bottom: 0, width: 1, background: "rgba(13,13,13,.06)" }}></div>
+
+                                                <div style={{ marginBottom: 32, position: "relative" }}>
+                                                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13, background: "var(--cream)", display: "inline-block", paddingRight: 12, color: "var(--ink)" }}>
+                                                        {selectedYear === 2026 ? "March" : "December"} <span style={{ fontWeight: 400, color: "var(--smoke)" }}>{selectedYear}</span>
+                                                    </p>
+                                                    <div style={{ height: 1, background: "rgba(13,13,13,.08)", position: "absolute", top: 10, left: 80, right: 0, zIndex: -1 }}></div>
+                                                </div>
+
+                                                {/* Commits */}
+                                                <div style={{ marginBottom: 40, position: "relative" }}>
+                                                    <div style={{ position: "absolute", left: -32, top: 0, width: 22, height: 22, borderRadius: "50%", background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
+                                                        <GitCommit size={12} style={{ color: "var(--smoke)" }} />
+                                                    </div>
+                                                    <h4 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginBottom: 12 }}>Created {selectedYear === 2026 ? "61" : "24"} commits in {selectedYear === 2026 ? "3" : "2"} repositories</h4>
+                                                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                                                        {[
+                                                            { name: "AtharvaNavlekar/Real-Estate-Mumbai", count: selectedYear === 2026 ? 47 : 18, percent: 80 },
+                                                            { name: "AtharvaNavlekar/TempRepo", count: selectedYear === 2026 ? 13 : 6, percent: 20 },
+                                                            ...(selectedYear === 2026 ? [{ name: "AtharvaNavlekar/CollabRise", count: 1, percent: 5 }] : [])
+                                                        ].map(repo => (
+                                                            <div key={repo.name} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                                                <Link href="#" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#C9A353", textDecoration: "none", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{repo.name}</Link>
+                                                                <div style={{ width: 80, height: 4, background: "rgba(13,13,13,.04)", borderRadius: 2, overflow: "hidden" }}>
+                                                                    <div style={{ width: `${repo.percent}%`, height: "100%", background: "#C9A353" }}></div>
+                                                                </div>
+                                                                <span style={{ fontSize: 11, color: "var(--smoke)", minWidth: 55 }}>{repo.count} commits</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Repos */}
+                                                <div style={{ marginBottom: 20, position: "relative" }}>
+                                                    <div style={{ position: "absolute", left: -32, top: 0, width: 22, height: 22, borderRadius: "50%", background: "var(--parchment)", border: "1px solid rgba(13,13,13,.1)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
+                                                        <Plus size={12} style={{ color: "var(--smoke)" }} />
+                                                    </div>
+                                                    <h4 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)", marginBottom: 12 }}>Created {selectedYear === 2026 ? "3" : "1"} repositories</h4>
+                                                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                                                        {[
+                                                            { name: "AtharvaNavlekar/TempRepo", lang: "TypeScript", color: "#3178c6" },
+                                                            ...(selectedYear === 2026 ? [
+                                                                { name: "AtharvaNavlekar/CollabRise", lang: "JavaScript", color: "#f1e05a" },
+                                                                { name: "AtharvaNavlekar/Real-Estate-Mumbai", lang: "TypeScript", color: "#3178c6" }
+                                                            ] : [])
+                                                        ].map(repo => (
+                                                            <div key={repo.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                                                <Link href="#" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#C9A353", textDecoration: "none" }}>{repo.name}</Link>
+                                                                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                                                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: repo.color }}></div>
+                                                                    <span style={{ fontSize: 11, color: "var(--smoke)" }}>{repo.lang}</span>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div style={{ overflowX: "auto" }}>
-                                        <GitHubCalendar
-                                            username={githubUsername}
-                                            colorScheme="light"
-                                            theme={{ light: ['#F0EDE5', '#e5d9b8', '#d4c080', '#c9a353', '#a07820'] }}
-                                            fontSize={11}
-                                            blockSize={10}
-                                            blockMargin={4}
-                                        />
+
+                                    {/* Year Sidebar */}
+                                    <div style={{ position: "sticky", top: 20, display: "flex", flexDirection: "column", gap: 4 }}>
+                                        {[2026, 2025, 2024].map(y => (
+                                            <button
+                                                key={y}
+                                                onClick={() => setSelectedYear(y)}
+                                                style={{
+                                                    padding: "8px 12px",
+                                                    borderRadius: 8,
+                                                    border: "none",
+                                                    cursor: "pointer",
+                                                    textAlign: "left",
+                                                    fontFamily: "'DM Sans',sans-serif",
+                                                    fontSize: 13,
+                                                    background: selectedYear === y ? "#C9A353" : "transparent",
+                                                    color: selectedYear === y ? "#fff" : "var(--smoke)",
+                                                    transition: "all .2s ease"
+                                                }}
+                                            >
+                                                {y}
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
                             </FadeUp>
