@@ -11,7 +11,7 @@ export default function PulsePage() {
                     {[{ l: "Active Now", v: "342", i: <Users size={16} style={{ color: "#C9A353" }} /> }, { l: "Ships Today", v: String(14 + count), i: <Zap size={16} style={{ color: "#C9A353" }} /> }, { l: "Commits/hr", v: "1,247", i: <TrendingUp size={16} style={{ color: "#C9A353" }} /> }, { l: "Uptime", v: "99.98%", i: <Activity size={16} style={{ color: "#C9A353" }} /> }].map(s => (<div key={s.l} className="luxury-card" style={{ padding: 24, textAlign: "center" }}><div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>{s.i}</div><p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.8rem", fontStyle: "italic", color: "#C9A353" }}>{s.v}</p><p className="luxury-overline">{s.l}</p></div>))}
                 </div>
                 <div className="luxury-card" style={{ padding: 32, textAlign: "center", minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--smoke)" }}>📈 Live activity graph will render here</p>
+                    <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--smoke)", display: "flex", alignItems: "center", gap: "8px" }}><TrendingUp size={16} /> Live activity graph will render here</p>
                 </div>
             </div></div>
     );

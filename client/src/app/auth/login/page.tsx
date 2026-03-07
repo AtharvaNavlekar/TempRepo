@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowRight, Github, Wallet } from "lucide-react";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -92,7 +92,7 @@ export default function LoginPage() {
 
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                         <button className="btn-secondary" style={{ justifyContent: "center" }}><Github size={14} /> GitHub</button>
-                        <button className="btn-secondary" style={{ justifyContent: "center" }}>🔗 Wallet</button>
+                        <button className="btn-secondary" style={{ justifyContent: "center", gap: "6px" }}><Wallet size={14} /> Wallet</button>
                     </div>
 
                     <p style={{ textAlign: "center", marginTop: 28, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>

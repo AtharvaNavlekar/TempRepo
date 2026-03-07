@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Check, ArrowRight } from "lucide-react";
+import { Search, Check, ArrowRight, Zap, Globe, BrainCircuit, Wrench, Palette, Code } from "lucide-react";
 
 const GUILDS = [
-    { id: "react", name: "The React Core", emoji: "⚡", memberCount: 1420 },
-    { id: "3d", name: "Spatial Web", emoji: "🌐", memberCount: 384 },
-    { id: "ai", name: "Neural Ops", emoji: "🧠", memberCount: 2105 },
-    { id: "hardware", name: "Iron & Silicon", emoji: "🔧", memberCount: 156 },
-    { id: "design", name: "Pixel Perfect", emoji: "🎨", memberCount: 890 },
-    { id: "rust", name: "Rustaceans", emoji: "🦀", memberCount: 450 },
+    { id: "react", name: "The React Core", icon: <Zap size={24} />, memberCount: 1420 },
+    { id: "3d", name: "Spatial Web", icon: <Globe size={24} />, memberCount: 384 },
+    { id: "ai", name: "Neural Ops", icon: <BrainCircuit size={24} />, memberCount: 2105 },
+    { id: "hardware", name: "Iron & Silicon", icon: <Wrench size={24} />, memberCount: 156 },
+    { id: "design", name: "Pixel Perfect", icon: <Palette size={24} />, memberCount: 890 },
+    { id: "rust", name: "Rustaceans", icon: <Code size={24} />, memberCount: 450 },
 ];
 
 export default function GuildSelectionPage() {
@@ -59,7 +59,7 @@ export default function GuildSelectionPage() {
                                         }}>
                                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                                             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                                                <span style={{ fontSize: "1.5rem" }}>{guild.emoji}</span>
+                                                <span style={{ display: "flex", alignItems: "center", color: "var(--ink)" }}>{guild.icon}</span>
                                                 <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", fontWeight: 400, color: "var(--ink)" }}>{guild.name}</h3>
                                             </div>
                                             <div style={{

@@ -3,21 +3,21 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Rocket } from "lucide-react";
+import { Rocket, Zap, Palette, Wrench, Flame, Music, PenTool, Globe, Timer, Microscope, Users, Briefcase } from "lucide-react";
 
 const TEMPLATES = [
-    { key: "code-lab", label: "Code Lab", emoji: "⚡", desc: "Full-stack development with CI/CD" },
-    { key: "design-studio", label: "Design Studio", emoji: "🎨", desc: "Visual design with handoff tools" },
-    { key: "hardware", label: "Hardware Workshop", emoji: "🔧", desc: "BOM tracking, PCB, 3D print" },
-    { key: "culinary", label: "Culinary Lab", emoji: "🔥", desc: "Recipe dev & ingredient costing" },
-    { key: "music", label: "Music Studio", emoji: "🎵", desc: "DAW sync, stems, distribution" },
-    { key: "writing", label: "Writing Room", emoji: "✍️", desc: "Version control & editorial" },
-    { key: "open-source", label: "Open Source", emoji: "🌐", desc: "Contributor management & releases" },
-    { key: "startup", label: "Startup Sprint", emoji: "🚀", desc: "Pitch deck, financials, CRM" },
-    { key: "hackathon", label: "Hackathon", emoji: "⏱️", desc: "Countdown & submission deadline" },
-    { key: "research", label: "Research", emoji: "🔬", desc: "Literature DB & experiments" },
-    { key: "community", label: "Community", emoji: "👥", desc: "Event management & content" },
-    { key: "freelance", label: "Freelance", emoji: "💼", desc: "Scope builder & milestone billing" },
+    { key: "code-lab", label: "Code Lab", icon: <Zap size={24} />, desc: "Full-stack development with CI/CD" },
+    { key: "design-studio", label: "Design Studio", icon: <Palette size={24} />, desc: "Visual design with handoff tools" },
+    { key: "hardware", label: "Hardware Workshop", icon: <Wrench size={24} />, desc: "BOM tracking, PCB, 3D print" },
+    { key: "culinary", label: "Culinary Lab", icon: <Flame size={24} />, desc: "Recipe dev & ingredient costing" },
+    { key: "music", label: "Music Studio", icon: <Music size={24} />, desc: "DAW sync, stems, distribution" },
+    { key: "writing", label: "Writing Room", icon: <PenTool size={24} />, desc: "Version control & editorial" },
+    { key: "open-source", label: "Open Source", icon: <Globe size={24} />, desc: "Contributor management & releases" },
+    { key: "startup", label: "Startup Sprint", icon: <Rocket size={24} />, desc: "Pitch deck, financials, CRM" },
+    { key: "hackathon", label: "Hackathon", icon: <Timer size={24} />, desc: "Countdown & submission deadline" },
+    { key: "research", label: "Research", icon: <Microscope size={24} />, desc: "Literature DB & experiments" },
+    { key: "community", label: "Community", icon: <Users size={24} />, desc: "Event management & content" },
+    { key: "freelance", label: "Freelance", icon: <Briefcase size={24} />, desc: "Scope builder & milestone billing" },
 ];
 const VISIBILITY_OPTIONS = ["Public", "Guild-Only", "Invite-Only", "Private"];
 
@@ -75,7 +75,7 @@ export default function NewProjectPage() {
                             {TEMPLATES.map(t => (
                                 <motion.button key={t.key} whileTap={{ scale: 0.97 }} onClick={() => setTemplate(t.key)} style={{ all: "unset", cursor: "pointer" }}>
                                     <div className="luxury-card" style={{ padding: 20, textAlign: "left", borderColor: template === t.key ? "rgba(201,163,83,.5)" : undefined, background: template === t.key ? "rgba(201,163,83,.04)" : "#fff" }}>
-                                        <p style={{ fontSize: "1.4rem", marginBottom: 8 }}>{t.emoji}</p>
+                                        <div style={{ marginBottom: 8, color: "var(--ink)" }}>{t.icon}</div>
                                         <h3 style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 13, color: "var(--ink)", marginBottom: 4 }}>{t.label}</h3>
                                         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)" }}>{t.desc}</p>
                                     </div>
@@ -100,7 +100,7 @@ export default function NewProjectPage() {
                         <div className="luxury-card" style={{ padding: 36, borderColor: "rgba(201,163,83,.2)", background: "rgba(201,163,83,.03)" }}>
                             <p className="luxury-overline" style={{ marginBottom: 16 }}>Summary Preview</p>
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-                                {[{ l: "Name", v: title || "Untitled" }, { l: "Template", v: `${TEMPLATES.find(t => t.key === template)?.emoji} ${TEMPLATES.find(t => t.key === template)?.label}` }, { l: "Duration", v: `${duration} days` }, { l: "Max Founders", v: String(maxBuilders) }, { l: "Visibility", v: visibility }, { l: "Staked", v: `${stake} pts` }].map(s => (
+                                {[{ l: "Name", v: title || "Untitled" }, { l: "Template", v: <span style={{ display: "flex", gap: "6px", alignItems: "center" }}>{TEMPLATES.find(t => t.key === template)?.icon} {TEMPLATES.find(t => t.key === template)?.label}</span> }, { l: "Duration", v: `${duration} days` }, { l: "Max Founders", v: String(maxBuilders) }, { l: "Visibility", v: visibility }, { l: "Staked", v: `${stake} pts` }].map(s => (
                                     <div key={s.l}><p className="luxury-overline">{s.l}</p><p style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--ink)" }}>{s.v}</p></div>
                                 ))}
                             </div>

@@ -3,17 +3,17 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
-import { Search, Users, TrendingUp, Plus, ChevronRight } from "lucide-react";
+import { Search, Users, TrendingUp, Plus, ChevronRight, Zap, Code, Palette, Flame, Music, Wrench, PenTool, Hammer } from "lucide-react";
 
 const GUILDS = [
-    { slug: "react", name: "React Guild", emoji: "⚡", members: 2400, projects: 142, ships: 890, status: "live" as const, description: "Component architecture, state machines, and server components.", topBuilder: "0xNeo", topScore: 12400, growth: "+12%" },
-    { slug: "rust", name: "Rust Guild", emoji: "🦀", members: 1800, projects: 89, ships: 560, status: "live" as const, description: "Systems programming, zero-cost abstractions, memory safety.", topBuilder: "CryptoMage", topScore: 11800, growth: "+8%" },
-    { slug: "design", name: "Design Guild", emoji: "🎨", members: 3100, projects: 210, ships: 1200, status: "live" as const, description: "Product design, design systems, and user experience.", topBuilder: "DesignSensei", topScore: 11200, growth: "+15%" },
-    { slug: "culinary", name: "Culinary Guild", emoji: "🔥", members: 890, projects: 45, ships: 280, status: "building" as const, description: "Recipe development, food science, and restaurant tech.", topBuilder: "ChefMika", topScore: 4200, growth: "+22%" },
-    { slug: "music", name: "Music Guild", emoji: "🎵", members: 670, projects: 34, ships: 190, status: "building" as const, description: "Audio production, sound design, and generative music.", topBuilder: "SoundSmith", topScore: 3800, growth: "+18%" },
-    { slug: "maker", name: "Maker Guild", emoji: "🔧", members: 1200, projects: 78, ships: 400, status: "live" as const, description: "Physical fabrication, CNC, 3D printing, electronics.", topBuilder: "MakerJoe", topScore: 7800, growth: "+10%" },
-    { slug: "writing", name: "Writing Guild", emoji: "✍️", members: 1500, projects: 120, ships: 720, status: "live" as const, description: "Technical writing, content creation, and publishing.", topBuilder: "WriterAsh", topScore: 7200, growth: "+9%" },
-    { slug: "woodworking", name: "Woodworking Guild", emoji: "🪵", members: 430, projects: 22, ships: 110, status: "shipped" as const, description: "Traditional joinery, CNC woodworking, furniture design.", topBuilder: "WoodMaster", topScore: 5400, growth: "+5%" },
+    { slug: "react", name: "React Guild", icon: <Zap size={22} />, members: 2400, projects: 142, ships: 890, status: "live" as const, description: "Component architecture, state machines, and server components.", topBuilder: "0xNeo", topScore: 12400, growth: "+12%" },
+    { slug: "rust", name: "Rust Guild", icon: <Code size={22} />, members: 1800, projects: 89, ships: 560, status: "live" as const, description: "Systems programming, zero-cost abstractions, memory safety.", topBuilder: "CryptoMage", topScore: 11800, growth: "+8%" },
+    { slug: "design", name: "Design Guild", icon: <Palette size={22} />, members: 3100, projects: 210, ships: 1200, status: "live" as const, description: "Product design, design systems, and user experience.", topBuilder: "DesignSensei", topScore: 11200, growth: "+15%" },
+    { slug: "culinary", name: "Culinary Guild", icon: <Flame size={22} />, members: 890, projects: 45, ships: 280, status: "building" as const, description: "Recipe development, food science, and restaurant tech.", topBuilder: "ChefMika", topScore: 4200, growth: "+22%" },
+    { slug: "music", name: "Music Guild", icon: <Music size={22} />, members: 670, projects: 34, ships: 190, status: "building" as const, description: "Audio production, sound design, and generative music.", topBuilder: "SoundSmith", topScore: 3800, growth: "+18%" },
+    { slug: "maker", name: "Maker Guild", icon: <Wrench size={22} />, members: 1200, projects: 78, ships: 400, status: "live" as const, description: "Physical fabrication, CNC, 3D printing, electronics.", topBuilder: "MakerJoe", topScore: 7800, growth: "+10%" },
+    { slug: "writing", name: "Writing Guild", icon: <PenTool size={22} />, members: 1500, projects: 120, ships: 720, status: "live" as const, description: "Technical writing, content creation, and publishing.", topBuilder: "WriterAsh", topScore: 7200, growth: "+9%" },
+    { slug: "woodworking", name: "Woodworking Guild", icon: <Hammer size={22} />, members: 430, projects: 22, ships: 110, status: "shipped" as const, description: "Traditional joinery, CNC woodworking, furniture design.", topBuilder: "WoodMaster", topScore: 5400, growth: "+5%" },
 ];
 
 const STATUS_STYLE: Record<string, { label: string; color: string; bg: string; border: string }> = {
@@ -84,8 +84,8 @@ export default function GuildDirectoryPage() {
                                         <div className="luxury-card-accent" />
                                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
                                             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                                <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem" }}>
-                                                    {g.emoji}
+                                                <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#C9A353" }}>
+                                                    {g.icon}
                                                 </div>
                                                 <div>
                                                     <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem", fontWeight: 400, color: "var(--ink)", marginBottom: 4 }}>{g.name}</h3>

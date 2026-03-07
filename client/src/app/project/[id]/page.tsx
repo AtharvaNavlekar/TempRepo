@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
-import { Rocket, Radio, FileArchive, ChevronRight, AlertTriangle } from "lucide-react";
+import { Rocket, Radio, FileArchive, ChevronRight, AlertTriangle, Zap } from "lucide-react";
 
 const NAV = [
     { label: "Overview", href: "" }, { label: "Milestones", href: "milestones" }, { label: "Assets", href: "assets" },
@@ -40,7 +40,7 @@ export default function WarRoomPage() {
                                 <span style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 10px", background: "rgba(201,163,83,.1)", border: "1px solid rgba(201,163,83,.2)", borderRadius: 9999, fontFamily: "'DM Sans',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#977833" }}>
                                     <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#C9A353" }} /> Building
                                 </span>
-                                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)" }}>⚡ React Guild</span>
+                                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--smoke)", display: "flex", alignItems: "center", gap: 4 }}><Zap size={12} /> React Guild</span>
                             </div>
                             <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,3vw,2.5rem)", fontWeight: 400, color: "var(--ink)", lineHeight: 1.2, marginBottom: 8 }}>Decentralized Identity Layer</h1>
                             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--smoke)", maxWidth: 580, lineHeight: 1.7 }}>Self-sovereign identity protocol replacing centralized credentialing. Built on zero-knowledge proofs.</p>

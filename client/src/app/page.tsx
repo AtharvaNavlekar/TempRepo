@@ -6,7 +6,6 @@ import {
     useTransform,
     useScroll,
     useSpring,
-    AnimatePresence,
     useReducedMotion,
     useInView,
 } from "framer-motion";
@@ -21,8 +20,17 @@ import type { ReactNode } from "react";
 import { useRef, useEffect, useState, useCallback } from "react";
 import { LineDivider } from "@/components/landing/LineDivider";
 import EntrepreneurTicker from "@/components/landing/EntrepreneurTicker";
-import Reveal from "@/components/landing/Reveal";
-import CountUp from "@/components/landing/CountUp";
+import dynamic from "next/dynamic";
+
+const Hero3D = dynamic(() => import("@/components/landing/Hero3D"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-full flex flex-col items-center justify-center gap-4 opacity-50">
+            <div className="w-16 h-16 rounded-full border-t-2 border-r-2 border-[#C9A353] animate-spin" />
+            <p className="dmsans text-[10px] tracking-widest uppercase text-[#C9A353]">Loading Artifact</p>
+        </div>
+    )
+});
 
 /* ══════════════════════════════════════════════════════════════════
    DESIGN TOKENS — Mobbin-luxury fusion
@@ -402,75 +410,6 @@ function MiniVentureCard({ venture, delay }: { venture: typeof HERO_VENTURES[0];
     );
 }
 
-/* ══════════════════════════════════════════════════════════════════
-   LIVE SCORE CARD — hero right side
-══════════════════════════════════════════════════════════════════ */
-function LiveScoreCard() {
-    const [score, setScore] = useState(2847);
-    const shouldReduce = useReducedMotion();
-    useEffect(() => {
-        const t = setInterval(() => setScore(s => s + Math.floor(Math.random() * 3 + 1)), 3500);
-        return () => clearInterval(t);
-    }, []);
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className={!shouldReduce ? "float-anim" : ""}
-        >
-            <div className="bg-white rounded-3xl p-7 w-[260px] border border-black/[0.06]"
-                style={{ boxShadow: "0 16px 60px rgba(13,13,13,0.12), 0 0 0 1px rgba(201,163,83,0.08)" }}>
-                {/* Header */}
-                <div className="flex items-center justify-between mb-5">
-                    <div className="flex items-center gap-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />
-                        <span className="dmsans text-[9px] font-medium text-ink/40 uppercase tracking-[.18em]">Live Profile</span>
-                    </div>
-                    <span className="proto-tag">Verified ✓</span>
-                </div>
-                {/* Avatar row */}
-                <div className="flex items-center gap-3 mb-5">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg"
-                        style={{ background: "linear-gradient(135deg, #C9A353, #E5C97A)" }}>A</div>
-                    <div>
-                        <p className="dmsans font-semibold text-[13px] text-ink">Arjun M.</p>
-                        <p className="dmsans text-[10px] text-ink/40">@arjun.ventures</p>
-                    </div>
-                </div>
-                {/* Score */}
-                <div className="mb-4">
-                    <p className="dmsans text-[9px] font-medium text-ink/35 uppercase tracking-[.2em] mb-1">Venture Score</p>
-                    <div className="flex items-end gap-2">
-                        <motion.p key={score} initial={{ y: -4, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-                            className="plfd italic text-[2.8rem] font-light leading-none" style={{ color: "#C9A353" }}>
-                            {score.toLocaleString()}
-                        </motion.p>
-                        <span className="dmsans text-emerald-500 text-[10px] font-semibold mb-1.5">+3 ↑</span>
-                    </div>
-                    <div className="mt-2 h-1 bg-black/5 rounded-full overflow-hidden">
-                        <motion.div className="h-full rounded-full"
-                            style={{ background: "linear-gradient(90deg, #C9A353, #E5C97A)" }}
-                            initial={{ width: 0 }} animate={{ width: "71%" }}
-                            transition={{ delay: 1.6, duration: 1.4, ease: [0.16, 1, 0.3, 1] }} />
-                    </div>
-                    <p className="dmsans text-[9px] text-ink/30 mt-1.5">71% · Tier IV · Founding Archon</p>
-                </div>
-                <div className="rule-gold mb-4" />
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5">
-                    {["GitHub ✓", "Figma ✓", "Live URL ✓"].map((t, i) => (
-                        <motion.span key={t} initial={{ opacity: 0, scale: .85 }} animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 1.8 + i * 0.1 }}
-                            className="dmsans text-[9px] font-medium px-2.5 py-1.5 rounded-full bg-[#F7F4EE] border border-black/[.07] text-ink/50">
-                            {t}
-                        </motion.span>
-                    ))}
-                </div>
-            </div>
-        </motion.div>
-    );
-}
 
 /* ══════════════════════════════════════════════════════════════════
    FEATURE SECTION — Explore Feed mockup
@@ -849,7 +788,7 @@ function TestimonialsSection() {
                             { quote: "Went from 0 to 4,100 score in 60 days. No gatekeepers.", name: "Aditya R.", role: "Full-Stack Builder" },
                         ].map((m, i) => (
                             <div key={i} className="tcard" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                                <p className="plfd italic" style={{ fontSize: "1rem", color: "rgba(13,13,13,.75)", lineHeight: "1.7" }}>"{m.quote}"</p>
+                                <p className="plfd italic" style={{ fontSize: "1rem", color: "rgba(13,13,13,.75)", lineHeight: "1.7" }}>&quot;{m.quote}&quot;</p>
                                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                                     <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(201,163,83,.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#C9A353", fontSize: "11px", fontWeight: "bold" }}>{m.name[0]}</div>
                                     <div>
@@ -876,7 +815,7 @@ function TestimonialCard({ t, featured }: { t: typeof TESTIMONIALS[0]; featured?
                 ))}
             </div>
             {/* Quote */}
-            <blockquote className="plfd italic" style={{ fontSize: "1.05rem", color: "rgba(13,13,13,.82)", lineHeight: "1.75", flex: 1 }}>"{t.quote}"</blockquote>
+            <blockquote className="plfd italic" style={{ fontSize: "1.05rem", color: "rgba(13,13,13,.82)", lineHeight: "1.75", flex: 1 }}>&quot;{t.quote}&quot;</blockquote>
             {/* Rule */}
             <div className="rule-gold" />
             {/* Author row */}
@@ -906,243 +845,95 @@ function TestimonialCard({ t, featured }: { t: typeof TESTIMONIALS[0]; featured?
    HERO 3D SECTION — Orbital rings, floating cards, parallax depth
 ══════════════════════════════════════════════════════════════════ */
 function Hero3DSection() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    const rotateX = useTransform(mouseY, [-300, 300], [5, -5]);
-    const rotateY = useTransform(mouseX, [-300, 300], [-5, 5]);
-    const springRotX = useSpring(rotateX, { stiffness: 60, damping: 20 });
-    const springRotY = useSpring(rotateY, { stiffness: 60, damping: 20 });
     const shouldReduce = useReducedMotion();
-
-    const handleMouse = useCallback((e: React.MouseEvent) => {
-        if (!containerRef.current || shouldReduce) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        mouseX.set(e.clientX - rect.left - rect.width / 2);
-        mouseY.set(e.clientY - rect.top - rect.height / 2);
-    }, [mouseX, mouseY, shouldReduce]);
-
-    const handleLeave = useCallback(() => {
-        mouseX.set(0);
-        mouseY.set(0);
-    }, [mouseX, mouseY]);
-
-    // Floating cards positioned around the orbit
-    const ORBIT_CARDS = [
-        { name: "NeuralLeap", score: "3,241", tag: "AI", x: "72%", y: "12%", delay: 0, dur: 7 },
-        { name: "Raft", score: "4,102", tag: "Dev Tools", x: "85%", y: "45%", delay: 0.6, dur: 8 },
-        { name: "CarbonKart", score: "2,847", tag: "CleanTech", x: "75%", y: "75%", delay: 1.2, dur: 6.5 },
-        { name: "ShipFast", score: "3,600", tag: "SaaS", x: "15%", y: "68%", delay: 0.3, dur: 7.5 },
-        { name: "Horizon", score: "5,011", tag: "NLP", x: "5%", y: "35%", delay: 0.9, dur: 9 },
-        { name: "VaultChain", score: "2,388", tag: "Web3", x: "22%", y: "8%", delay: 1.5, dur: 6 },
-    ];
 
     return (
         <section
-            ref={containerRef}
-            onMouseMove={handleMouse}
-            onMouseLeave={handleLeave}
             style={{
                 position: "relative",
                 minHeight: "100vh",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                padding: "120px 0 60px",
+                alignItems: "center",
+                padding: "120px 24px 60px",
                 overflow: "hidden",
                 background: "var(--cream)",
             }}
         >
-            {/* Dot grid */}
-            <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(13,13,13,.04) 1px, transparent 1px)", backgroundSize: "44px 44px", pointerEvents: "none" }} />
+            {/* The Full-Screen 3D Background */}
+            <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+                <Hero3D />
+            </div>
 
-            {/* Gold radial glow */}
-            <div style={{ position: "absolute", top: "-10%", left: "50%", transform: "translateX(-50%)", width: "1200px", height: "700px", background: "radial-gradient(ellipse 70% 60% at 50% 30%, rgba(201,163,83,.09), transparent 65%)", pointerEvents: "none" }} />
+            {/* Radial Vignette to ensure text readability */}
+            <div style={{
+                position: "absolute",
+                inset: 0,
+                background: "radial-gradient(circle at 50% 50%, transparent 20%, var(--cream) 120%)",
+                zIndex: 5,
+                pointerEvents: "none"
+            }} />
 
-            <div style={{ maxWidth: "1400px", margin: "0 auto", width: "100%", padding: "0 48px", position: "relative" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", alignItems: "center" }}>
+            <div style={{ position: "relative", zIndex: 10, maxWidth: "900px", width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
 
-                    {/* ── LEFT: editorial headline ── */}
-                    <div style={{ position: "relative", zIndex: 10 }}>
-                        {/* Overline */}
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, delay: 0.3 }} style={{ marginBottom: "28px" }}>
-                            <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "7px 16px", borderRadius: "999px", background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.2)" }}>
-                                <Sparkles size={12} style={{ color: "#C9A353" }} />
-                                <span className="dmsans" style={{ fontSize: "10px", fontWeight: 500, color: "#C9A353", letterSpacing: ".2em", textTransform: "uppercase" }}>Proof-of-Work Protocol</span>
-                            </div>
-                        </motion.div>
-
-                        {/* Headline */}
-                        <motion.h1 className="plfd" initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                            style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)", fontWeight: 700, color: "var(--ink)", lineHeight: "0.95", letterSpacing: "-.03em", marginBottom: "28px" }}>
-                            Your legacy is<br />written in what<br /><em className="gold-shimmer-text" style={{ fontStyle: "italic", fontWeight: 400 }}>you ship.</em>
-                        </motion.h1>
-
-                        {/* Rule */}
-                        <motion.div className="rule-gold" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, delay: 0.8 }} style={{ marginBottom: "28px", maxWidth: "200px", transformOrigin: "left" }} />
-
-                        {/* Sub */}
-                        <motion.p className="dmsans" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.9 }}
-                            style={{ fontSize: "15.5px", fontWeight: 300, color: "var(--smoke)", lineHeight: "1.85", maxWidth: "440px", marginBottom: "40px" }}>
-                            CollabRise replaces your résumé with verifiable proof of everything you have actually shipped. No credentials. No gatekeepers. Just your work — quantified, verified, impossible to fake.
-                        </motion.p>
-
-                        {/* CTAs */}
-                        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .9, delay: 1.1 }} style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "40px" }}>
-                            <Link href="/auth/create-account" className="btn-primary">
-                                Start Your Ship Log <ArrowRight size={14} strokeWidth={2} />
-                            </Link>
-                            <Link href="/feed" className="btn-secondary">
-                                <Play size={13} strokeWidth={2} /> Explore Ventures
-                            </Link>
-                        </motion.div>
-
-                        {/* Social proof row */}
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: .8 }}>
-                            <p className="dmsans" style={{ fontSize: "9px", fontWeight: 500, color: "rgba(13,13,13,.32)", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: "12px" }}>
-                                Trusted by founders from
-                            </p>
-                            <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
-                                {["Razorpay", "Peak XV", "CRED", "Zepto", "Meesho"].map((n, i) => (
-                                    <motion.span key={n} className="plfd" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 + i * 0.07 }}
-                                        style={{ fontSize: "13px", fontWeight: 400, color: "rgba(13,13,13,.22)", cursor: "default" }}>{n}</motion.span>
-                                ))}
-                            </div>
-                        </motion.div>
+                {/* Overline */}
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, delay: 0.3 }} style={{ marginBottom: "28px" }}>
+                    <div style={{
+                        display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 20px",
+                        borderRadius: "999px", background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.2)",
+                        backdropFilter: "blur(8px)"
+                    }}>
+                        <Sparkles size={14} style={{ color: "#C9A353" }} />
+                        <span className="dmsans" style={{ fontSize: "11px", fontWeight: 600, color: "#C9A353", letterSpacing: ".2em", textTransform: "uppercase" }}>The Proof-of-Work Protocol</span>
                     </div>
+                </motion.div>
 
-                    {/* ── RIGHT: 3D Orbital Scene ── */}
-                    <motion.div
-                        className="hero-3d-scene"
-                        style={{
-                            rotateX: shouldReduce ? 0 : springRotX,
-                            rotateY: shouldReduce ? 0 : springRotY,
-                            position: "relative",
-                            height: "640px",
-                        }}
-                    >
-                        {/* Orbit rings (pure CSS animated ellipses) */}
-                        <div className="orbit-ring orbit-ring-1" />
-                        <div className="orbit-ring orbit-ring-2" />
-                        <div className="orbit-ring orbit-ring-3" />
+                {/* Headline - Centered & Massive */}
+                <motion.h1 className="plfd" initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                        fontSize: "clamp(4rem, 9vw, 8rem)",
+                        fontWeight: 700, color: "var(--ink)", lineHeight: "0.9", letterSpacing: "-.04em", marginBottom: "32px",
+                        textShadow: "0 24px 48px rgba(13,13,13,0.15)"
+                    }}>
+                    Launch.<br />Prove.<br /><em className="gold-shimmer-text" style={{ fontStyle: "italic", fontWeight: 400 }}>Rise.</em>
+                </motion.h1>
 
-                        {/* Center golden hexagon glow */}
-                        <div style={{
-                            position: "absolute", top: "50%", left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            zIndex: 5,
-                        }}>
-                            <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                                style={{ width: "100px", height: "100px", position: "relative" }}
-                            >
-                                <div className="hex-shape" style={{
-                                    width: "100px", height: "100px",
-                                    background: "linear-gradient(135deg, rgba(201,163,83,.12), rgba(201,163,83,.03))",
-                                    border: "1px solid rgba(201,163,83,.2)",
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                }} />
-                            </motion.div>
-                            {/* Inner glow */}
-                            <div style={{
-                                position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-                                width: "200px", height: "200px", borderRadius: "50%",
-                                background: "radial-gradient(circle, rgba(201,163,83,.1) 0%, transparent 70%)",
-                                pointerEvents: "none",
-                            }} />
-                        </div>
+                {/* Subtitle */}
+                <motion.p className="dmsans" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.9 }}
+                    style={{ fontSize: "18px", fontWeight: 300, color: "var(--smoke)", lineHeight: "1.8", maxWidth: "600px", marginBottom: "48px" }}>
+                    CollabRise replaces your résumé with verifiable proof of everything you have actually shipped. No credentials. No gatekeepers. Just your work — quantified, verified, impossible to fake.
+                </motion.p>
 
-                        {/* Floating 3D venture mini-cards around the orbit */}
-                        {ORBIT_CARDS.map((card, i) => (
-                            <motion.div
-                                key={card.name}
-                                className="float-card-3d"
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.8 + card.delay, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                style={{
-                                    position: "absolute",
-                                    left: card.x,
-                                    top: card.y,
-                                    animationDelay: `${card.delay}s`,
-                                    animationDuration: `${card.dur}s`,
-                                    zIndex: 8,
-                                }}
-                            >
-                                <div style={{
-                                    background: "#fff",
-                                    borderRadius: "14px",
-                                    border: "1px solid rgba(13,13,13,.06)",
-                                    padding: "14px 16px",
-                                    boxShadow: "0 8px 32px rgba(13,13,13,.08), 0 0 0 1px rgba(201,163,83,.04)",
-                                    width: "140px",
-                                    cursor: "default",
-                                    transition: "box-shadow .4s, border-color .4s",
-                                }}>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-                                        <div style={{
-                                            width: "24px", height: "24px", borderRadius: "8px",
-                                            background: "linear-gradient(135deg, #C9A353, #E5C97A)",
-                                            display: "flex", alignItems: "center", justifyContent: "center",
-                                            color: "#fff", fontSize: "10px", fontWeight: "bold", flexShrink: 0,
-                                        }}>
-                                            {card.name[0]}
-                                        </div>
-                                        <div style={{ minWidth: 0 }}>
-                                            <p className="dmsans" style={{ fontSize: "10px", fontWeight: 600, color: "var(--ink)", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{card.name}</p>
-                                            <p className="dmsans" style={{ fontSize: "8px", color: "rgba(13,13,13,.3)" }}>{card.tag}</p>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-                                        <p className="plfd italic" style={{ fontSize: "1.15rem", color: "#C9A353", lineHeight: 1 }}>{card.score}</p>
-                                        <CheckCircle2 size={10} style={{ color: "#5B8A6F" }} />
-                                    </div>
-                                </div>
-                            </motion.div>
+                {/* CTAs */}
+                <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .9, delay: 1.1 }} style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center", marginBottom: "64px" }}>
+                    <Link href="/auth/create-account" className="btn-primary" style={{ padding: "16px 36px", fontSize: "15px", boxShadow: "0 12px 24px rgba(13,13,13,.15)" }}>
+                        Join the Circle
+                    </Link>
+                    <Link href="/feed" className="btn-gold-outline" style={{ padding: "16px 36px", fontSize: "15px", backdropFilter: "blur(8px)", background: "rgba(255,255,255,0.4)" }}>
+                        Explore the Ecosystem
+                    </Link>
+                </motion.div>
+
+                {/* Social proof row */}
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: .8 }}>
+                    <p className="dmsans" style={{ fontSize: "10px", fontWeight: 500, color: "rgba(13,13,13,.32)", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: "16px" }}>
+                        Trusted by founders from
+                    </p>
+                    <div style={{ display: "flex", gap: "32px", flexWrap: "wrap", justifyContent: "center" }}>
+                        {["Razorpay", "Peak XV", "CRED", "Zepto", "Meesho"].map((n, i) => (
+                            <motion.span key={n} className="plfd" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 + i * 0.07 }}
+                                style={{ fontSize: "15px", fontWeight: 400, color: "rgba(13,13,13,.22)", cursor: "default" }}>{n}</motion.span>
                         ))}
-
-                        {/* Live Score Card — floating front and center */}
-                        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 15 }}>
-                            <LiveScoreCard />
-                        </div>
-
-                        {/* Decorative small floating hexagons */}
-                        {[
-                            { x: "10%", y: "20%", size: 28, delay: 2 },
-                            { x: "88%", y: "30%", size: 22, delay: 3.5 },
-                            { x: "50%", y: "90%", size: 18, delay: 1 },
-                        ].map((hex, i) => (
-                            <motion.div
-                                key={i}
-                                className="float-card-3d"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 0.6 }}
-                                transition={{ delay: 1.5 + hex.delay * 0.3, duration: 1 }}
-                                style={{
-                                    position: "absolute",
-                                    left: hex.x, top: hex.y,
-                                    animationDelay: `${hex.delay}s`,
-                                    animationDuration: `${5 + i * 2}s`,
-                                    zIndex: 3,
-                                }}
-                            >
-                                <div className="hex-shape" style={{
-                                    width: `${hex.size}px`, height: `${hex.size}px`,
-                                    background: "linear-gradient(135deg, rgba(201,163,83,.15), rgba(201,163,83,.04))",
-                                    border: "1px solid rgba(201,163,83,.12)",
-                                }} />
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
+                    </div>
+                </motion.div>
             </div>
 
             {/* Scroll cue */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.0, duration: 1 }}
-                style={{ position: "absolute", bottom: "28px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-                <div className="scroll-line" style={{ width: "1px", height: "48px", background: "linear-gradient(180deg, transparent, rgba(13,13,13,.3), transparent)" }} />
-                <span className="dmsans" style={{ fontSize: "8px", fontWeight: 400, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(13,13,13,.25)" }}>Scroll</span>
+                style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", zIndex: 10 }}>
+                <div className="scroll-line" style={{ width: "1px", height: "64px", background: "linear-gradient(180deg, transparent, rgba(13,13,13,.4), transparent)" }} />
+                <span className="dmsans" style={{ fontSize: "9px", fontWeight: 500, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(13,13,13,.35)" }}>Scroll</span>
             </motion.div>
         </section>
     );

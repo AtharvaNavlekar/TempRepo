@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Zap, Palette, TrendingUp, Wrench } from "lucide-react";
 
 const IDENTITIES = [
-    { id: "tech", label: "Engineer", emoji: "⚡", desc: "Code is law. Algorithms and architecture.", tagline: "Build the future, one commit at a time." },
-    { id: "creative", label: "Creative", emoji: "🎨", desc: "Pixels, vectors, and sonic waves.", tagline: "Design experiences that move people." },
-    { id: "business", label: "Strategist", emoji: "📈", desc: "Operations, capital, and market dominance.", tagline: "Turn vision into revenue." },
-    { id: "physical", label: "Craftsman", emoji: "🔧", desc: "Atoms over bits. Hardware, fashion, mechanics.", tagline: "Shape the physical world." },
+    { id: "tech", label: "Engineer", icon: <Zap size={24} />, desc: "Code is law. Algorithms and architecture.", tagline: "Build the future, one commit at a time." },
+    { id: "creative", label: "Creative", icon: <Palette size={24} />, desc: "Pixels, vectors, and sonic waves.", tagline: "Design experiences that move people." },
+    { id: "business", label: "Strategist", icon: <TrendingUp size={24} />, desc: "Operations, capital, and market dominance.", tagline: "Turn vision into revenue." },
+    { id: "physical", label: "Craftsman", icon: <Wrench size={24} />, desc: "Atoms over bits. Hardware, fashion, mechanics.", tagline: "Shape the physical world." },
 ];
 
 export default function IdentitySelectionPage() {
@@ -62,8 +62,8 @@ export default function IdentitySelectionPage() {
                                         <div>
                                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
                                                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                                    <div style={{ width: 48, height: 48, borderRadius: 14, background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem" }}>
-                                                        {identity.emoji}
+                                                    <div style={{ width: 48, height: 48, borderRadius: 14, background: "rgba(201,163,83,.08)", border: "1px solid rgba(201,163,83,.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#C9A353" }}>
+                                                        {identity.icon}
                                                     </div>
                                                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.5rem", fontWeight: 400, color: "var(--ink)" }}>
                                                         {identity.label}

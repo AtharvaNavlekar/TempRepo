@@ -3,11 +3,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
-import { Search, X } from "lucide-react";
+import { Search, X, Zap, Palette, Wrench, Flame, Music, PenTool, Hammer, Banknote, Landmark, Trophy, Telescope } from "lucide-react";
 
 const CATEGORIES = ["ALL", "CODE", "DESIGN", "HARDWARE", "CULINARY", "MUSIC", "WRITING", "MAKER"];
 const SORT_OPTIONS = ["RELEVANCE", "SCORE ↓", "NEWEST", "ENDING SOON"];
-const TYPE_EMOJIS: Record<string, string> = { CODE: "⚡", DESIGN: "🎨", HARDWARE: "🔧", CULINARY: "🔥", MUSIC: "🎵", WRITING: "✍️", MAKER: "🛠️" };
+const TYPE_EMOJIS: Record<string, React.ReactNode> = { CODE: <Zap size={16} />, DESIGN: <Palette size={16} />, HARDWARE: <Wrench size={16} />, CULINARY: <Flame size={16} />, MUSIC: <Music size={16} />, WRITING: <PenTool size={16} />, MAKER: <Hammer size={16} /> };
 
 const RESULTS = [
     { id: "proj-001", title: "Decentralized Identity Layer", type: "CODE", score: 2400, builders: 4, status: "building", guild: "React Guild", description: "Self-sovereign identity protocol replacing centralized credentialing.", progress: 67, tags: ["Rust", "WASM"] },
@@ -64,13 +64,14 @@ export default function SearchPage() {
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                         {CATEGORIES.map(cat => (
                             <motion.button key={cat} whileTap={{ scale: 0.95 }} onClick={() => setActiveCategory(cat)} style={{
+                                display: "inline-flex", alignItems: "center", gap: "6px",
                                 padding: "7px 14px", fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500,
                                 letterSpacing: ".1em", textTransform: "uppercase", borderRadius: 9999, border: "1px solid", cursor: "pointer", transition: "all .2s",
                                 background: activeCategory === cat ? "var(--ink)" : "transparent",
                                 color: activeCategory === cat ? "#fff" : "rgba(13,13,13,.4)",
                                 borderColor: activeCategory === cat ? "var(--ink)" : "rgba(13,13,13,.12)",
                             }}>
-                                {TYPE_EMOJIS[cat] ? `${TYPE_EMOJIS[cat]} ` : ""}{cat}
+                                {TYPE_EMOJIS[cat] && <span>{TYPE_EMOJIS[cat]}</span>}{cat}
                             </motion.button>
                         ))}
                     </div>
@@ -89,8 +90,8 @@ export default function SearchPage() {
                             <motion.div key={r.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, type: "spring", stiffness: 200 }}>
                                 <Link href={`/project/${r.id}`} style={{ textDecoration: "none" }}>
                                     <div className="luxury-card" style={{ padding: 20, display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }}>
-                                        <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(201,163,83,.07)", border: "1px solid rgba(201,163,83,.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem", flexShrink: 0 }}>
-                                            {TYPE_EMOJIS[r.type] || "📁"}
+                                        <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(201,163,83,.07)", border: "1px solid rgba(201,163,83,.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#C9A353", flexShrink: 0 }}>
+                                            {TYPE_EMOJIS[r.type] || <Search size={20} />}
                                         </div>
                                         <div style={{ flex: 1 }}>
                                             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
@@ -136,14 +137,14 @@ export default function SearchPage() {
                     <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(201,163,83,.4), transparent)", marginBottom: 40 }} />
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
                         {[
-                            { label: "Browse Bounties", href: "/bounties", emoji: "💰" },
-                            { label: "Explore Guilds", href: "/guilds", emoji: "🏛️" },
-                            { label: "Leaderboard", href: "/leaderboard", emoji: "🏆" },
-                            { label: "Discovery Feed", href: "/feed", emoji: "🔭" },
+                            { label: "Browse Bounties", href: "/bounties", icon: <Banknote size={24} /> },
+                            { label: "Explore Guilds", href: "/guilds", icon: <Landmark size={24} /> },
+                            { label: "Leaderboard", href: "/leaderboard", icon: <Trophy size={24} /> },
+                            { label: "Discovery Feed", href: "/feed", icon: <Telescope size={24} /> },
                         ].map(l => (
                             <Link key={l.href} href={l.href} style={{ textDecoration: "none" }}>
                                 <div className="luxury-card" style={{ padding: 20, textAlign: "center", cursor: "pointer" }}>
-                                    <p style={{ fontSize: "1.5rem", marginBottom: 8 }}>{l.emoji}</p>
+                                    <div style={{ display: "flex", justifyContent: "center", marginBottom: 8, color: "var(--ink)" }}>{l.icon}</div>
                                     <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--ink)", fontWeight: 500 }}>{l.label}</p>
                                 </div>
                             </Link>

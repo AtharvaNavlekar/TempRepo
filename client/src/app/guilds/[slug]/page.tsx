@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, Award, MessageCircle } from "lucide-react";
+import { Users, Award, MessageCircle, Zap } from "lucide-react";
 const MEMBERS = [
     { name: "0xNeo", role: "Moderator", score: 12400 },
     { name: "0xAlice", role: "Member", score: 7200 },
@@ -9,7 +9,7 @@ const MEMBERS = [
 export default function Page() {
     return (
         <div className="luxury-page"><div style={{ background: "var(--parchment)", padding: "80px 0 48px", borderBottom: "1px solid rgba(13,13,13,.08)" }}><div className="luxury-container">
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}><span style={{ fontSize: "2.5rem" }}>⚡</span><div><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.8rem", fontWeight: 400, color: "var(--ink)" }}>The React Core</h1><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>1,420 members · Founded Jan 2025</p></div></div>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}><div style={{ color: "#C9A353", display: "flex", alignItems: "center", justifyContent: "center" }}><Zap size={40} /></div><div><h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.8rem", fontWeight: 400, color: "var(--ink)" }}>The React Core</h1><p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--smoke)" }}>1,420 members · Founded Jan 2025</p></div></div>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--smoke)", lineHeight: 1.8, maxWidth: 600 }}>A community of React enthusiasts building cutting-edge applications and pushing the boundaries of frontend development.</p>
         </div></div>
             <div className="luxury-container" style={{ paddingTop: 40, paddingBottom: 80 }}>
